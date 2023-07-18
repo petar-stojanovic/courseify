@@ -24,7 +24,7 @@ create table users
 create table course
 (
     id          bigserial primary key,
-    name        text not null,
+    title       text not null,
     description text not null,
     author_id   bigint references users,
     category_id bigint references course_category
