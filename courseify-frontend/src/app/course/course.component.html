@@ -1,0 +1,6 @@
+<p>course works!</p>
+<ul *ngIf="listCourses$">
+  <li *ngFor="let course of listCourses$ | async">
+    {{ course.title }}
+  </li>
+</ul>
