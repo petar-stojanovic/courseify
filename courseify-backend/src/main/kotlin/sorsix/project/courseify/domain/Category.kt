@@ -3,7 +3,7 @@ package sorsix.project.courseify.domain
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "course_category")
+@Table(name = "category")
 class Category (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

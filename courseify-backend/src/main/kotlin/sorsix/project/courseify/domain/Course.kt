@@ -4,7 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "course")
-class Course (
+class Course(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
@@ -13,6 +13,8 @@ class Course (
 
     val description: String,
 
+    val thumbnail: String,
+
     @ManyToOne
     @JoinColumn(name = "author_id")
     val author: User,
@@ -20,6 +22,6 @@ class Course (
     @ManyToOne
     @JoinColumn(name = "category_id")
     val category: Category
-){
-    constructor(): this(0, "", "", User(), Category())
+) {
+    constructor() : this(0, "", "","", User(), Category())
 }
