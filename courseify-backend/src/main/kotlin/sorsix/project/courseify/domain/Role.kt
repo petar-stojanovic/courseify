@@ -4,7 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "role")
-class Role(
+data class Role(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
@@ -13,6 +13,4 @@ class Role(
     @Column(name = "role_name")
     val roleName: String
 ) {
-
-    constructor() : this(0, "")
 }

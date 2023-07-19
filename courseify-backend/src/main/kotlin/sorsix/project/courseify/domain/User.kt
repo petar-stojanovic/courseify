@@ -4,7 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "users")
-class User(
+data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
@@ -26,6 +26,4 @@ class User(
     @JoinColumn(name = "role_id")
     val role: Role? = null
 ) {
-    constructor():
-            this(0, "", "", "", "", "")
 }
