@@ -28,7 +28,7 @@ create table course
     description text not null,
     thumbnail   text not null,
     author_id   bigint references users,
-    category_id bigint references course_category
+    category_id bigint references category
 );
 
 create table lesson

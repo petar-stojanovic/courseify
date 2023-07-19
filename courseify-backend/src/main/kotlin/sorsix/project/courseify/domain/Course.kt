@@ -1,10 +1,12 @@
 package sorsix.project.courseify.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 @Entity
 @Table(name = "course")
-class Course(
+data class Course(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
@@ -21,7 +23,7 @@ class Course(
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    val category: Category
+    val category: Category,
+
 ) {
-    constructor() : this(0, "", "","", User(), Category())
 }
