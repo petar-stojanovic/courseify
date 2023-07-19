@@ -1,4 +1,4 @@
-insert into course_category (category_name)
+insert into category (category_name)
 values ('Java Programming'),
        ('Python Programming');
 

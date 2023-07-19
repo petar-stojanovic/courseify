@@ -3,13 +3,16 @@ package sorsix.project.courseify.domain
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "category")
-data class Category (
+@Table(name = "answer")
+data class Answer(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
 
-    @Column(name = "category_name")
-    val name: String
-){
+    val content: String,
+
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    val question: Question
+) {
 }
