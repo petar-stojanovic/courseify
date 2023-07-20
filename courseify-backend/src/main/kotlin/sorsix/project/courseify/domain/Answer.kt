@@ -1,5 +1,8 @@
 package sorsix.project.courseify.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 
 @Entity
@@ -13,6 +16,7 @@ data class Answer(
 
     @ManyToOne
     @JoinColumn(name = "question_id")
-    val question: Question
+    @JsonBackReference
+    val question: Question,
 ) {
 }

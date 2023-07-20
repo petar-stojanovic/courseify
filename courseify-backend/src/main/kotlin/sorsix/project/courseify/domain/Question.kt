@@ -1,11 +1,14 @@
 package sorsix.project.courseify.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 
@@ -24,6 +27,11 @@ data class Question (
 
     @OneToOne
     @JoinColumn(name = "correct_answer_id")
-    val correctAnswer: Answer
+    val correctAnswer: Answer,
+
+    @OneToMany(mappedBy = "question")
+    @JsonManagedReference
+    val answers: List<Answer>
+
 ){
 }

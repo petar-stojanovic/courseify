@@ -1,6 +1,7 @@
 package sorsix.project.courseify.api
 
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import sorsix.project.courseify.domain.Lesson
@@ -12,6 +13,9 @@ class LessonController(val lessonRepository: LessonRepository) {
 
     @GetMapping(path = ["", "/"])
     fun getAllLessons(): List<Lesson> = lessonRepository.findAll()
+
+    @GetMapping("/{id}")
+    fun getAllCourseLessons(@PathVariable id: Long): List<Lesson> = lessonRepository.findAllByCourseId(id)
 
 
 }
