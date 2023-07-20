@@ -31,8 +31,7 @@ data class Lesson(
     val course: Course,
 
     @OneToOne
-    @Nullable
     @JoinColumn(name = "quiz_id")
-    val quiz: Quiz?
+    val quiz: Quiz
 ) {
 }
