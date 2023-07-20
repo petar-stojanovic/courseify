@@ -11,7 +11,7 @@ data class Quiz(
 
     val title: String,
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "lesson_id")
     val lesson: Lesson
 ) {
