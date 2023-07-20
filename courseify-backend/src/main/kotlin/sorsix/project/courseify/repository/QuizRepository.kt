@@ -6,4 +6,7 @@ import sorsix.project.courseify.domain.Quiz
 
 @Repository
 interface QuizRepository : JpaRepository<Quiz, Long> {
+
+    fun getQuizByLessonId(id: Long): Quiz?
+
 }

@@ -1,5 +1,6 @@
 package sorsix.project.courseify.domain
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 
@@ -32,6 +33,7 @@ data class Lesson(
 
     @OneToOne
     @JoinColumn(name = "quiz_id")
+    @JsonManagedReference
     val quiz: Quiz
 ) {
 }

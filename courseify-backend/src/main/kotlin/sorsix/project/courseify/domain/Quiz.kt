@@ -1,5 +1,7 @@
 package sorsix.project.courseify.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 
 @Entity
@@ -13,6 +15,8 @@ data class Quiz(
 
     @OneToOne
     @JoinColumn(name = "lesson_id")
+    @JsonBackReference
     val lesson: Lesson
+
 ) {
 }

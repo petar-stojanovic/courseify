@@ -6,4 +6,6 @@ import sorsix.project.courseify.domain.Question
 
 @Repository
 interface QuestionRepository : JpaRepository<Question, Long> {
+
+    fun findAllByQuizId(id: Long): List<Question>
 }
