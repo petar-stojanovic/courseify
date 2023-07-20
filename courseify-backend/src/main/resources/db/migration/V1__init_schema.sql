@@ -72,3 +72,20 @@ create table answer
 
 alter table question
     ADD COLUMN correct_answer_id bigint references answer ON DELETE SET NULL;
+
+create table takes_course
+(
+  id bigserial primary key,
+  user_id bigint references users ON DELETE CASCADE,
+  course_id bigint references course ON DELETE CASCADE,
+  start_date date not null,
+  end_date date not null
+);
+
+create table created_course
+(
+    id bigserial primary key,
+    user_id bigint references users ON DELETE CASCADE,
+    course_id bigint references course ON DELETE CASCADE,
+    date_created date not null
+);
