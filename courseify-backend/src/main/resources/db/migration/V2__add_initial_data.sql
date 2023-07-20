@@ -28,5 +28,45 @@ update lesson
 set quiz_id = 1
 where lesson.id = 1;
 
-insert into question(content,quiz_id)
-values ('2 + 2')
+insert into question(content, quiz_id)
+values ('2 + 2', 1),
+       ('3 + 3', 1),
+       ('4 + 4', 1),
+       ('5 + 5', 1);
+
+insert into answer(content, question_id)
+values ('3', 1),
+       ('4', 1),
+       ('5', 1),
+       ('6', 1),
+
+       ('0', 2),
+       ('3', 2),
+       ('6', 2),
+       ('9', 2),
+
+       ('65', 3),
+       ('-23', 3),
+       ('8', 3),
+       ('I dont know', 3),
+
+       ('1000', 4),
+       ('-10', 4),
+       ('100', 4),
+       ('10', 4);
+
+update question
+set correct_answer_id = 2
+where question.id = 1;
+
+update question
+set correct_answer_id = 7
+where question.id = 2;
+
+update question
+set correct_answer_id = 11
+where question.id = 3;
+
+update question
+set correct_answer_id = 16
+where question.id = 4;
