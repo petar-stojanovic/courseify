@@ -3,5 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/courseify
     username: postgres
     password: postgres
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   jpa:
     show-sql: true
