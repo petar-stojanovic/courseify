@@ -21,17 +21,6 @@ class LessonServiceImpl(
 
     private val path: Path = Paths.get("uploads")
 
-    override fun upload(file: MultipartFile) {
-        try {
-            Files.copy(file.inputStream, path.resolve(file.originalFilename))
-        } catch (e: Exception) {
-            if (e is FileAlreadyExistsException) {
-                throw RuntimeException("A file of that name already exists.")
-            }
-            throw RuntimeException(e.message)
-        }
-    }
-
     override fun save(request: LessonRequest) {
 
         val lessonTitleSlug = request.title.lowercase()
