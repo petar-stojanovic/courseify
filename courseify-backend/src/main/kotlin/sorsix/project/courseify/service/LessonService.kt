@@ -5,6 +5,5 @@ import sorsix.project.courseify.api.request.LessonRequest
 import sorsix.project.courseify.domain.Lesson
 
 interface LessonService {
-    fun upload(file: MultipartFile)
     fun save(request: LessonRequest)
 }

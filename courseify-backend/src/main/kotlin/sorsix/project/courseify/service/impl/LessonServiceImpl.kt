@@ -1,7 +1,6 @@
 package sorsix.project.courseify.service.impl
 
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
 import sorsix.project.courseify.api.request.LessonRequest
 import sorsix.project.courseify.domain.Lesson
 import sorsix.project.courseify.repository.CourseRepository
@@ -18,26 +17,15 @@ class LessonServiceImpl(
     val courseRepository: CourseRepository,
     val quizRepository: QuizRepository
 ) : LessonService {
-
-    private val path: Path = Paths.get("uploads")
-
-    override fun upload(file: MultipartFile) {
-        try {
-            Files.copy(file.inputStream, path.resolve(file.originalFilename))
-        } catch (e: Exception) {
-            if (e is FileAlreadyExistsException) {
-                throw RuntimeException("A file of that name already exists.")
-            }
-            throw RuntimeException(e.message)
-        }
-    }
-
     override fun save(request: LessonRequest) {
 
+        val course = courseRepository.findById(request.courseId).get()
+        val root: Path = Paths.get("uploads/${course.title.lowercase()
+            .replace(" ", "_")}")
         val lessonTitleSlug = request.title.lowercase()
             .replace(" ", "_")
 
-        val pathToUpload = Files.createDirectory(path.resolve(lessonTitleSlug))
+        val pathToUpload = Files.createDirectory(root.resolve(lessonTitleSlug))
 
         Files.copy(request.video.inputStream, pathToUpload.resolve("${request.videoTitle}.mp4"))
         Files.copy(request.file.inputStream, pathToUpload.resolve("${request.fileTitle}.pdf"))
@@ -50,7 +38,7 @@ class LessonServiceImpl(
             .resolve("${request.fileTitle}.pdf")
             .toAbsolutePath().toString()
 
-        val course = courseRepository.findById(request.courseId).get()
+
         val quiz = quizRepository.findById(request.quizId).get()
         lessonRepository.save(
             Lesson(

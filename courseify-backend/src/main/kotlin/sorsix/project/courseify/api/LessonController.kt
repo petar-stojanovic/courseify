@@ -22,19 +22,6 @@ class LessonController(val lessonRepository: LessonRepository, val lessonService
     fun getAllCourseLessons(@PathVariable id: Long): List<Lesson> = lessonRepository.findAllByCourseId(id)
 
 
-    @PostMapping("/upload")
-    fun uploadFile(@RequestParam("file") file: MultipartFile): ResponseEntity<ResponseMessage?>? {
-        var message = ""
-        return try {
-            lessonService.upload(file)
-            message = "Uploaded the file successfully: " + file.originalFilename
-            ResponseEntity.status(HttpStatus.OK).body<ResponseMessage?>(ResponseMessage(message))
-        } catch (e: Exception) {
-            message = "Could not upload the file: " + file.originalFilename + ". Error: " + e.message
-            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body<ResponseMessage?>(ResponseMessage(message))
-        }
-    }
-
     @PostMapping("/save")
     fun saveLesson(@ModelAttribute request: LessonRequest): ResponseEntity<ResponseMessage?> {
         var message = ""
