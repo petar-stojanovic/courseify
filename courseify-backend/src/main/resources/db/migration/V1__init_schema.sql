@@ -82,10 +82,3 @@ create table takes_course
     end_date   date not null
 );
 
-create table created_course
-(
-    id           bigserial primary key,
-    user_id      bigint references users ON DELETE CASCADE,
-    course_id    bigint references course ON DELETE CASCADE,
-    date_created date not null
-);
