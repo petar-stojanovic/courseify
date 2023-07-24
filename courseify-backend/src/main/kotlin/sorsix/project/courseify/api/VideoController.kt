@@ -6,9 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import sorsix.project.courseify.repository.CourseRepository
-import sorsix.project.courseify.repository.LessonRepository
-import sorsix.project.courseify.service.LessonService
+import sorsix.project.courseify.service.definitions.LessonService
 import java.nio.file.*
 
 

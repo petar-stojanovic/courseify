@@ -1,4 +1,4 @@
-package sorsix.project.courseify.service
+package sorsix.project.courseify.service.definitions
 
 import sorsix.project.courseify.api.request.CourseRequest
 

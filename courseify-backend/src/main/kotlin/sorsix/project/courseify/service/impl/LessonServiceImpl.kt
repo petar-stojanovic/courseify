@@ -8,7 +8,7 @@ import sorsix.project.courseify.domain.Lesson
 import sorsix.project.courseify.repository.CourseRepository
 import sorsix.project.courseify.repository.LessonRepository
 import sorsix.project.courseify.repository.QuizRepository
-import sorsix.project.courseify.service.LessonService
+import sorsix.project.courseify.service.definitions.LessonService
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
