@@ -1,0 +1,17 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="container">
+    <a routerLink="" class="logo">Courseify</a>
+    <span class="example-spacer"></span>
+    <div *ngIf="isAuthenticated">
+      <a routerLink="/upload-video" mat-icon-button>
+        <mat-icon>library_add</mat-icon>
+      </a>
+      <button mat-icon-button>
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    </div>
+    <a *ngIf="!isAuthenticated" (click)="login()" class="logo">Login</a>
+    <a *ngIf="isAuthenticated" (click)="logout()" class="logo">Logout</a>
+
+  </mat-toolbar-row>
+</mat-toolbar>

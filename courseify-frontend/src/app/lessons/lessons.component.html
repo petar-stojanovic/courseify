@@ -1,1 +1,18 @@
 <p>lessons works!</p>
+
+<ul>
+    asd
+  <li *ngFor="let lesson of lessons">
+    {{ lesson.title }}
+    <app-video [courseId]="lesson.course.id" [lessonId]="lesson.id" [videoTitle]="lesson.videoTitle"></app-video>
+
+  </li>
+</ul>
+<!-- <video width="320" height="240" controls>
+  <source
+    src="file:///C:/Users/petar/Desktop/Sorsix/courseify/courseify-backend/uploads/hello_world_2_/testVideo2%202.mp4"
+    type="video/mp4"
+    unsafe-inline
+  />
+</video> -->
+<!-- <video src="{{}}" -->

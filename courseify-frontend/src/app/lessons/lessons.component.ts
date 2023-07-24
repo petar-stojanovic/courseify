@@ -10,7 +10,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./lessons.component.css'],
 })
 export class LessonsComponent {
-  lessons: Lesson[] | undefined;
+  courseId?: number;
+  lessons: Lesson[] = [];
 
   constructor(
     private lessonService: LessonService,
@@ -23,8 +24,8 @@ export class LessonsComponent {
 
   getLessonsByCourseId(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.lessonService
-      .getLessonsByCourseId(id)
-      .subscribe((lesson) => console.log(lesson));
+    this.lessonService.getLessonsByCourseId(id).subscribe((lessons) => {
+      this.lessons = lessons;
+    });
   }
 }
