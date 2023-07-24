@@ -79,6 +79,6 @@ create table takes_course
     user_id    bigint references users ON DELETE CASCADE,
     course_id  bigint references course ON DELETE CASCADE,
     start_date date not null,
-    end_date   date not null
+    end_date   date
 );
 
