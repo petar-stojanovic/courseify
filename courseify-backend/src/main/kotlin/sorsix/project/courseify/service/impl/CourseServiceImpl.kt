@@ -22,14 +22,20 @@ class CourseServiceImpl(
 
         val coursePathSlug = request.title.lowercase().replace(" ", "_")
 
-        Files.createDirectory(root.resolve(coursePathSlug))
+        val pathToUpload = Files.createDirectory(root.resolve(coursePathSlug))
+
+        Files.copy(request.thumbnail.inputStream, pathToUpload.resolve("thumbnail.jpeg"))
 
         val user = userRepository.findById(request.authorId).get()
         val category = categoryRepository.findById(request.categoryId).get()
 
-        val course = courseRepository.save(
+        val thumbnailPath = pathToUpload
+            .resolve("thumbnail.jpeg")
+            .toAbsolutePath().toString()
+
+        courseRepository.save(
             Course(
-                0, request.title, "", "",
+                0, request.title, request.description, thumbnailPath,
                 user, category
             )
         )
