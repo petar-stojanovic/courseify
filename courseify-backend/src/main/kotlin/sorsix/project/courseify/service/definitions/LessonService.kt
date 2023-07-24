@@ -1,4 +1,4 @@
-package sorsix.project.courseify.service
+package sorsix.project.courseify.service.definitions
 
 import org.springframework.core.io.Resource
 import sorsix.project.courseify.api.request.LessonRequest
@@ -11,4 +11,6 @@ interface LessonService {
         courseId: Long,
         lessonId: Long
     ): Resource?
+
+    fun delete(id: Long)
 }

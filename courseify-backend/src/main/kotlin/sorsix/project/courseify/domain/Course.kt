@@ -25,5 +25,7 @@ data class Course(
     @JoinColumn(name = "category_id")
     val category: Category,
 
+
+
 ) {
 }

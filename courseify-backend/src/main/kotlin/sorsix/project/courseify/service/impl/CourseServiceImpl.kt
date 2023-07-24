@@ -3,11 +3,9 @@ package sorsix.project.courseify.service.impl
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.domain.Course
-import sorsix.project.courseify.repository.CategoryRepository
-import sorsix.project.courseify.repository.CourseRepository
-import sorsix.project.courseify.repository.RoleRepository
-import sorsix.project.courseify.repository.UserRepository
-import sorsix.project.courseify.service.CourseService
+import sorsix.project.courseify.repository.*
+import sorsix.project.courseify.service.definitions.CourseService
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -24,13 +22,32 @@ class CourseServiceImpl(
 
         val coursePathSlug = request.title.lowercase().replace(" ", "_")
 
-        Files.createDirectory(root.resolve(coursePathSlug))
+        val pathToUpload = Files.createDirectory(root.resolve(coursePathSlug))
+
+        Files.copy(request.thumbnail.inputStream, pathToUpload.resolve("thumbnail.jpeg"))
 
         val user = userRepository.findById(request.authorId).get()
-        val category = categoryRepository.findById(request.roleId).get()
+        val category = categoryRepository.findById(request.categoryId).get()
 
-        courseRepository.save(Course(0, request.title, "", "",
-            user, category))
+        val thumbnailPath = pathToUpload
+            .resolve("thumbnail.jpeg")
+            .toAbsolutePath().toString()
 
+        courseRepository.save(
+            Course(
+                0, request.title, request.description, thumbnailPath,
+                user, category
+            )
+        )
+
+    }
+
+    override fun deleteCourse(id: Long) {
+
+        val course = this.courseRepository.findById(id).get()
+        val coursePath = course.title.lowercase().replace(" ", "_")
+        File("uploads/$coursePath").deleteRecursively()
+
+        courseRepository.delete(course)
     }
 }

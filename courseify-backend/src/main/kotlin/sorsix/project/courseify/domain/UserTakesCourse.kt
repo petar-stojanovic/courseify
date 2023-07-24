@@ -23,6 +23,6 @@ data class UserTakesCourse(
     val startDate: LocalDate,
 
     @Column(name = "end_date")
-    val endDate: LocalDate
+    val endDate: LocalDate?
 ) {
 }
