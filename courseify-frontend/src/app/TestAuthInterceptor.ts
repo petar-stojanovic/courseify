@@ -21,7 +21,7 @@ export class TestAuthInterceptor implements HttpInterceptor {
         // Intercept the token and set the Authorization header
         map((token ) => {
           if (token && req.url.includes('/api/')) {
-            console.log("OMG", req.url)
+            
             req = req.clone({
               setHeaders: {
                 Authorization: `Bearer ${token}`,
