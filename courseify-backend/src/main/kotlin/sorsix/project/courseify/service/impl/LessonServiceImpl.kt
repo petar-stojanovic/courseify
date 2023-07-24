@@ -9,6 +9,7 @@ import sorsix.project.courseify.repository.CourseRepository
 import sorsix.project.courseify.repository.LessonRepository
 import sorsix.project.courseify.repository.QuizRepository
 import sorsix.project.courseify.service.LessonService
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -19,6 +20,7 @@ class LessonServiceImpl(
     val courseRepository: CourseRepository,
     val quizRepository: QuizRepository
 ) : LessonService {
+
     override fun save(request: LessonRequest) {
 
         val course = courseRepository.findById(request.courseId).get()
@@ -38,8 +40,8 @@ class LessonServiceImpl(
         val fileExtension =
             request.file.originalFilename?.substring(request.file.originalFilename!!.lastIndexOf(".") + 1)
 
-        val fullVideoName = "${request.videoTitle}.$videoExtension"
-        val fullFileName = "${request.fileTitle}.$fileExtension"
+        val fullVideoName = "video.$videoExtension"
+        val fullFileName = "file.$fileExtension"
 
         Files.copy(request.video.inputStream, pathToUpload.resolve(fullVideoName))
         Files.copy(request.file.inputStream, pathToUpload.resolve(fullFileName))
@@ -64,8 +66,10 @@ class LessonServiceImpl(
 
     override fun getLessonVideoData(videoTitle: String, courseId: Long, lessonId: Long): Resource? {
         val coursePath = courseRepository.findById(courseId).get().title.lowercase().replace(" ", "_")
-        val lessonPath = lessonRepository.findById(lessonId).get().title.lowercase().replace(" ", "_")
-        val videoPath = Paths.get("uploads/$coursePath/$lessonPath/$videoTitle.mkv")
+        val lesson = lessonRepository.findById(lessonId).get()
+        val lessonPath = lesson.title.lowercase().replace(" ", "_")
+        val videoExtension = lesson.videoUrl.substring(lesson.videoUrl.lastIndexOf(".") + 1)
+        val videoPath = Paths.get("uploads/$coursePath/$lessonPath/video.$videoExtension")
 
         /** Moze da se najde ss celosnu pateku pocnuvajkji od uploads/
          * C:\Users\Petar\Desktop\courseify\courseify-backend\uploads\course_title\hello_world\testVideo.mkv
@@ -74,5 +78,14 @@ class LessonServiceImpl(
          * */
         return ByteArrayResource(Files.readAllBytes(videoPath))
 
+    }
+
+    override fun delete(id: Long) {
+        val lesson = this.lessonRepository.findById(id).get()
+        val lessonPath = lesson.title.lowercase().replace(" ", "_")
+        val coursePath = lesson.course.title.lowercase().replace(" ", "_")
+        File("uploads/$coursePath/$lessonPath").deleteRecursively()
+
+        lessonRepository.delete(lesson)
     }
 }

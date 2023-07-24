@@ -33,4 +33,9 @@ class CourseController(
             ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body<ResponseMessage?>(ResponseMessage(message))
         }
     }
+
+    @DeleteMapping("/{id}")
+    fun deleteCourse(@PathVariable id: Long){
+        courseService.deleteCourse(id)
+    }
 }

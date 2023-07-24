@@ -35,4 +35,9 @@ class LessonController(val lessonRepository: LessonRepository, val lessonService
         }
     }
 
+    @DeleteMapping("/{id}")
+    fun deleteLesson(@PathVariable id: Long) {
+        lessonService.delete(id)
+    }
+
 }

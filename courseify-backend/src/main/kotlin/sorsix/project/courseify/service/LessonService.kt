@@ -11,4 +11,6 @@ interface LessonService {
         courseId: Long,
         lessonId: Long
     ): Resource?
+
+    fun delete(id: Long)
 }
