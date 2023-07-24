@@ -17,7 +17,6 @@ import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 import { AuthConfigModule } from './auth/auth-config.module';
-import { AuthInterceptor } from 'angular-auth-oidc-client';
 import { TestAuthInterceptor} from './TestAuthInterceptor'
 
 @NgModule({

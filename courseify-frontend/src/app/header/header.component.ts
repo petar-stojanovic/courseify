@@ -24,14 +24,6 @@ export class HeaderComponent implements OnInit {
 
   }
   
-  // token = this.oidcSecurityService.getAccessToken().subscribe((token) => {
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       Authorization: 'Bearer ' + token,
-  //     }),
-  //   };
-  // });
-  
 
   login() {
     this.oidcSecurityService.authorize();
