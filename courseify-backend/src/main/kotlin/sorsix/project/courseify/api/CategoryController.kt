@@ -11,5 +11,8 @@ import sorsix.project.courseify.repository.CategoryRepository
 class CategoryController(val categoryRepository: CategoryRepository) {
 
     @GetMapping
-    fun getAllCategories(): List<Category> = categoryRepository.findAll()
+    fun getAllCategories(): List<Category> {
+        println("bla bla")
+        return categoryRepository.findAll()
+    }
 }

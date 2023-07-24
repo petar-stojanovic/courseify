@@ -14,6 +14,5 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: dev-qhpq6har3ade18l7.us.auth0.com
+          issuer-uri: https://dev-qhpq6har3ade18l7.us.auth0.com/
 
-`

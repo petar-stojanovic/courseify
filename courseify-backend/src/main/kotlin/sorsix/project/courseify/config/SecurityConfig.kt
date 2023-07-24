@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain
 class SecurityConfig {
 
 
-    @Value("http://localhost:8080")
+    @Value("v18j4NbapYFBBVPimcu71PKXbTjwFiGL")
     val audience: String = ""
 
     @Value("\${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
