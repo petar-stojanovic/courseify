@@ -17,7 +17,12 @@ import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 import { AuthConfigModule } from './auth/auth-config.module';
-import { TestAuthInterceptor} from './TestAuthInterceptor'
+import { TestAuthInterceptor} from './TestAuthInterceptor';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatCardModule} from '@angular/material/card';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -35,12 +40,17 @@ import { TestAuthInterceptor} from './TestAuthInterceptor'
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    BrowserModule,
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
     AuthConfigModule,
+    MatExpansionModule,
+    BrowserAnimationsModule,
+    MatCardModule, 
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TestAuthInterceptor, multi: true },

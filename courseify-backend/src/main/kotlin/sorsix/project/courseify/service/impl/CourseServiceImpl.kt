@@ -52,12 +52,29 @@ class CourseServiceImpl(
     }
 
     override fun getCourses(search: String?): List<Course> = if (search != null){
-        courseRepository.findAllByTitleContaining(search)
+        courseRepository.findAllByTitleContainingIgnoreCase(search)
     }else{
         courseRepository.findAll()
     }
 
     override fun editCourse(id: Long, request: CourseRequest) {
+
+        val course = courseRepository.findById(id).get()
+
+        val oldCourseSlug = course.title.lowercase().replace(" ", "_")
+        val oldPath = root.resolve(oldCourseSlug)
+        val newCourseSlug = request.title.lowercase().replace(" ", "_")
+        val newPath = root.resolve(newCourseSlug)
+
+        Files.delete(oldPath.resolve("thumbnail.jpeg"))
+        Files.move(oldPath, oldPath.resolveSibling(newCourseSlug))
+        File(oldPath.toString()).deleteRecursively()
+        Files.copy(request.thumbnail.inputStream, newPath.resolve("thumbnail.jpeg"))
+
+        val thumbnailPath = newPath
+            .resolve("thumbnail.jpeg")
+            .toAbsolutePath().toString()
+
         val author = userRepository.findById(request.authorId).get()
         val category = categoryRepository.findById(request.categoryId).get()
         courseRepository.save(
@@ -65,7 +82,7 @@ class CourseServiceImpl(
                 id = id,
                 title = request.title,
                 description = request.description,
-                thumbnail = "",
+                thumbnail = thumbnailPath,
                 author = author,
                 category = category
             )
