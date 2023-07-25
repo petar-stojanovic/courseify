@@ -50,4 +50,26 @@ class CourseServiceImpl(
 
         courseRepository.delete(course)
     }
+
+    override fun getCourses(search: String?): List<Course> = if (search != null){
+        courseRepository.findAllByTitleContaining(search)
+    }else{
+        courseRepository.findAll()
+    }
+
+    override fun editCourse(id: Long, request: CourseRequest) {
+        val author = userRepository.findById(request.authorId).get()
+        val category = categoryRepository.findById(request.categoryId).get()
+        courseRepository.save(
+            Course(
+                id = id,
+                title = request.title,
+                description = request.description,
+                thumbnail = "",
+                author = author,
+                category = category
+            )
+        )
+    }
+
 }
