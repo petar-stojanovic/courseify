@@ -1,5 +1,5 @@
 <p>course works!</p>
-<ul *ngIf="listCourses$">
+<ul *ngIf="listCourses$ | async">
   <li *ngFor="let course of listCourses$ | async">
     <a routerLink="/course/{{ course.id }}"
       ><button>{{ course.title }}</button></a

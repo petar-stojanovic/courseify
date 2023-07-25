@@ -1,1 +1,10 @@
 <p>lessons works!</p>
+
+<ul>
+    asd
+  <li *ngFor="let lesson of lessons">
+    {{ lesson.title }}
+    <app-video [courseId]="lesson.course.id" [lessonId]="lesson.id" [videoTitle]="lesson.videoTitle"></app-video>
+
+  </li>
+</ul>
