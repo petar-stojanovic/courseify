@@ -3,6 +3,7 @@ import { Lesson } from '../lesson';
 import { Observable } from 'rxjs';
 import { LessonService } from '../lesson.service';
 import { ActivatedRoute } from '@angular/router';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @Component({
   selector: 'app-lessons',
@@ -12,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 export class LessonsComponent {
   courseId?: number;
   lessons: Lesson[] = [];
+  panelOpenState = false;
 
   constructor(
     private lessonService: LessonService,

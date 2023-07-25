@@ -1,10 +1,17 @@
-<p>lessons works!</p>
+<div class="display-1 text-center">{{ lessons[0].course.title }}</div>
 
-<ul>
-    asd
-  <li *ngFor="let lesson of lessons">
-    {{ lesson.title }}
-    <app-video [courseId]="lesson.course.id" [lessonId]="lesson.id" [videoTitle]="lesson.videoTitle"></app-video>
-
-  </li>
-</ul>
+<mat-accordion>
+  <mat-expansion-panel hideToggle *ngFor="let lesson of lessons">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ lesson.title }}</mat-panel-title>
+      <mat-panel-description>
+        {{lesson.description}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-video 
+      [courseId]="lesson.course.id"
+      [lessonId]="lesson.id"
+      [videoTitle]="lesson.videoTitle"
+    ></app-video>
+  </mat-expansion-panel>
+</mat-accordion>
