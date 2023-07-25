@@ -6,4 +6,9 @@ import sorsix.project.courseify.domain.User
 
 @Repository
 interface UserRepository : JpaRepository<User, Long> {
+    fun findByEmail(email: String): User?
+
+    fun findByUsername(username: String): User?
+
+
 }

@@ -5,13 +5,21 @@ spring:
     password: postgres
   servlet:
     multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
+      max-file-size: 100MB
+      max-request-size: 100MB
   jpa:
     show-sql: true
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://dev-qhpq6har3ade18l7.us.auth0.com/
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: https://dev-qhpq6har3ade18l7.us.auth0.com/
+
+  application:
+    security:
+      jwt:
+        secret-key: a916ea4408972a924fce1b5cbda0046a4e79dd5a212e55b48fcdef0722ed9b37
+        expiration: 86400000 # a day
+        refresh-token:
+          expiration: 604800000 # 7 days
