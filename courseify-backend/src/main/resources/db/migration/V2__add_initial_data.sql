@@ -2,14 +2,10 @@ insert into category (category_name)
 values ('Java Programming'),
        ('Python Programming');
 
-insert into role (role_name)
-values ('Admin'),
-       ('User');
 
-
-insert into users (first_name, last_name, email, password, username, role_id)
-values ('Petar', 'Stojanovic', 'petar@gmail.com', 'Test123!', 'petar', 1),
-       ('Bojan', 'Ristevski', 'bojan@gmail.com', 'Test123!', 'bojan', 2);
+insert into users (first_name, last_name, email, password, username, role)
+values ('Petar', 'Stojanovic', 'petar@gmail.com', 'Test123!', 'petar', 'USER'),
+       ('Bojan', 'Ristevski', 'bojan@gmail.com', 'Test123!', 'bojan', 'USER');
 
 
 insert into course (title, description, thumbnail, author_id, category_id)

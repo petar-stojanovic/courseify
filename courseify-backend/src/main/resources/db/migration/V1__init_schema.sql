@@ -1,9 +1,3 @@
-create table role
-(
-    id        bigserial primary key,
-    role_name text not null
-);
-
 create table category
 (
     id            bigserial primary key,
@@ -18,7 +12,7 @@ create table users
     email      text not null unique,
     password   text not null,
     username   text not null unique,
-    role_id    bigint references role
+    role       text not null
 );
 
 create table course
@@ -82,3 +76,14 @@ create table takes_course
     end_date   date
 );
 
+
+
+create table token
+(
+    id         bigserial primary key,
+    token      text not null,
+    token_type text not null,
+    revoked    bool not null,
+    expired    bool not null,
+    user_id    bigint references users ON DELETE CASCADE
+);
