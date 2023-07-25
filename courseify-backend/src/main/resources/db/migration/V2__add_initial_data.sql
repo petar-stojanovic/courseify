@@ -70,3 +70,9 @@ where question.id = 3;
 update question
 set correct_answer_id = 16
 where question.id = 4;
+
+insert into takes_course(user_id, course_id, start_date, end_date)
+values (1, 1, '2023-07-20', null),
+       (1, 2, '2020-01-01', null),
+       (2, 1, '2020-02-02', '2021-03-03'),
+       (2, 2, '2021-05-04', null)

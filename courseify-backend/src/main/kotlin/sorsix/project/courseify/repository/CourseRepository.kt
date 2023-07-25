@@ -11,4 +11,5 @@ import sorsix.project.courseify.domain.UserTakesCourse
 interface CourseRepository : JpaRepository<Course, Long> {
 
     fun findAllByIdIn(list: List<Long>): List<Course>
+    fun findAllByTitleContaining(search: String): List<Course>
 }

@@ -22,8 +22,8 @@ class CourseController(
 ) {
 
 
-    @GetMapping(path = ["", "/"])
-    fun getAllCourses(): List<Course> = courseRepository.findAll()
+    @GetMapping
+    fun getAllCourses(@RequestParam search: String?): List<Course> = courseService.getCourses(search)
 
     @PostMapping("/save")
     fun saveLesson(@ModelAttribute request: CourseRequest): ResponseEntity<ResponseMessage?> {
@@ -50,7 +50,14 @@ class CourseController(
     @GetMapping("/users/{id}")
     fun findAllUserCourses(@PathVariable id: Long): List<Course> {
         val userTakesCourses = userTakesCourseRepository.findAllByUserId(id)
-        val courseIds = userTakesCourses.map{it.id}
+        val courseIds = userTakesCourses.map { it.id }
         return courseRepository.findAllByIdIn(courseIds)
     }
+
+    @PostMapping("/{id}")
+    fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest){
+        courseService.editCourse(id, request)
+    }
+
+
 }
