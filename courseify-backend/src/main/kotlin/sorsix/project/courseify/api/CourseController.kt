@@ -54,7 +54,7 @@ class CourseController(
         return courseRepository.findAllByIdIn(courseIds)
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest){
         courseService.editCourse(id, request)
     }

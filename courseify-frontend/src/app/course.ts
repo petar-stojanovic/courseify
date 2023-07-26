@@ -4,6 +4,7 @@ export interface Course {
   description: string;
   author: Author;
   category: Category;
+  thumbnail: string;
 }
 
 interface Category {
