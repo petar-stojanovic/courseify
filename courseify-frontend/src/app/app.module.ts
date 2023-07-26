@@ -25,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LoginComponent } from './login/login.component';
     HeaderComponent,
     RegisterComponent,
     LoginComponent,
+    AddEditCourseComponent,
   ],
   imports: [
     BrowserModule,

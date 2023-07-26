@@ -1,5 +1,6 @@
 package sorsix.project.courseify.api
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -49,8 +50,13 @@ class CourseController(
     @PutMapping("/{id}")
     fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest): ResponseEntity<*>{
         return courseService.editCourse(id, request)?.let { ResponseEntity.ok(it) }
-            ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course with id: $id not found")
+            ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course with id: $id could not br found")
     }
+
+    @GetMapping("/{id}/edit")
+    fun getEditCourse(@PathVariable id: Long): ResponseEntity<*> = courseRepository.findByIdOrNull(id)
+        ?.let { ResponseEntity.ok(it) }
+        ?: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The course with id: $id could not be found")
 
 
 }

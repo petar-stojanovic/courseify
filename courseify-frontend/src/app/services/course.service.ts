@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Course } from './course';
+import { Course } from '../interfaces/course';
+import { courseRequest } from '../interfaces/courseRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,15 @@ export class CourseService {
 
   searchCourses(search: string): Observable<Course[]> {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("search", search);
-    return this.http.get<Course[]>(`/api/course`, {params: queryParams});
+    queryParams = queryParams.append('search', search);
+    return this.http.get<Course[]>(`/api/course`, { params: queryParams });
+  }
+
+  deleteCourse(id: number) {
+    this.http.delete<Course>(`api/course/${id}`);
+  }
+
+  addCourse(request: courseRequest): Observable<Course>{
+    return this.http.post<Course>(`api/course/save`, request)
   }
 }
