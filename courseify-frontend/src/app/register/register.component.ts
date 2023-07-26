@@ -5,7 +5,7 @@ import {
   Validators,
   FormGroupDirective,
 } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',

@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Category } from './interfaces/category';
-import { Course } from './interfaces/course';
+import { Course } from '../interfaces/course';
+import { courseRequest } from '../interfaces/courseRequest';
+import { Category } from '../interfaces/category';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +27,13 @@ export class CourseService {
 
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>('/api/category');
+  }
+
+  deleteCourse(id: number) {
+    this.http.delete<Course>(`api/course/${id}`);
+  }
+
+  addCourse(request: courseRequest): Observable<Course> {
+    return this.http.post<Course>(`api/course/save`, request);
   }
 }

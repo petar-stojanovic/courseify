@@ -5,11 +5,14 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'courseify-frontend';
 
   // constructor(private oidcSecurityService: OidcSecurityService) {}
 
+  ngOnInit() {
+    console.log(localStorage)
+  }
   // ngOnInit(): void {
   //   this.oidcSecurityService
   //     .checkAuth()

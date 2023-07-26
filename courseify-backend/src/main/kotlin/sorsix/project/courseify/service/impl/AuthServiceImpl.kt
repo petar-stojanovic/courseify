@@ -53,7 +53,7 @@ class AuthServiceImpl(
         try {
             authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(
-                    request.username,
+                    request.username.lowercase(),
                     request.password
                 )
             )
@@ -63,7 +63,7 @@ class AuthServiceImpl(
         /**
          * The code above will try to log in user. IF this fails the code below will not execute. That is why we use !!
          */
-        val user = userRepository.findByUsername(request.username)!!
+        val user = userRepository.findByUsername(request.username.lowercase())!!
         val jwtToken = jwtService.generateToken(user)
         val refreshToken = jwtService.generateRefreshToken(user)
         revokeAllUserTokens(user)
@@ -104,8 +104,6 @@ class AuthServiceImpl(
          *     tokenRepository.saveAll(validUserTokens);
          *   }
          */
-
-
     }
 
 
@@ -127,6 +125,24 @@ class AuthServiceImpl(
                 saveUserToken(user, accessToken)
                 val authResponse = AuthenticationResponse(accessToken, refreshToken)
                 ObjectMapper().writeValue(response.outputStream, authResponse)
+            }
+        }
+    }
+
+    override fun logout(request: HttpServletRequest, response: HttpServletResponse) {
+        val authHeader = request.getHeader(HttpHeaders.AUTHORIZATION)
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return
+        }
+
+        val token = authHeader.substring(7)
+        val username = jwtService.extractUsername(token)
+        if (username != null) {
+            val user = userRepository.findByUsername(username) ?: throw AuthenticationException("User not found")
+
+            if (jwtService.isTokenValid(token, user)) {
+                 revokeAllUserTokens(user)
             }
         }
     }

@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthResponse } from './authResponse';
+import { AuthResponse } from '../authResponse';
 
 @Injectable({
   providedIn: 'root',

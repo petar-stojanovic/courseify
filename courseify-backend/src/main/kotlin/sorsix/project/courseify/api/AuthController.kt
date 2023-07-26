@@ -45,6 +45,8 @@ class AuthController(val authService: AuthService) {
         request: HttpServletRequest,
         response: HttpServletResponse
     ) {
-        authService.refreshToken(request, response)
+        return authService.logout(request, response).let {
+            ResponseEntity.ok(it)
+        }
     }
 }

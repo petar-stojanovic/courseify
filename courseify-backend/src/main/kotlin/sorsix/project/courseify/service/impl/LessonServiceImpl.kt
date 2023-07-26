@@ -2,6 +2,7 @@ package sorsix.project.courseify.service.impl
 
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.server.PathContainer.PathSegment
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.LessonRequest
@@ -22,7 +23,7 @@ class LessonServiceImpl(
     val quizRepository: QuizRepository
 ) : LessonService {
 
-    override fun save(request: LessonRequest) {
+    override fun save(request: LessonRequest): Lesson {
 
         val course = courseRepository.findById(request.courseId).get()
         val root: Path = Paths.get(
@@ -57,7 +58,7 @@ class LessonServiceImpl(
 
 
         val quiz = quizRepository.findById(request.quizId).get()
-        lessonRepository.save(
+        return lessonRepository.save(
             Lesson(
                 0, request.title, request.description, request.videoTitle,
                 copiedVideoPath, request.fileTitle, copiedFilePath, course, quiz
@@ -90,12 +91,11 @@ class LessonServiceImpl(
         lessonRepository.delete(lesson)
     }
 
-    override fun editLesson(id: Long, request: LessonRequest) {
+    override fun editLesson(id: Long, request: LessonRequest) = lessonRepository.findByIdOrNull(id)?.let {
 
-        val lesson = lessonRepository.findById(id).get()
         val course = courseRepository.findById(request.courseId).get()
 
-        val oldLessonSlug = lesson.title.lowercase().replace(" ", "_")
+        val oldLessonSlug = it.title.lowercase().replace(" ", "_")
         val courseSlug = course.title.lowercase().replace(" ", "_")
         val oldPath = Paths.get("uploads/$courseSlug/$oldLessonSlug")
         File(oldPath.toString()).deleteRecursively()

@@ -1,7 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -12,12 +12,13 @@ export class HeaderComponent {
   isAuthenticated: boolean = localStorage.getItem('token') != null;
 
   constructor(
-    private oidcSecurityService: OidcSecurityService,
-    private router: Router
+    private router: Router,
+    private service: AuthService
   ) {}
 
   logout(){
-    localStorage.removeItem("token")
+    // localStorage.removeItem("token")
+    this.service.logout()
     this.router.navigateByUrl("/")
   }
 }

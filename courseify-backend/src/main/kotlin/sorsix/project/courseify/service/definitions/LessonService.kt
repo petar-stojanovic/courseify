@@ -2,9 +2,10 @@ package sorsix.project.courseify.service.definitions
 
 import org.springframework.core.io.Resource
 import sorsix.project.courseify.api.request.LessonRequest
+import sorsix.project.courseify.domain.Lesson
 
 interface LessonService {
-    fun save(request: LessonRequest)
+    fun save(request: LessonRequest): Lesson
 
     fun getLessonVideoData(
         videoTitle: String,
@@ -14,5 +15,5 @@ interface LessonService {
 
     fun delete(id: Long)
 
-    fun editLesson(id: Long, request: LessonRequest)
+    fun editLesson(id: Long, request: LessonRequest): Lesson?
 }

@@ -15,4 +15,6 @@ interface AuthService {
 
     fun refreshToken(request: HttpServletRequest, response: HttpServletResponse)
 
+    fun logout(request: HttpServletRequest, response: HttpServletResponse)
+
 }

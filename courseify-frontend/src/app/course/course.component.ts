@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Course } from '../course';
-import { CourseService } from '../course.service';
+import { Course } from '../interfaces/course';
+import { CourseService } from '../services/course.service';
 import { Observable, debounceTime, distinct, distinctUntilChanged } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
@@ -29,4 +29,10 @@ export class CourseComponent implements OnInit {
   getCategories() {
     return this.courseService.getCategories().subscribe((res) => console.log(res));
   }
+
+  deleteCourse(id: number) {
+    this.courseService.deleteCourse(id);
+  }
+
+  editCourse(id: number) {}
 }

@@ -1,5 +1,6 @@
 package sorsix.project.courseify.api
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -26,16 +27,8 @@ class CourseController(
     fun getAllCourses(@RequestParam search: String?): List<Course> = courseService.getCourses(search)
 
     @PostMapping("/save")
-    fun saveLesson(@ModelAttribute request: CourseRequest): ResponseEntity<ResponseMessage?> {
-        var message = ""
-        return try {
-            courseService.saveCourse(request)
-            message = "Success"
-            ResponseEntity.status(HttpStatus.OK).body<ResponseMessage?>(ResponseMessage(message))
-        } catch (e: Exception) {
-            message = "Error: ${e.message}"
-            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body<ResponseMessage?>(ResponseMessage(message))
-        }
+    fun saveLesson(@ModelAttribute request: CourseRequest): ResponseEntity<*> {
+        return courseService.saveCourse(request).let { ResponseEntity.ok(it) }
     }
 
     @DeleteMapping("/{id}")
@@ -55,9 +48,15 @@ class CourseController(
     }
 
     @PutMapping("/{id}")
-    fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest){
-        courseService.editCourse(id, request)
+    fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest): ResponseEntity<*>{
+        return courseService.editCourse(id, request)?.let { ResponseEntity.ok(it) }
+            ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course with id: $id could not br found")
     }
+
+    @GetMapping("/{id}/edit")
+    fun getEditCourse(@PathVariable id: Long): ResponseEntity<*> = courseRepository.findByIdOrNull(id)
+        ?.let { ResponseEntity.ok(it) }
+        ?: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The course with id: $id could not be found")
 
 
 }

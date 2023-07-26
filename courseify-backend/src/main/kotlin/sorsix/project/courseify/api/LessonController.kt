@@ -22,17 +22,7 @@ class LessonController(val lessonRepository: LessonRepository, val lessonService
 
 
     @PostMapping("/save")
-    fun saveLesson(@ModelAttribute request: LessonRequest): ResponseEntity<ResponseMessage?> {
-        var message = ""
-        return try {
-            lessonService.save(request)
-            message = "Uploaded the video successfully: ${request.videoTitle} and file: ${request.fileTitle}"
-            ResponseEntity.status(HttpStatus.OK).body<ResponseMessage?>(ResponseMessage(message))
-        } catch (e: Exception) {
-            message = "Could not upload the video: ${request.videoTitle}. Error: " + e.message
-            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body<ResponseMessage?>(ResponseMessage(message))
-        }
-    }
+    fun saveLesson(@ModelAttribute request: LessonRequest): ResponseEntity<*> = lessonService.save(request).let { ResponseEntity.ok(it) }
 
     @DeleteMapping("/{id}")
     fun deleteLesson(@PathVariable id: Long) {
@@ -40,8 +30,9 @@ class LessonController(val lessonRepository: LessonRepository, val lessonService
     }
 
     @PutMapping("/{id}")
-    fun editLesson(@PathVariable id: Long, @ModelAttribute request: LessonRequest){
-        lessonService.editLesson(id, request)
+    fun editLesson(@PathVariable id: Long, @ModelAttribute request: LessonRequest): ResponseEntity<*>{
+        return lessonService.editLesson(id, request)?.let { ResponseEntity.ok(it) }
+            ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson with id: $id could not be found")
     }
 
 }

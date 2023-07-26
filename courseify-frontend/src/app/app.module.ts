@@ -16,7 +16,6 @@ import { VgCoreModule } from '@videogular/ngx-videogular/core';
 import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
-import { AuthConfigModule } from './auth/auth-config.module';
 import { AuthInterceptor } from './AuthInterceptor';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,9 +24,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { Component } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +37,7 @@ import { MatInputModule } from '@angular/material/input';
     HeaderComponent,
     RegisterComponent,
     LoginComponent,
+    AddEditCourseComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +51,6 @@ import { MatInputModule } from '@angular/material/input';
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
-    AuthConfigModule,
     MatExpansionModule,
     BrowserAnimationsModule,
     MatCardModule,
