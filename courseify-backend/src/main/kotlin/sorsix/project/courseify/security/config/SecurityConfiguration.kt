@@ -25,7 +25,13 @@ data class SecurityConfiguration(
                 it.disable()
             }
             .authorizeHttpRequests {
-                it.requestMatchers("/api/auth/**").permitAll()
+                it.requestMatchers(
+                    "/api/auth/**",
+                    "/api/course",
+                    "/api/course/**",
+                    "/api/lesson",
+                    "/api/lesson/**")
+                    .permitAll()
                     .anyRequest()
                     .authenticated()
             }
