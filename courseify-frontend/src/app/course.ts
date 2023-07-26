@@ -1,3 +1,5 @@
+import { Category } from "./category";
+
 export interface Course {
   id: number;
   title: string;
@@ -7,10 +9,7 @@ export interface Course {
   thumbnail: string;
 }
 
-interface Category {
-  id: number;
-  name: string;
-}
+
 
 interface Author {
   id: number;

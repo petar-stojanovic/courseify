@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Course } from './course';
+import { Category } from './category';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,11 @@ export class CourseService {
 
   searchCourses(search: string): Observable<Course[]> {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("search", search);
-    return this.http.get<Course[]>(`/api/course`, {params: queryParams});
+    queryParams = queryParams.append('search', search);
+    return this.http.get<Course[]>(`/api/course`, { params: queryParams });
+  }
+
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>('/api/category');
   }
 }

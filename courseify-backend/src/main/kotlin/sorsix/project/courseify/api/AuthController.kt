@@ -2,6 +2,7 @@ package sorsix.project.courseify.api
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -24,12 +25,23 @@ class AuthController(val authService: AuthService) {
     @PostMapping("/authenticate")
     fun authenticate(
         @RequestBody request: AuthenticationRequest
-    ): ResponseEntity<AuthenticationResponse?>? {
-        return ResponseEntity.ok(authService.authenticate(request))
+    ): ResponseEntity<*> {
+        return authService.authenticate(request)?.let{
+            ResponseEntity.ok(it)
+        }?: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed")
     }
 
     @PostMapping("/refresh-token")
     fun refreshToken(
+        request: HttpServletRequest,
+        response: HttpServletResponse
+    ) {
+        authService.refreshToken(request, response)
+    }
+
+
+    @PostMapping("/logout")
+    fun logout(
         request: HttpServletRequest,
         response: HttpServletResponse
     ) {

@@ -17,14 +17,17 @@ import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 import { AuthConfigModule } from './auth/auth-config.module';
-import { TestAuthInterceptor} from './TestAuthInterceptor';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { AuthInterceptor } from './AuthInterceptor';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatCardModule} from '@angular/material/card';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { Component } from '@angular/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -51,13 +54,15 @@ import { LoginComponent } from './login/login.component';
     AuthConfigModule,
     MatExpansionModule,
     BrowserAnimationsModule,
-    MatCardModule, 
+    MatCardModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: TestAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
