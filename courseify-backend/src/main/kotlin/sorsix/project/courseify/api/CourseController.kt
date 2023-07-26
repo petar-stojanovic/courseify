@@ -26,16 +26,8 @@ class CourseController(
     fun getAllCourses(@RequestParam search: String?): List<Course> = courseService.getCourses(search)
 
     @PostMapping("/save")
-    fun saveLesson(@ModelAttribute request: CourseRequest): ResponseEntity<ResponseMessage?> {
-        var message = ""
-        return try {
-            courseService.saveCourse(request)
-            message = "Success"
-            ResponseEntity.status(HttpStatus.OK).body<ResponseMessage?>(ResponseMessage(message))
-        } catch (e: Exception) {
-            message = "Error: ${e.message}"
-            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body<ResponseMessage?>(ResponseMessage(message))
-        }
+    fun saveLesson(@ModelAttribute request: CourseRequest): ResponseEntity<*> {
+        return courseService.saveCourse(request).let { ResponseEntity.ok(it) }
     }
 
     @DeleteMapping("/{id}")
@@ -55,8 +47,9 @@ class CourseController(
     }
 
     @PutMapping("/{id}")
-    fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest){
-        courseService.editCourse(id, request)
+    fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest): ResponseEntity<*>{
+        return courseService.editCourse(id, request)?.let { ResponseEntity.ok(it) }
+            ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course with id: $id not found")
     }
 
 
