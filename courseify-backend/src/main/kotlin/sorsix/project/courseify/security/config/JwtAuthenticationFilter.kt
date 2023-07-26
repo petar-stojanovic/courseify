@@ -30,9 +30,9 @@ data class JwtAuthenticationFilter(
             return
         }
 
-        val authHeader: String = request.getHeader("Authorization")
+        val authHeader: String? = request.getHeader("Authorization")
 
-        if (!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response)
             return
         }
