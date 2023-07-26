@@ -1,22 +1,29 @@
 <h1>Add Course</h1>
-<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
-  <label for="title">Title:</label>
-  <input type="text" id="title" formControlName="title">
-
-  <label for="description">Description:</label>
-  <textarea id="description" formControlName="description"></textarea>
-
-  <label for="authorId">Author ID:</label>
-  <input type="number" id="authorId" formControlName="authorId">
-
-  <label for="categoryId">Category ID:</label>
-  <input type="number" id="categoryId" formControlName="categoryId">
-
-  <label for="thumbnail">Thumbnail:</label>
-     <input type="file" id="thumbnail" #thumbnailInput formControlName="thumbnail" (change)="onThumbnailSelected(thumbnailInput)">
-  <button type="submit">Submit</button>
+<form [formGroup]="myForm" (ngSubmit)="submit()">
+  <div>
+    <label for="title">Title</label>
+    <input id="title" formControlName="title" type="text" />
+  </div>
+  <div>
+    <label for="description">Description</label>
+    <input id="description" formControlName="description" type="text" />
+  </div>
+  <div>
+    <label for="authorId">Author</label>
+    <input id="authorId" formControlName="authorId" type="number" />
+  </div>
+  <div>
+    <label for="categoryId">Category</label>
+    <input id="categoryId" formControlName="categoryId" type="number" />
+  </div>
+  <div>
+    <label for="thumbnail"> File </label>
+    <input
+      id="thumbnail"
+      formControlName="thumbnail"
+      type="file"
+      (change)="onFileChange($event)"
+    />
+  </div>
+  <button class="btn btn-primary" type="submit">Submit</button>
 </form>
-
-<div *ngIf="message">
-  {{ message }}
-</div>

@@ -33,7 +33,7 @@ export class CourseService {
     this.http.delete<Course>(`api/course/${id}`);
   }
 
-  addCourse(request: courseRequest): Observable<Course> {
-    return this.http.post<Course>(`api/course/save`, request);
+  addCourse(data: FormData): Observable<Course> {
+    return this.http.post<Course>(`api/course/save`, data);
   }
 }
