@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LessonService } from '../lesson.service';
+import { LessonService } from '../services/lesson.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import {VgApiService} from '@videogular/ngx-videogular/core';
+import { VgApiService } from '@videogular/ngx-videogular/core';
 
 @Component({
   selector: 'app-video',
