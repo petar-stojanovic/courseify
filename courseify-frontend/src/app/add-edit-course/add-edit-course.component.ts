@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CourseService } from '../services/course.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { courseRequest } from '../interfaces/courseRequest';
 
 @Component({
@@ -9,53 +9,38 @@ import { courseRequest } from '../interfaces/courseRequest';
   styleUrls: ['./add-edit-course.component.css'],
 })
 export class AddEditCourseComponent {
-  courseForm: FormGroup;
-  message: string = '';
+  myForm = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
+    authorId: new FormControl('', [Validators.required]),
+    categoryId: new FormControl('', [Validators.required]),
+    thumbnail: new FormControl('', [Validators.required]),
+    thumbnailSource: new FormControl('', [Validators.required]),
+  })
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private courseService: CourseService
-  ) {
-    this.courseForm = this.formBuilder.group({
-      id: ['', Validators.required],
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-      authorId: [null, Validators.required],
-      categoryId: [null, Validators.required],
-      thumbnail: [null, Validators.required], // For the file, we initialize it with null
-    });
+  constructor(private courseService: CourseService){}
+
+  get f(){
+    return this.myForm.controls;
   }
 
-  onSubmit() {
-    // if (this.courseForm.invalid) {
-    //   return;
-    // }
-
-    const courseRequest: courseRequest = {
-      title: this.courseForm.value.title,
-      thumbnail: this.courseForm.value.thumbnail,
-      description: this.courseForm.value.description,
-      authorId: this.courseForm.value.authorId,
-      categoryId: this.courseForm.value.categoryId,
-    };
-
-    this.courseService.addCourse(courseRequest).subscribe(
-      (response: any) => {
-        console.log('Course added successfully:', response);
-        this.message = 'Course added successfully!';
-      },
-      (error: any) => {
-        console.error('Error adding course:', error);
-        this.message = 'Error adding course. Please try again.';
-      }
-    );
-  }
-
-  onThumbnailSelected(input: HTMLInputElement) {
-    if (input.files && input.files.length > 0) {
-      this.courseForm.patchValue({
-        thumbnail: input.files[0]
+  onFileChange(event: any){
+    if (event.target.files.length > 0){
+      const file = event.target.files[0];
+      this.myForm.patchValue({
+        thumbnailSource: file
       });
     }
+  }
+
+  submit(){
+    const formData = new FormData();
+    formData.append('file', this.myForm.get('fileSource')?.value!!);
+   
+    this.courseService.addCourse(formData).subscribe(
+      result => {
+        console.log(result);
+      }
+    )
   }
 }
