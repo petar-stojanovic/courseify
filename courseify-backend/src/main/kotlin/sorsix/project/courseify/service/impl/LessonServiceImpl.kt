@@ -2,6 +2,7 @@ package sorsix.project.courseify.service.impl
 
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
+import org.springframework.http.server.PathContainer.PathSegment
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.LessonRequest
 import sorsix.project.courseify.domain.Lesson
@@ -87,5 +88,48 @@ class LessonServiceImpl(
         File("uploads/$coursePath/$lessonPath").deleteRecursively()
 
         lessonRepository.delete(lesson)
+    }
+
+    override fun editLesson(id: Long, request: LessonRequest) {
+
+        val lesson = lessonRepository.findById(id).get()
+        val course = courseRepository.findById(request.courseId).get()
+
+        val oldLessonSlug = lesson.title.lowercase().replace(" ", "_")
+        val courseSlug = course.title.lowercase().replace(" ", "_")
+        val oldPath = Paths.get("uploads/$courseSlug/$oldLessonSlug")
+        File(oldPath.toString()).deleteRecursively()
+
+        val newLessonSlug = request.title.lowercase().replace(" ", "_")
+
+        val newPath = Files.createDirectories(Paths.get("uploads/$courseSlug/$newLessonSlug"))
+
+        val videoExtension =
+            request.video.originalFilename?.substring(request.video.originalFilename!!.lastIndexOf(".") + 1)
+        val fileExtension =
+            request.file.originalFilename?.substring(request.file.originalFilename!!.lastIndexOf(".") + 1)
+
+        val fullVideoName = "video.$videoExtension"
+        val fullFileName = "file.$fileExtension"
+
+        Files.copy(request.video.inputStream, newPath.resolve(fullVideoName))
+        Files.copy(request.file.inputStream, newPath.resolve(fullFileName))
+
+        val copiedVideoPath = newPath
+            .resolve(fullVideoName)
+            .toAbsolutePath().toString()
+
+        val copiedFilePath = newPath
+            .resolve(fullFileName)
+            .toAbsolutePath().toString()
+
+
+        val quiz = quizRepository.findById(request.quizId).get()
+        lessonRepository.save(
+            Lesson(
+                id, request.title, request.description, request.videoTitle,
+                copiedVideoPath, request.fileTitle, copiedFilePath, course, quiz
+            )
+        )
     }
 }

@@ -39,4 +39,9 @@ class LessonController(val lessonRepository: LessonRepository, val lessonService
         lessonService.delete(id)
     }
 
+    @PutMapping("/{id}")
+    fun editLesson(@PathVariable id: Long, @ModelAttribute request: LessonRequest){
+        lessonService.editLesson(id, request)
+    }
+
 }
