@@ -22,6 +22,12 @@ export class CourseComponent implements OnInit {
       .subscribe((value) => {
         this.listCourses$ = this.courseService.searchCourses(value);
       });
+      this.getCategories();
+
+  }
+
+  getCategories() {
+    return this.courseService.getCategories().subscribe((res) => console.log(res));
   }
 
   deleteCourse(id: number) {
