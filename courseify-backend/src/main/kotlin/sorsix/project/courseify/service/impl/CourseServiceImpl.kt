@@ -1,5 +1,6 @@
 package sorsix.project.courseify.service.impl
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.domain.Course
@@ -18,7 +19,7 @@ class CourseServiceImpl(
 ) : CourseService {
 
     private val root: Path = Paths.get("uploads")
-    override fun saveCourse(request: CourseRequest) {
+    override fun saveCourse(request: CourseRequest): Course {
 
         val coursePathSlug = request.title.lowercase().replace(" ", "_")
 
@@ -29,56 +30,48 @@ class CourseServiceImpl(
         val user = userRepository.findById(request.authorId).get()
         val category = categoryRepository.findById(request.categoryId).get()
 
-        val thumbnailPath = pathToUpload
-            .resolve("thumbnail.jpeg")
-            .toAbsolutePath().toString()
+        val thumbnailPath = pathToUpload.resolve("thumbnail.jpeg").toAbsolutePath().toString()
 
-        courseRepository.save(
+        return courseRepository.save(
             Course(
-                0, request.title, request.description, thumbnailPath,
-                user, category
+                0, request.title, request.description, thumbnailPath, user, category
             )
         )
 
     }
 
     override fun deleteCourse(id: Long) {
-
-        val course = this.courseRepository.findById(id).get()
-        val coursePath = course.title.lowercase().replace(" ", "_")
-        File("uploads/$coursePath").deleteRecursively()
-
-        courseRepository.delete(course)
+        courseRepository.findByIdOrNull(id)?.let {
+            val course = this.courseRepository.findById(id).get()
+            val coursePath = course.title.lowercase().replace(" ", "_")
+            File("uploads/$coursePath").deleteRecursively()
+            courseRepository.delete(course)
+        }
     }
 
-    override fun getCourses(search: String?): List<Course> = if (search != null){
+    override fun getCourses(search: String?): List<Course> = if (search != null) {
         courseRepository.findAllByTitleContainingIgnoreCase(search)
-    }else{
+    } else {
         courseRepository.findAll()
     }
 
-    override fun editCourse(id: Long, request: CourseRequest) {
-
-        val course = courseRepository.findById(id).get()
-
-        val oldCourseSlug = course.title.lowercase().replace(" ", "_")
+    override fun editCourse(id: Long, request: CourseRequest) = courseRepository.findByIdOrNull(id)?.let {
+        val oldCourseSlug = it.title.lowercase().replace(" ", "_")
         val oldPath = root.resolve(oldCourseSlug)
         val newCourseSlug = request.title.lowercase().replace(" ", "_")
         val newPath = root.resolve(newCourseSlug)
 
-        if(Files.exists(oldPath)){
+        if (Files.exists(oldPath)) {
             Files.delete(oldPath.resolve("thumbnail.jpeg"))
             Files.move(oldPath, oldPath.resolveSibling(newCourseSlug))
             File(oldPath.toString()).deleteRecursively()
-        }else{
+        } else {
             Files.createDirectories(newPath)
         }
 
         Files.copy(request.thumbnail.inputStream, newPath.resolve("thumbnail.jpeg"))
 
-        val thumbnailPath = newPath
-            .resolve("thumbnail.jpeg")
-            .toAbsolutePath().toString()
+        val thumbnailPath = newPath.resolve("thumbnail.jpeg").toAbsolutePath().toString()
 
         val author = userRepository.findById(request.authorId).get()
         val category = categoryRepository.findById(request.categoryId).get()
@@ -93,5 +86,5 @@ class CourseServiceImpl(
             )
         )
     }
-
 }
+
