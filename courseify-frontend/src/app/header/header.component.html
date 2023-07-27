@@ -14,7 +14,7 @@
       <a routerLink="register"> <button mat-button color="accent" class="mx-3">Sign up</button> </a>
       <a routerLink="login"> <button mat-raised-button color="accent">Log In</button> </a>
     </div>
-    <div *ngIf="isAuthenticated">
+    <div  *ngIf="isAuthenticated">
       <a> <button mat-raised-button color="accent" (click)="logout()">Logout</button> </a>
     </div>
   </mat-toolbar-row>

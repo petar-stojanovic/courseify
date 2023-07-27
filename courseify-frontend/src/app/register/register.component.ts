@@ -4,6 +4,7 @@ import {
   FormControl,
   Validators,
   FormGroupDirective,
+  AbstractControl,
 } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 @Component({
@@ -14,6 +15,7 @@ import { AuthService } from '../services/auth.service';
 export class RegisterComponent implements OnInit {
   registerForm: any;
   fieldRequired: string = 'This field is required';
+  registerSucess = false;
   constructor(private auth: AuthService) {}
 
   ngOnInit() {
@@ -24,6 +26,9 @@ export class RegisterComponent implements OnInit {
     let emailregex: RegExp =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.registerForm = new FormGroup({
+      firstName: new FormControl(null, [Validators.required]),
+      lastName: new FormControl(null, [Validators.required]),
+
       username: new FormControl(null, [Validators.required]),
       email: new FormControl(null, [
         Validators.required,
@@ -33,12 +38,28 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         this.checkPassword,
       ]),
+      confirmPassword: new FormControl(null, [
+        Validators.required,
+        this.mustMatch('password'),
+      ]),
     });
   }
 
-  getEmaiErrors() {
+  mustMatch(controlName: string) {
+    return (control: AbstractControl) => {
+      const passwordControl = control.parent?.get(controlName);
+
+      if (passwordControl && control.value !== passwordControl.value) {
+        return { mustMatch: true };
+      }
+
+      return null;
+    };
+  }
+
+  getEmailErrors() {
     return this.registerForm.get('email').hasError('required')
-      ? 'This field is required'
+      ? this.fieldRequired
       : this.registerForm.get('email').hasError('pattern')
       ? 'Not a valid Email Address'
       : '';
@@ -54,10 +75,20 @@ export class RegisterComponent implements OnInit {
 
   getPasswordErrors() {
     return this.registerForm.get('password').hasError('required')
-      ? 'This field is required (The password must be at least six characters, one uppercase letter and one number)'
+      ? 'This field is required!'
       : this.registerForm.get('password').hasError('requirements')
       ? 'Password needs to be at least six characters, one uppercase letter and one number'
       : '';
+  }
+
+  getConfirmPasswordErrors() {
+    if (this.registerForm.get('confirmPassword').hasError('required')) {
+      return this.fieldRequired;
+    } else if (this.registerForm.get('confirmPassword').hasError('mustMatch')) {
+      return 'The passwords must match';
+    } else {
+      return '';
+    }
   }
 
   checkValidation(input: string) {
@@ -69,10 +100,25 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(formData: FormGroup, formDirective: FormGroupDirective): void {
+    const firstName = formData.value.firstName;
+    const lastName = formData.value.lastName;
+    const username = formData.value.username;
     const email = formData.value.email;
     const password = formData.value.password;
-    const username = formData.value.username;
-    this.auth.registerUser(email, password, username)
+    const confirmPassword = formData.value.confirmPassword;
+    this.auth
+      .registerUser(
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+        confirmPassword
+      )
+      .subscribe((response) => {
+        // localStorage.setItem('token', response['access_token']);
+        this.registerSucess = true;
+      });
     formDirective.resetForm();
     this.registerForm.reset();
   }
