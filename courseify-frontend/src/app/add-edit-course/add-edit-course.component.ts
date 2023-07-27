@@ -1,61 +1,107 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../services/course.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { courseRequest } from '../interfaces/courseRequest';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Course } from '../interfaces/course';
 
 @Component({
   selector: 'app-add-edit-course',
   templateUrl: './add-edit-course.component.html',
   styleUrls: ['./add-edit-course.component.css'],
 })
-export class AddEditCourseComponent {
-  courseForm: FormGroup;
-  message: string = '';
+export class AddEditCourseComponent implements OnInit {
+  id: string | undefined;
+  isAddMode: boolean = false;
+  course: Course | undefined;
+
+  courseForm = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
+    authorId: new FormControl('', [Validators.required]),
+    categoryId: new FormControl('', [Validators.required]),
+    thumbnail: new FormControl('', [Validators.required]),
+    thumbnailSource: new FormControl('', [Validators.required]),
+  });
+
+  // editForm = new FormGroup({
+  //   title: new FormControl('', [Validators.required]),
+  //   description: new FormControl('', [Validators.required]),
+  //   authorId: new FormControl('', [Validators.required]),
+  //   categoryId: new FormControl('', [Validators.required]),
+  //   thumbnail: new FormControl('', [Validators.required]),
+  //   thumbnailSource: new FormControl('', [Validators.required]),
+  // });
 
   constructor(
-    private formBuilder: FormBuilder,
-    private courseService: CourseService
-  ) {
-    this.courseForm = this.formBuilder.group({
-      id: ['', Validators.required],
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-      authorId: [null, Validators.required],
-      categoryId: [null, Validators.required],
-      thumbnail: [null, Validators.required], // For the file, we initialize it with null
-    });
-  }
+    private courseService: CourseService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
-  onSubmit() {
-    // if (this.courseForm.invalid) {
-    //   return;
-    // }
+  ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
+    this.isAddMode = !this.id;
 
-    const courseRequest: courseRequest = {
-      title: this.courseForm.value.title,
-      thumbnail: this.courseForm.value.thumbnail,
-      description: this.courseForm.value.description,
-      authorId: this.courseForm.value.authorId,
-      categoryId: this.courseForm.value.categoryId,
-    };
-
-    this.courseService.addCourse(courseRequest).subscribe(
-      (response: any) => {
-        console.log('Course added successfully:', response);
-        this.message = 'Course added successfully!';
-      },
-      (error: any) => {
-        console.error('Error adding course:', error);
-        this.message = 'Error adding course. Please try again.';
-      }
-    );
-  }
-
-  onThumbnailSelected(input: HTMLInputElement) {
-    if (input.files && input.files.length > 0) {
-      this.courseForm.patchValue({
-        thumbnail: input.files[0]
+    if (!this.isAddMode && this.id) {
+      this.courseService.getCourseById(+this.id).subscribe((result) => {
+        this.course = result;
+        this.courseForm?.patchValue({
+          title: this.course.title,
+          description: this.course.description,
+          authorId: this.course.author.id.toString(),
+          categoryId: this.course.category.id.toString()
+        })
       });
     }
   }
+
+
+  onFileChange(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      // if (this.isAddMode) {
+      //   this.addForm?.patchValue({
+      //     thumbnailSource: file,
+      //   });
+      // } else {
+      //   this.editForm?.patchValue({
+      //     thumbnailSource: file,
+      //   });
+      // }
+      this.courseForm?.patchValue({
+        thumbnailSource: file
+      })
+    }
+  }
+
+  submit() {
+    const formData = new FormData();
+    formData.append('thumbnail', this.courseForm.get('thumbnailSource')?.value!!);
+    formData.append('title', this.courseForm.get('title')?.value!!);
+    formData.append('description', this.courseForm.get('description')?.value!!);
+    formData.append('authorId', this.courseForm.get('authorId')?.value!!);
+    formData.append('categoryId', this.courseForm.get('categoryId')?.value!!);
+
+    if (this.isAddMode){
+      this.courseService
+      .addCourse(formData)
+      .subscribe(() => this.router.navigateByUrl('/'));
+    }else{
+      this.courseService
+      .editCourse(this.course!!.id, formData)
+      .subscribe(() => this.router.navigateByUrl('/'));
+    }
+
+    
+  }
+  // editCourse(id: number) {
+  //   const formData = new FormData();
+  //   formData.append('thumbnail', this.editForm.get('thumbnailSource')?.value!!);
+  //   formData.append('title', this.editForm.get('title')?.value!!);
+  //   formData.append('description', this.editForm.get('description')?.value!!);
+  //   formData.append('authorId', this.editForm.get('authorId')?.value!!);
+  //   formData.append('categoryId', this.editForm.get('categoryId')?.value!!);
+
+    
+  // }
 }

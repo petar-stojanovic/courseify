@@ -1,3 +1,4 @@
+<app-categories></app-categories>
 <div class="input-group rounded">
   <input [formControl]="searchControl" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
   <span class="input-group-text border-0" id="search-addon">
@@ -23,5 +24,6 @@
       ><button mat-raised-button color="primary">Preview</button></a
     >
     <button mat-raised-button color="primary" (click)="deleteCourse(course.id)">Delete</button>
+    <a routerLink="/course/{{course.id}}/edit"><button mat-raised-button color="primary">Edit</button></a>
   </mat-card-actions>
 </mat-card>

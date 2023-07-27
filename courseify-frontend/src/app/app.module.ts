@@ -27,6 +27,7 @@ import { LoginComponent } from './login/login.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AddEditCourseComponent } from './add-edit-course/add-edit-course.compon
     RegisterComponent,
     LoginComponent,
     AddEditCourseComponent,
+    CategoriesComponent,
   ],
   imports: [
     BrowserModule,
