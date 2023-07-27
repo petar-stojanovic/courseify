@@ -1,5 +1,4 @@
 .wrapper {
-  margin-top: -64px;
   height: 100%;
   width: 100%;
   display: flex;
@@ -28,6 +27,6 @@
   width: 21rem;
 }
 
-.fieldClass{
+.fieldClass {
   margin-bottom: 1.25rem;
 }
