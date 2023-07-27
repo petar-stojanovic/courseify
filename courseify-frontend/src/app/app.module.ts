@@ -28,6 +28,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
 import { CategoriesComponent } from './categories/categories.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+
 
 @NgModule({
   declarations: [
@@ -61,6 +64,8 @@ import { CategoriesComponent } from './categories/categories.component';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatSidenavModule,
+    MatListModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

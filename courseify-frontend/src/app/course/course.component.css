@@ -1,0 +1,47 @@
+/* .course{
+    width: min(65ch, 100%-4rem);
+    margin-inline: auto;
+} */
+/* .example-container {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+} */
+
+/* .toggle {
+  position: absolute;
+  z-index: 10;
+  top: -3.5rem;
+  left: 1rem;
+} */
+
+.example-toolbar {
+  background-color: rgba(0, 0, 0, 0);
+  width: 0;
+}
+.toggle {
+  opacity: 1;
+  z-index: 100;
+  color: #ff4081;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.example-sidenav-container {
+  flex: 1;
+}
+
+.example-is-mobile .example-sidenav-container {
+  flex: 1 0 auto;
+}
