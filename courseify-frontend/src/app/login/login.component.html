@@ -1,46 +1,55 @@
-<form>
-  <div class="login-container">
-    <div class="login-content">
-      <mat-toolbar class="login-toolbar" color="primary"
-        >Recipe Book</mat-toolbar
-      >
-      <mat-card>
-        <form
-          [formGroup]="loginForm"
-          #formDirective="ngForm"
-          (ngSubmit)="onSubmit(loginForm, formDirective)"
+<div class="wrapper">
+  <form>
+    <div class="login-container">
+      <div class="login-content">
+        <mat-toolbar
+          class="login-toolbar"
+          color="primary"
+          class="d-flex justify-evenly"
+          ><div class="m-auto">LOGIN</div></mat-toolbar
         >
-          <mat-form-field>
-            <mat-icon matPrefix>person_outline</mat-icon>
-            <input
-              autofocus
-              type="text"
-              matInput
-              placeholder="Username"
-              formControlName="username"
-            />
-          </mat-form-field>
+        <mat-card>
+          <form
+            [formGroup]="loginForm"
+            #formDirective="ngForm"
+            (ngSubmit)="onSubmit(loginForm, formDirective)"
+          >
+            <mat-form-field>
+              <mat-icon matPrefix>person_outline</mat-icon>
+              <input
+                autofocus
+                type="text"
+                matInput
+                placeholder="Username"
+                formControlName="username"
+              />
+            </mat-form-field>
 
-          <mat-form-field>
-            <mat-icon matPrefix>lock_outline</mat-icon>
-            <input
-              type="password"
-              autocomplete="false"
-              matInput
-              placeholder="Password"
-              formControlName="password"
-            />
-          </mat-form-field>
+            <mat-form-field>
+              <mat-icon matPrefix>lock_outline</mat-icon>
+              <input
+                type="password"
+                autocomplete="false"
+                matInput
+                placeholder="Password"
+                formControlName="password"
+              />
+            </mat-form-field>
 
-          <br />
-          <button type="submit" mat-raised-button color="primary">LOGIN</button>
-        </form>
+            <br />
+            <button type="submit" mat-raised-button color="primary">
+              LOGIN
+            </button>
+          </form>
 
-        <span>
-          If You don't have a account yet please
-          <a routerLink="/register">REGISTER HERE</a></span
-        >
-      </mat-card>
+          <span>
+            Don't have an account?
+            <a routerLink="/register">
+              <button mat-button color="accent">Sign up</button>
+            </a>
+          </span>
+        </mat-card>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>

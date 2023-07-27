@@ -1,71 +1,134 @@
-<div class="login-container">
-  <div class="login-content">
-    <mat-toolbar class="login-toolbar" color="primary">REGISTER</mat-toolbar>
-    <mat-card>
-      <form
-        [formGroup]="registerForm"
-        #formDirective="ngForm"
-        (ngSubmit)="onSubmit(registerForm, formDirective)"
+<div class="wrapper">
+  <div class="login-container">
+    <div class="login-content">
+      <mat-toolbar class="login-toolbar" color="primary"
+        ><div class="m-auto">REGISTER</div></mat-toolbar
       >
-        <mat-form-field>
-          <mat-icon matPrefix>email</mat-icon>
-          <input
-            autofocus
-            type="email"
-            matInput
-            placeholder="Email *"
-            formControlName="email"
-          />
-          <mat-error *ngIf="checkValidation('email')">
-            {{ getEmaiErrors() }}
-          </mat-error>
-        </mat-form-field>
+      <mat-card>
+        <form
+          [formGroup]="registerForm"
+          #formDirective="ngForm"
+          (ngSubmit)="onSubmit(registerForm, formDirective)"
+          *ngIf="!registerSucess"
+        >
+          <mat-form-field>
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <input
+              autofocus
+              type="text"
+              matInput
+              placeholder="First Name *"
+              formControlName="firstName"
+            />
+            <mat-error *ngIf="checkValidation('firstName')">
+              {{ fieldRequired }}
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-icon matPrefix>person_outline</mat-icon>
-          <input
-            autofocus
-            type="text"
-            matInput
-            placeholder="Username *"
-            formControlName="username"
-          />
-          <mat-error *ngIf="checkValidation('username')">
-            {{ fieldRequired }}
-          </mat-error>
-        </mat-form-field>
+          <mat-form-field>
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <input
+              autofocus
+              type="text"
+              matInput
+              placeholder="Last Name *"
+              formControlName="lastName"
+            />
+            <mat-error *ngIf="checkValidation('lastName')">
+              {{ fieldRequired }}
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-icon matPrefix>lock_outline</mat-icon>
-          <input
-            type="password"
-            autocomplete="false"
-            matInput
-            placeholder="Password *"
-            formControlName="password"
-          />
-          <mat-hint
-            >Choose a password of at least eight characters, one uppercase
-            letter and one number</mat-hint
+          <mat-form-field>
+            <mat-icon matPrefix>email</mat-icon>
+            <input
+              autofocus
+              type="email"
+              matInput
+              placeholder="Email *"
+              formControlName="email"
+            />
+            <mat-error *ngIf="checkValidation('email')">
+              {{ getEmailErrors() }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-icon matPrefix>account_circle</mat-icon>
+            <input
+              autofocus
+              type="text"
+              matInput
+              placeholder="Username *"
+              formControlName="username"
+            />
+            <mat-error *ngIf="checkValidation('username')">
+              {{ fieldRequired }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field
+            [ngClass]="{
+              fieldClass:
+                getPasswordErrors() !== fieldRequired &&
+                getPasswordErrors() !== ''
+            }"
           >
-          <mat-error *ngIf="checkValidation('password')">
-            {{ getPasswordErrors() }}
-          </mat-error>
-        </mat-form-field>
+            <mat-icon matPrefix>lock_outline</mat-icon>
+            <input
+              type="password"
+              autocomplete="false"
+              matInput
+              placeholder="Password *"
+              formControlName="password"
+            />
+            <mat-error *ngIf="checkValidation('password')">
+              {{ getPasswordErrors() }}
+            </mat-error>
+          </mat-form-field>
 
-        <hr />
-        <div class="socialMediaFlex">
-          <button
-            style="width: 50%"
-            [disabled]="registerForm.invalid"
-            type="submit"
-            mat-raised-button
-            color="primary"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
-    </mat-card>
+          <mat-form-field>
+            <mat-icon matPrefix>lock</mat-icon>
+            <input
+              type="password"
+              autocomplete="false"
+              matInput
+              placeholder="Confirm Password *"
+              formControlName="confirmPassword"
+            />
+            <mat-error *ngIf="checkValidation('confirmPassword')">
+              {{ getConfirmPasswordErrors() }}
+            </mat-error>
+          </mat-form-field>
+
+          <hr />
+          <div class="socialMediaFlex">
+            <button
+              style="width: 50%"
+              [disabled]="registerForm.invalid"
+              type="submit"
+              mat-raised-button
+              color="primary"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+        <h1 *ngIf="registerSucess">
+          Your Registration was sucessful! Click here to
+          <a routerLink="/login">
+            <button mat-button color="primary" style="font-size: 1.5rem">
+              Log in
+            </button>
+          </a>
+        </h1>
+        <span *ngIf="!registerSucess">
+          Already have an account?
+          <a routerLink="/login">
+            <button mat-button color="accent">Log in</button>
+          </a>
+        </span>
+      </mat-card>
+    </div>
   </div>
 </div>

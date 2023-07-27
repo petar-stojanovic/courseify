@@ -8,17 +8,19 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent {
-  isAuthenticated: boolean = localStorage.getItem('token') != null;
+export class HeaderComponent implements OnInit {
+  isAuthenticated?: boolean;
 
-  constructor(
-    private router: Router,
-    private service: AuthService
-  ) {}
+  constructor(private router: Router, private service: AuthService) {}
 
-  logout(){
-    // localStorage.removeItem("token")
-    this.service.logout()
-    this.router.navigateByUrl("/")
+  ngOnInit(): void {
+    this.isAuthenticated = localStorage.getItem('token') != null;
+  }
+
+  logout() {
+    this.service.logout().subscribe(() => {
+      localStorage.removeItem('token');
+      this.ngOnInit();
+    });
   }
 }
