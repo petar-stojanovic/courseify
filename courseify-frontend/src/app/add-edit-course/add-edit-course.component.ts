@@ -23,15 +23,6 @@ export class AddEditCourseComponent implements OnInit {
     thumbnailSource: new FormControl('', [Validators.required]),
   });
 
-  // editForm = new FormGroup({
-  //   title: new FormControl('', [Validators.required]),
-  //   description: new FormControl('', [Validators.required]),
-  //   authorId: new FormControl('', [Validators.required]),
-  //   categoryId: new FormControl('', [Validators.required]),
-  //   thumbnail: new FormControl('', [Validators.required]),
-  //   thumbnailSource: new FormControl('', [Validators.required]),
-  // });
-
   constructor(
     private courseService: CourseService,
     private router: Router,
@@ -59,15 +50,6 @@ export class AddEditCourseComponent implements OnInit {
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      // if (this.isAddMode) {
-      //   this.addForm?.patchValue({
-      //     thumbnailSource: file,
-      //   });
-      // } else {
-      //   this.editForm?.patchValue({
-      //     thumbnailSource: file,
-      //   });
-      // }
       this.courseForm?.patchValue({
         thumbnailSource: file
       })
@@ -91,17 +73,5 @@ export class AddEditCourseComponent implements OnInit {
       .editCourse(this.course!!.id, formData)
       .subscribe(() => this.router.navigateByUrl('/'));
     }
-
-    
   }
-  // editCourse(id: number) {
-  //   const formData = new FormData();
-  //   formData.append('thumbnail', this.editForm.get('thumbnailSource')?.value!!);
-  //   formData.append('title', this.editForm.get('title')?.value!!);
-  //   formData.append('description', this.editForm.get('description')?.value!!);
-  //   formData.append('authorId', this.editForm.get('authorId')?.value!!);
-  //   formData.append('categoryId', this.editForm.get('categoryId')?.value!!);
-
-    
-  // }
 }
