@@ -13,21 +13,24 @@ export class AuthService {
 
   constructor(private router: Router, private http: HttpClient) {}
 
-  registerUser(email: string, password: string, username: string) {
+  registerUser(firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    password: string,
+    confirmPassword: string) {
     const body = {
-      firstName: 'asdas',
-      lastName: 'asdasdas',
-      email: email,
-      password: password,
-      username: username,
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+      confirmPassword,
       role: 'USER',
     };
     return this.http
       .post<AuthResponse>(`/api/auth/register`, body)
-      .subscribe((response) => {
-        localStorage.setItem('token', response['access_token']);
-        this.router.navigateByUrl('');
-      });
+      
   }
 
   signinUser(username: string, password: string) {
@@ -39,18 +42,16 @@ export class AuthService {
       .post<AuthResponse>(`/api/auth/authenticate`, body)
       .subscribe((response) => {
         localStorage.setItem('token', response['access_token']);
-        this.router.navigateByUrl('');
+        location.href = '/';
       });
   }
 
-
   logout() {
-    return this.http
-      .post(`/api/auth/logout`,{})
-      .subscribe(() => {
-        localStorage.removeItem('token');
-        this.router.navigateByUrl('');
-      });
+    return this.http.post(`/api/auth/logout`, {})
+    // .subscribe(() => {
+    //   localStorage.removeItem('token');
+    //   // location.href = '/';
+    // });
   }
 
   // getToken() {

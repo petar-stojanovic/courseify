@@ -1,24 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'courseify-frontend';
 
-  // constructor(private oidcSecurityService: OidcSecurityService) {}
+  mobileQuery: MediaQueryList;
+  _mobileQueryListener: () => void;
+
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
 
   ngOnInit() {
-    console.log(localStorage)
+    console.log(localStorage);
   }
-  // ngOnInit(): void {
-  //   this.oidcSecurityService
-  //     .checkAuth()
-  //     .subscribe(({ isAuthenticated, userData, accessToken }) => {
-  //       console.log('app authenticated', isAuthenticated);
-  //       console.log(`Current access token is '${accessToken}'`);
-  //     });
-  // }
+
+  ngOnDestroy(): void {
+    this.mobileQuery?.removeListener(this._mobileQueryListener);
+  }
 }

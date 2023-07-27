@@ -1,5 +1,5 @@
-<ul>
-    <li *ngFor="let item of categories">
-        <a [routerLink]="['/courses']" [queryParams]="{category: item.name}">{{item.name}}</a>
-    </li>
-</ul>
+<h1>Categories</h1>
+<mat-nav-list>
+    <a mat-list-item *ngFor="let item of categories" [routerLink]="['/courses']"  [queryParams]="{category: item.name}">{{item.name}}</a>
+</mat-nav-list>
+

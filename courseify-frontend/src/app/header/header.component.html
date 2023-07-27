@@ -1,21 +1,29 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row class="container">
+<div class="d-flex align-items-center">
+  <div class="logodiv">
     <a routerLink="" class="logo">Courseify</a>
-    <span class="example-spacer"></span>
-    <div *ngIf="isAuthenticated">
-      <a routerLink="/upload-video" mat-icon-button>
-        <mat-icon>library_add</mat-icon>
-      </a>
-      <button mat-icon-button>
-        <mat-icon>account_circle</mat-icon>
+  </div>
+  <span class="example-spacer"></span>
+  <div *ngIf="isAuthenticated">
+    <a routerLink="/upload-video" mat-icon-button>
+      <mat-icon>library_add</mat-icon>
+    </a>
+    <button mat-icon-button>
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="!isAuthenticated">
+    <a routerLink="register">
+      <button mat-button color="accent" class="mx-3">Sign up</button>
+    </a>
+    <a routerLink="login">
+      <button mat-raised-button color="accent">Log In</button>
+    </a>
+  </div>
+  <div *ngIf="isAuthenticated">
+    <a>
+      <button mat-raised-button color="accent" (click)="logout()">
+        Logout
       </button>
-    </div>
-    <div *ngIf="!isAuthenticated">
-      <a routerLink="register"> <button mat-button color="accent" class="mx-3">Sign up</button> </a>
-      <a routerLink="login"> <button mat-raised-button color="accent">Log In</button> </a>
-    </div>
-    <div *ngIf="isAuthenticated">
-      <a> <button mat-raised-button color="accent" (click)="logout()">Logout</button> </a>
-    </div>
-  </mat-toolbar-row>
-</mat-toolbar>
+    </a>
+  </div>
+</div>

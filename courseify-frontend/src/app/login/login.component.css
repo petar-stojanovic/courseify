@@ -1,28 +1,31 @@
-.login-container {
-  margin-top: 50px;
+.wrapper {
   height: 100%;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login-container {
   align-items: center;
   display: flex;
 }
 
-form {
-  width: 100%;
-}
-
 .login-content {
-  width: 400px;
-  display: block;
+  width: 24rem;
   margin: 0 auto;
+  text-align: center;
 }
 
-.login-toolbar {
-  justify-content: center;
-}
-
-.mat-form-field {
-  width: 100%;
-  display: block;
+.mat-mdc-form-field {
+  width: 21rem;
+  margin-top: 0.5rem;
 }
 
 .mat-raised-button {
@@ -30,4 +33,3 @@ form {
   height: 60px;
   margin-top: 15px;
 }
-
