@@ -7,6 +7,7 @@ interface CourseService {
 
     fun saveCourse(request: CourseRequest): Course
     fun deleteCourse(id: Long)
-    fun getCourses(search: String?): List<Course>
+
+    fun getCourses(search: String?, categoryName: String?): List<Course>
     fun editCourse(id: Long, request: CourseRequest): Course?
 }
