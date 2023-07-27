@@ -1,8 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Course } from '../interfaces/course';
-import { courseRequest } from '../interfaces/courseRequest';
 import { Category } from '../interfaces/category';
 
 @Injectable({
@@ -11,8 +10,19 @@ import { Category } from '../interfaces/category';
 export class CourseService {
   constructor(private http: HttpClient) {}
 
-  getCourses(): Observable<Course[]> {
-    return this.http.get<Course[]>(`/api/course`);
+  getCourses(search?: string, categoryName?: string): Observable<Course[]> {
+
+    let queryParams = new HttpParams();
+    if(search && categoryName){
+      queryParams = queryParams.append("search", search);
+      queryParams = queryParams.append("categoryName", categoryName);
+    }else if (search){
+      queryParams = queryParams.append("search", search);
+    }else if (categoryName){
+      queryParams = queryParams.append("categoryName", categoryName);
+    }
+    
+    return this.http.get<Course[]>(`/api/course`, {params: queryParams});
   }
 
   getLessonsByCourseId(id: number): Observable<Course> {
@@ -29,11 +39,20 @@ export class CourseService {
     return this.http.get<Category[]>('/api/category');
   }
 
-  deleteCourse(id: number) {
-    this.http.delete<Course>(`api/course/${id}`);
+  deleteCourse(id: number): Observable<Course> {
+    console.log(`delete in service called for object with id ${id}`);
+    return this.http.delete<Course>(`/api/course/${id}`);
   }
 
   addCourse(data: FormData): Observable<Course> {
-    return this.http.post<Course>(`api/course/save`, data);
+    return this.http.post<Course>(`/api/course/save`, data);
+  }
+  
+  editCourse(id: number, data: FormData): Observable<Course>{
+    return this.http.put<Course>(`api/course/${id}`, data)
+  }
+
+  getCourseById(id: number): Observable<Course>{
+    return this.http.get<Course>(`api/course/${id}`)
   }
 }

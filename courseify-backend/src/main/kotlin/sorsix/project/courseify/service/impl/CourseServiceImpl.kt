@@ -49,11 +49,16 @@ class CourseServiceImpl(
         }
     }
 
-    override fun getCourses(search: String?): List<Course> = if (search != null) {
-        courseRepository.findAllByTitleContainingIgnoreCase(search)
-    } else {
-        courseRepository.findAll()
-    }
+    override fun getCourses(search: String?, categoryName: String?): List<Course> =
+        if (search != null && categoryName != null) {
+            courseRepository.findAllByCategoryNameAndTitleContainingIgnoreCase(categoryName, search)
+        } else if (search != null) {
+            courseRepository.findAllByTitleContainingIgnoreCase(search)
+        } else if (categoryName != null) {
+            courseRepository.findAllByCategoryName(categoryName)
+        } else {
+            courseRepository.findAll()
+        }
 
     override fun editCourse(id: Long, request: CourseRequest) = courseRepository.findByIdOrNull(id)?.let {
         val oldCourseSlug = it.title.lowercase().replace(" ", "_")

@@ -22,9 +22,15 @@ class CourseController(
     val userTakesCourseRepository: UserTakesCourseRepository
 ) {
 
-
     @GetMapping
-    fun getAllCourses(@RequestParam search: String?): List<Course> = courseService.getCourses(search)
+    fun getAllCourses(@RequestParam search: String?, @RequestParam categoryName: String?): List<Course> = courseService.getCourses(search, categoryName)
+
+    @GetMapping("/{id}")
+    fun getCourse(@PathVariable id: Long): ResponseEntity<*> = this.courseRepository.findByIdOrNull(id)
+        ?.let { ResponseEntity.ok(it) } ?: ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body("The course with id $id does not exist!")
+
+
 
     @PostMapping("/save")
     fun saveLesson(@ModelAttribute request: CourseRequest): ResponseEntity<*> {
@@ -48,7 +54,7 @@ class CourseController(
     }
 
     @PutMapping("/{id}")
-    fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest): ResponseEntity<*>{
+    fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest): ResponseEntity<*> {
         return courseService.editCourse(id, request)?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course with id: $id could not br found")
     }

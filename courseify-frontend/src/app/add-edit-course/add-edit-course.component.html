@@ -1,29 +1,90 @@
-<h1>Add Course</h1>
-<form [formGroup]="myForm" (ngSubmit)="submit()">
-  <div>
-    <label for="title">Title</label>
-    <input id="title" formControlName="title" type="text" />
-  </div>
-  <div>
-    <label for="description">Description</label>
-    <input id="description" formControlName="description" type="text" />
-  </div>
-  <div>
-    <label for="authorId">Author</label>
-    <input id="authorId" formControlName="authorId" type="number" />
-  </div>
-  <div>
-    <label for="categoryId">Category</label>
-    <input id="categoryId" formControlName="categoryId" type="number" />
-  </div>
-  <div>
-    <label for="thumbnail"> File </label>
-    <input
-      id="thumbnail"
-      formControlName="thumbnail"
-      type="file"
-      (change)="onFileChange($event)"
-    />
-  </div>
-  <button class="btn btn-primary" type="submit">Submit</button>
-</form>
+<h1 *ngIf="isAddMode">Add Course</h1>
+<h1 *ngIf="!isAddMode">Edit Course - {{ course?.title }}</h1>
+
+<div *ngIf="isAddMode">
+  <form [formGroup]="courseForm" (ngSubmit)="submit()" id="addForm">
+    <div>
+      <label for="title">Title</label>
+      <input id="title" formControlName="title" type="text" />
+    </div>
+    <div>
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        type="text"
+        form="addForm"
+      ></textarea>
+    </div>
+    <div>
+      <label for="authorId">Author</label>
+      <input id="authorId" formControlName="authorId" type="number" />
+    </div>
+    <div>
+      <label for="categoryId">Category</label>
+      <input id="categoryId" formControlName="categoryId" type="number" />
+    </div>
+    <div>
+      <label for="thumbnail"> File </label>
+      <input
+        id="thumbnail"
+        formControlName="thumbnail"
+        type="file"
+        (change)="onFileChange($event)"
+      />
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</div>
+
+<div *ngIf="!isAddMode">
+  <form [formGroup]="courseForm" (ngSubmit)="submit()" id="editForm">
+    <div>
+      <label for="title">Title</label>
+      <input
+        id="title"
+        formControlName="title"
+        type="text"
+        [value]="course?.title"
+      />
+    </div>
+    <div>
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        type="text"
+        form="editForm"
+        [value]="course?.description"
+      ></textarea>
+    </div>
+    <div>
+      <label for="authorId">Author</label>
+      <input
+        id="authorId"
+        formControlName="authorId"
+        type="number"
+        [value]="course?.author?.id"
+      />
+    </div>
+    <div>
+      <label for="categoryId">Category</label>
+      <input
+        id="categoryId"
+        formControlName="categoryId"
+        type="number"
+        [value]="course?.category?.id"
+      />
+    </div>
+    <div>
+      <label for="thumbnail"> File </label>
+      <input
+        id="thumbnail"
+        formControlName="thumbnail"
+        type="file"
+        (change)="onFileChange($event)"
+      />
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</div>
