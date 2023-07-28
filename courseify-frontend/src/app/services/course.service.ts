@@ -25,22 +25,11 @@ export class CourseService {
     return this.http.get<Course[]>(`/api/course`, {params: queryParams});
   }
 
-  getLessonsByCourseId(id: number): Observable<Course> {
-    return this.http.get<Course>(`/api/lesson/${id}`);
-  }
-
-  searchCourses(search: string): Observable<Course[]> {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('search', search);
-    return this.http.get<Course[]>(`/api/course`, { params: queryParams });
-  }
-
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>('/api/category');
   }
 
   deleteCourse(id: number): Observable<Course> {
-    console.log(`delete in service called for object with id ${id}`);
     return this.http.delete<Course>(`/api/course/${id}`);
   }
 

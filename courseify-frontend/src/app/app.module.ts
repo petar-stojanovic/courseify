@@ -30,6 +30,7 @@ import { AddEditCourseComponent } from './add-edit-course/add-edit-course.compon
 import { CategoriesComponent } from './categories/categories.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import { AddEditLessonComponent } from './add-edit-lesson/add-edit-lesson.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import {MatListModule} from '@angular/material/list';
     LoginComponent,
     AddEditCourseComponent,
     CategoriesComponent,
+    AddEditLessonComponent,
   ],
   imports: [
     BrowserModule,

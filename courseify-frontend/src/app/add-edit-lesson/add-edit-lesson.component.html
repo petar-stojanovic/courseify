@@ -1,0 +1,103 @@
+<h1 *ngIf="isAddMode">Add Lesson</h1>
+<h1 *ngIf="!isAddMode">Edit Lesson - {{ lesson?.title }}</h1>
+
+<div *ngIf="isAddMode">
+  <form [formGroup]="lessonForm" (ngSubmit)="submit()" id="addForm">
+    <div>
+      <label for="title">Title</label>
+      <input id="title" formControlName="title" type="text" />
+    </div>
+    <div>
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        type="text"
+        form="addForm"
+      ></textarea>
+    </div>
+    <div>
+      <label for="quizId">Quiz</label>
+      <input id="quizId" formControlName="quizId" type="number" />
+    </div>
+    <div>
+      <label for="file">File</label>
+      <input
+        id="file"
+        formControlName="file"
+        type="file"
+        (change)="onFileChange($event)"
+      />
+    </div>
+    <div>
+      <label for="video">Video</label>
+      <input
+        id="video"
+        formControlName="video"
+        type="file"
+        (change)="onVideoChange($event)"
+      />
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</div>
+
+<div *ngIf="!isAddMode">
+  <form [formGroup]="lessonForm" (ngSubmit)="submit()" id="editForm">
+    <div>
+      <label for="title">Title</label>
+      <input
+        id="title"
+        formControlName="title"
+        type="text"
+        [value]="lesson?.title"
+      />
+    </div>
+    <div>
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        type="text"
+        form="editForm"
+        [value]="lesson?.description"
+      ></textarea>
+    </div>
+    <div>
+      <label for="quizId">Quiz</label>
+      <input
+        id="quizId"
+        formControlName="quizId"
+        type="number"
+        [value]="lesson?.quiz?.id"
+      />
+    </div>
+    <div>
+      <label for="fileTitle">File Title</label>
+      <input id="fileTitle" formControlName="fileTitle" type="text" />
+    </div>
+    <div>
+      <label for="file">File</label>
+      <input
+        id="file"
+        formControlName="file"
+        type="file"
+        (change)="onFileChange($event)"
+      />
+    </div>
+    <div>
+      <label for="videoTitle">Video Title</label>
+      <input id="videoTitle" formControlName="videoTitle" type="text" />
+    </div>
+    <div>
+      <label for="video">Video</label>
+      <input
+        id="video"
+        formControlName="video"
+        type="file"
+        (change)="onVideoChange($event)"
+      />
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</div>
