@@ -48,7 +48,6 @@ export class CourseComponent implements OnInit, OnDestroy {
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
         const category = this.route.snapshot.queryParams['category'];
-
         if (category) {
           this.router.navigate(['/courses'], {
             queryParams: { search: value, category: category },

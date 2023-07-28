@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { Lesson } from '../interfaces/lesson';
-import { Observable } from 'rxjs';
 import { LessonService } from '../services/lesson.service';
 import { ActivatedRoute } from '@angular/router';
-import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-lessons',

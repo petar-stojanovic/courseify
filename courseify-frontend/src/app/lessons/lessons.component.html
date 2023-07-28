@@ -8,11 +8,12 @@
         {{ lesson.description }}
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-video
+    <!-- <app-video
       [courseId]="lesson.course.id"
       [lessonId]="lesson.id"
       [videoTitle]="lesson.videoTitle"
-    ></app-video>
+    ></app-video> -->
+    <a routerLink="/course/{{ lesson.course.id }}/lessons/{{ lesson.id }}/video">{{lesson.videoTitle}}</a>
     <a routerLink="/course/{{ lesson.course.id }}/lessons/{{ lesson.id }}/edit"
       ><button mat-raised-button color="primary">Edit</button></a
     >

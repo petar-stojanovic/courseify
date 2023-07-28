@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { LessonService } from '../services/lesson.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { VgApiService } from '@videogular/ngx-videogular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Lesson } from '../interfaces/lesson';
 
 @Component({
   selector: 'app-video',
@@ -9,15 +11,17 @@ import { VgApiService } from '@videogular/ngx-videogular/core';
   styleUrls: ['./video.component.css'],
 })
 export class VideoComponent implements OnInit {
-  @Input() videoTitle = '';
-  @Input() courseId = 0;
-  @Input() lessonId = 0;
+  // @Input() videoTitle = '';
+  // @Input() courseId = 0;
+  // @Input() lessonId = 0;
 
   videoUrl?: SafeUrl | null = null;
+  lesson: Lesson | undefined;
 
   constructor(
     private lessonService: LessonService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -25,11 +29,18 @@ export class VideoComponent implements OnInit {
   }
 
   getVideo(): void {
+    const lessonId = this.route.snapshot.params["lessonId"] 
+    this.lessonService.getLessonById(+lessonId).subscribe((result) => {
+      this.lesson = result
+      console.log(this.lesson);
+      
+    })
+
     this.lessonService
       .getVideoByCourseIdAndLessonId(
-        this.videoTitle,
-        this.courseId,
-        this.lessonId
+        this.lesson!!.videoTitle,
+        this.lesson!!.course.id,
+        this.lesson!!.id
       )
       .subscribe(
         (response: any) => {
