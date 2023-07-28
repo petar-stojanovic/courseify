@@ -66,11 +66,13 @@ class CourseServiceImpl(
         val newCourseSlug = request.title.lowercase().replace(" ", "_")
         val newPath = root.resolve(newCourseSlug)
 
-        if (Files.exists(oldPath)) {
+        if (Files.exists(oldPath) && oldCourseSlug != newCourseSlug) {
             Files.delete(oldPath.resolve("thumbnail.jpeg"))
             Files.move(oldPath, oldPath.resolveSibling(newCourseSlug))
             File(oldPath.toString()).deleteRecursively()
-        } else {
+        } else if (Files.exists(oldPath)) {
+            Files.delete(oldPath.resolve("thumbnail.jpeg"))
+        }else{
             Files.createDirectories(newPath)
         }
 

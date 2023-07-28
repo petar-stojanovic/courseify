@@ -1,5 +1,6 @@
 package sorsix.project.courseify.api
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -18,7 +19,9 @@ class LessonController(val lessonRepository: LessonRepository, val lessonService
     fun getAllLessons(): List<Lesson> = lessonRepository.findAll()
 
     @GetMapping("/{id}")
-    fun getAllCourseLessons(@PathVariable id: Long): List<Lesson> = lessonRepository.findAllByCourseId(id)
+    fun getLesson(@PathVariable id: Long): ResponseEntity<*> = lessonRepository.findByIdOrNull(id)
+        ?.let { ResponseEntity.ok(it) }?: ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body("The lesson with id: $id could not be found!")
 
 
     @PostMapping("/save")

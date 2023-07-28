@@ -34,6 +34,6 @@ data class Lesson(
     @OneToOne
     @JoinColumn(name = "quiz_id")
     @JsonManagedReference
-    val quiz: Quiz
+    val quiz: Quiz?
 ) {
 }

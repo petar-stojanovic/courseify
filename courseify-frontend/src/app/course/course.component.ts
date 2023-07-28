@@ -3,7 +3,7 @@ import { Course } from '../interfaces/course';
 import { CourseService } from '../services/course.service';
 import { Observable, debounceTime, distinct, distinctUntilChanged } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
@@ -14,6 +14,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 export class CourseComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
   _mobileQueryListener: () => void;
+  searchQuery = '';
+  categoryQuery = '';
 
   searchControl = new FormControl();
   listCourses$: Observable<Course[] | undefined> =
@@ -23,7 +25,8 @@ export class CourseComponent implements OnInit, OnDestroy {
     private courseService: CourseService,
     private router: Router,
     changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher
+    media: MediaMatcher,
+    private route: ActivatedRoute
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -31,22 +34,35 @@ export class CourseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.searchQuery = params['search'] || null;
+      this.categoryQuery = params['category'] || null;
+      this.listCourses$ = this.courseService.getCourses(
+        this.searchQuery,
+        this.categoryQuery
+      );
+      this.searchControl.setValue(this.searchQuery);
+    });
+
     this.searchControl.valueChanges
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
-        this.listCourses$ = this.courseService.searchCourses(value);
+        const category = this.route.snapshot.queryParams['category'];
+
+        if (category) {
+          this.router.navigate(['/courses'], {
+            queryParams: { search: value, category: category },
+          });
+        } else {
+          this.router.navigate(['/courses'], {
+            queryParams: { search: value },
+          });
+        }
       });
-    this.getCategories();
-  }
-  
-  ngOnDestroy(): void {
-    this.mobileQuery?.removeListener(this._mobileQueryListener);
   }
 
-  getCategories() {
-    return this.courseService
-      .getCategories()
-      .subscribe((res) => console.log(res));
+  ngOnDestroy(): void {
+    this.mobileQuery?.removeListener(this._mobileQueryListener);
   }
 
   deleteCourse(id: number) {

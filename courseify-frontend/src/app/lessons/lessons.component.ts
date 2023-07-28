@@ -30,4 +30,8 @@ export class LessonsComponent {
       this.lessons = lessons;
     });
   }
+
+  deleteLesson(id: number){
+    this.lessonService.deleteLesson(id).subscribe()
+  }
 }
