@@ -8,17 +8,18 @@ import { AuthResponse } from '../authResponse';
   providedIn: 'root',
 })
 export class AuthService {
-  token?: string;
   username?: string;
 
   constructor(private router: Router, private http: HttpClient) {}
 
-  registerUser(firstName: string,
+  registerUser(
+    firstName: string,
     lastName: string,
     username: string,
     email: string,
     password: string,
-    confirmPassword: string) {
+    confirmPassword: string
+  ) {
     const body = {
       firstName,
       lastName,
@@ -28,9 +29,7 @@ export class AuthService {
       confirmPassword,
       role: 'USER',
     };
-    return this.http
-      .post<AuthResponse>(`/api/auth/register`, body)
-      
+    return this.http.post<AuthResponse>(`/api/auth/register`, body);
   }
 
   signinUser(username: string, password: string) {
@@ -38,29 +37,16 @@ export class AuthService {
       username: username,
       password: password,
     };
-    return this.http
-      .post<AuthResponse>(`/api/auth/authenticate`, body)
-      .subscribe((response) => {
-        localStorage.setItem('token', response['access_token']);
-        location.href = '/';
-      });
+    return this.http.post<AuthResponse>(`/api/auth/authenticate`, body);
   }
 
   logout() {
-    return this.http.post(`/api/auth/logout`, {})
-    // .subscribe(() => {
-    //   localStorage.removeItem('token');
-    //   // location.href = '/';
-    // });
+    return this.http.post(`/api/auth/logout`, {});
   }
 
-  // getToken() {
-  //   return this.token;
-  // }
-
-  // isAunthenticated() {
-  //   return this.token != null;
-  // }
+  isAunthenticated() {
+    return localStorage.getItem('token') != null;
+  }
 
   // getUserDetails() {
   //   return this.username;

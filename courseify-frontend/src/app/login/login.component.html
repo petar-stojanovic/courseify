@@ -23,6 +23,9 @@
                 placeholder="Username"
                 formControlName="username"
               />
+              <mat-error *ngIf="checkValidation('username')">
+                {{ fieldRequired }}
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field>
@@ -34,10 +37,22 @@
                 placeholder="Password"
                 formControlName="password"
               />
+              <mat-error *ngIf="checkValidation('password')">
+                {{ fieldRequired }}
+              </mat-error>
             </mat-form-field>
 
-            <br />
-            <button type="submit" mat-raised-button color="primary">
+            <!-- <br /> -->
+            <h2 *ngIf="invalidCredentials" class="invalidCredentials">
+              Invalid Credentials. Please Try Again
+            </h2>
+            <button
+              type="submit"
+              [disabled]="loginForm.invalid"
+              mat-raised-button
+              color="primary"
+              class="mt-1"
+            >
               LOGIN
             </button>
           </form>
