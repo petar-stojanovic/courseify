@@ -14,8 +14,9 @@ import { AuthService } from '../services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm: any;
-  fieldRequired: string = 'This field is required';
+  fieldRequired = 'This field is required';
   registerSucess = false;
+  
   constructor(private auth: AuthService) {}
 
   ngOnInit() {

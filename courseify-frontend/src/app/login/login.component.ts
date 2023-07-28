@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../services/auth.service';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,28 +15,41 @@ import {  Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm: any;
+  fieldRequired = 'This field is required';
+  invalidCredentials = false;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.createForm();
-    console.log(localStorage)
   }
 
   createForm() {
     this.loginForm = new FormGroup({
-      username: new FormControl(null),
-      password: new FormControl(null),
+      username: new FormControl(null, [Validators.required]),
+      password: new FormControl(null, [Validators.required]),
     });
   }
-  onSubmit(formData: FormGroup, loginDirective: FormGroupDirective) { 
+
+  checkValidation(input: string) {
+    const validation =
+      this.loginForm.get(input).invalid &&
+      (this.loginForm.get(input).dirty || this.loginForm.get(input).touched);
+    return validation;
+  }
+
+  onSubmit(formData: FormGroup, loginDirective: FormGroupDirective) {
     const username = formData.value.username;
     const password = formData.value.password;
-    this.authService.signinUser(username, password)
-    // .subscribe((res) => {
-    //   let jwtToken = res['access_token'];
-    //   localStorage.setItem('token', jwtToken);
-    //   console.log(localStorage);
-    //   this.router.navigateByUrl("")
-    // });
+    this.authService.signinUser(username, password).subscribe(
+      (response) => {
+        localStorage.setItem('token', response['access_token']);
+        location.href = '/';
+      },
+      (error) => {
+        // console.log("jkgdlakjsdfklasfksdasdfjk")
+        this.invalidCredentials = true;
+      }
+    );
   }
 }

@@ -30,7 +30,9 @@ data class SecurityConfiguration(
                     "/api/course",
                     "/api/course/**",
                     "/api/lesson",
-                    "/api/lesson/**")
+                    "/api/lesson/**",
+                    "/api/category",
+                    "/api/category/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated()

@@ -11,14 +11,14 @@ import { AuthService } from '../services/auth.service';
 export class HeaderComponent implements OnInit {
   isAuthenticated?: boolean;
 
-  constructor(private router: Router, private service: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.isAuthenticated = localStorage.getItem('token') != null;
+    this.isAuthenticated = this.authService.isAunthenticated();
   }
 
   logout() {
-    this.service.logout().subscribe(() => {
+    this.authService.logout().subscribe(() => {
       localStorage.removeItem('token');
       this.ngOnInit();
     });
