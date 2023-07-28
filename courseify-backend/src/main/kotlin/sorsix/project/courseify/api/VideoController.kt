@@ -26,7 +26,7 @@ class VideoController(
         val videoData = lessonService.getLessonVideoData(videoTitle,courseId,lessonId)
 
         val headers = HttpHeaders()
-        headers.setContentDispositionFormData("inline", "$videoTitle.mp4")
+        headers.setContentDispositionFormData("inline", "video.mp4")
         headers.contentType = MediaType.parseMediaType("video/mp4")
 
         return ResponseEntity(videoData, headers, HttpStatus.OK)

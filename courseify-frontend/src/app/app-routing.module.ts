@@ -6,6 +6,7 @@ import { LessonsComponent } from './lessons/lessons.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AddEditLessonComponent } from './add-edit-lesson/add-edit-lesson.component';
+import { VideoComponent } from './video/video.component';
 
 const routes: Routes = [
   { path: '', component: CourseComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
     component: AddEditLessonComponent,
   },
   { path: 'course/:courseId/lessons/add', component: AddEditLessonComponent },
+  {path: 'course/:courseId/lessons/:lessonId/video', component: VideoComponent}
 ];
 
 @NgModule({
