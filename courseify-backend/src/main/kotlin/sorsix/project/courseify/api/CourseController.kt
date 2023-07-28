@@ -1,7 +1,10 @@
 package sorsix.project.courseify.api
 
+import org.springframework.core.io.Resource
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import sorsix.project.courseify.api.request.CourseRequest
@@ -68,5 +71,19 @@ class CourseController(
         ?.let { ResponseEntity.ok(it) }
         ?: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The course with id: $id could not be found")
 
+
+    @GetMapping("/{id}/thumbnail")
+    fun getThumbnail(
+        @PathVariable id: Long
+    ): ResponseEntity<Resource> {
+
+        val thumbnailData = courseService.getThumbnail(id)
+
+        val headers = HttpHeaders()
+        headers.setContentDispositionFormData("inline", "thumbnail.jpeg")
+        headers.contentType = MediaType.parseMediaType("image/jpeg")
+
+        return ResponseEntity(thumbnailData, headers, HttpStatus.OK)
+    }
 
 }

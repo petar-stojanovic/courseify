@@ -47,12 +47,12 @@ class DataInitializer() {
     @PostConstruct
     fun init() {
         val user1 = RegisterRequest(
-            firstName = "petar",
-            lastName = "stojanovic",
+            firstName = "Petar",
+            lastName = "Stojanovic",
             email = "pepi@yahoo.com",
             password = "Test123!",
             confirmPassword = "Test123!",
-            username = "pepipepei",
+            username = "petar",
             role = Role.USER
         )
         val user2 = RegisterRequest(

@@ -1,10 +1,10 @@
+import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Course } from '../interfaces/course';
-import { CourseService } from '../services/course.service';
-import { Observable, debounceTime, distinct, distinctUntilChanged } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MediaMatcher } from '@angular/cdk/layout';
+import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Course } from '../interfaces/course';
+import { CourseService } from '../services/course.service';
 
 @Component({
   selector: 'app-course',
@@ -58,6 +58,10 @@ export class CourseComponent implements OnInit, OnDestroy {
           });
         }
       });
+
+    setTimeout(() => {
+      this.listCourses$.subscribe((res) => console.log(res));
+    }, 100);
   }
 
   ngOnDestroy(): void {

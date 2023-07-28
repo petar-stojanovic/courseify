@@ -1,5 +1,7 @@
 package sorsix.project.courseify.service.impl
 
+import org.springframework.core.io.ByteArrayResource
+import org.springframework.core.io.Resource
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.CourseRequest
@@ -93,5 +95,14 @@ class CourseServiceImpl(
             )
         )
     }
+
+    override fun getThumbnail(courseId: Long): Resource? {
+        val coursePath = courseRepository.findById(courseId).get().title.lowercase().replace(" ", "_")
+
+        val thumbnailPath = Paths.get("uploads/$coursePath/thumbnail.jpeg")
+
+        return ByteArrayResource(Files.readAllBytes(thumbnailPath))
+    }
+
 }
 

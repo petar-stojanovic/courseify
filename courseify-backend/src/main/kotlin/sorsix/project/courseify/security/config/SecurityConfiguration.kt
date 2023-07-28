@@ -32,7 +32,9 @@ data class SecurityConfiguration(
                     "/api/lesson",
                     "/api/lesson/**",
                     "/api/category",
-                    "/api/category/**")
+                    "/api/category/**",
+                    "/api/video",
+                    "/api/video/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated()

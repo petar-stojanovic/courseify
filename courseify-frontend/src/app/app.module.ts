@@ -31,6 +31,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import { AddEditLessonComponent } from './add-edit-lesson/add-edit-lesson.component';
+import { ThumbnailComponent } from './thumbnail/thumbnail.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { AddEditLessonComponent } from './add-edit-lesson/add-edit-lesson.compon
     AddEditCourseComponent,
     CategoriesComponent,
     AddEditLessonComponent,
+    ThumbnailComponent,
   ],
   imports: [
     BrowserModule,

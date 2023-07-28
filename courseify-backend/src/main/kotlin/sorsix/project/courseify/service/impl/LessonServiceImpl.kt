@@ -68,20 +68,18 @@ class LessonServiceImpl(
         )
     }
 
-    override fun getLessonVideoData(videoTitle: String, courseId: Long, lessonId: Long): Resource? {
-        val coursePath = courseRepository.findById(courseId).get().title.lowercase().replace(" ", "_")
-        val lesson = lessonRepository.findById(lessonId).get()
-        val lessonPath = lesson.title.lowercase().replace(" ", "_")
-        val videoExtension = lesson.videoUrl.substring(lesson.videoUrl.lastIndexOf(".") + 1)
-        val videoPath = Paths.get("uploads/$coursePath/$lessonPath/video.$videoExtension")
+    override fun getLessonVideo(lessonId: Long): Resource? {
+        lessonRepository.findByIdOrNull(lessonId)?.let {
 
-        /** Moze da se najde ss celosnu pateku pocnuvajkji od uploads/
-         * C:\Users\Petar\Desktop\courseify\courseify-backend\uploads\course_title\hello_world\testVideo.mkv
-         * da se zeme uploads\course_title\hello_world\testVideo.mkv
-         * takoj ne mora svi da bidev mp4
-         * */
-        return ByteArrayResource(Files.readAllBytes(videoPath))
+            val coursePath = it.course.title.lowercase().replace(" ","_")
+            val lessonPath = it.title.lowercase().replace(" ", "_")
+            val videoExtension = it.videoUrl.substring(it.videoUrl.lastIndexOf(".") + 1)
+            val videoPath = Paths.get("uploads/$coursePath/$lessonPath/video.$videoExtension")
 
+
+            return ByteArrayResource(Files.readAllBytes(videoPath))
+        }
+        return null
     }
 
     override fun delete(id: Long) {
