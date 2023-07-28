@@ -12,6 +12,6 @@ data class LessonRequest(
     val fileTitle: String,
     val file: MultipartFile,
     val courseId: Long,
-    val quizId: Long
+    val quizId: Long?
 ) {
 }

@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*
 import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.api.request.UserTakesCourseRequest
 import sorsix.project.courseify.domain.Course
+import sorsix.project.courseify.domain.Lesson
 import sorsix.project.courseify.domain.response.ResponseMessage
 import sorsix.project.courseify.repository.CourseRepository
+import sorsix.project.courseify.repository.LessonRepository
 import sorsix.project.courseify.repository.UserTakesCourseRepository
 import sorsix.project.courseify.service.definitions.CourseService
 import sorsix.project.courseify.service.definitions.UserTakesCourseService
@@ -19,18 +21,20 @@ class CourseController(
     val courseRepository: CourseRepository,
     val courseService: CourseService,
     val userTakesCourseService: UserTakesCourseService,
-    val userTakesCourseRepository: UserTakesCourseRepository
+    val userTakesCourseRepository: UserTakesCourseRepository,
+    val lessonRepository: LessonRepository
 ) {
 
     @GetMapping
     fun getAllCourses(@RequestParam search: String?, @RequestParam categoryName: String?): List<Course> = courseService.getCourses(search, categoryName)
 
     @GetMapping("/{id}")
-    fun getCourse(@PathVariable id: Long): ResponseEntity<*> = this.courseRepository.findByIdOrNull(id)
+    fun getCourse(@PathVariable id: Long): ResponseEntity<*> = courseRepository.findByIdOrNull(id)
         ?.let { ResponseEntity.ok(it) } ?: ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body("The course with id $id does not exist!")
 
-
+    @GetMapping("/{id}/lessons")
+    fun getCourseLessons(@PathVariable id: Long): List<Lesson> = lessonRepository.findAllByCourseId(id)
 
     @PostMapping("/save")
     fun saveLesson(@ModelAttribute request: CourseRequest): ResponseEntity<*> {

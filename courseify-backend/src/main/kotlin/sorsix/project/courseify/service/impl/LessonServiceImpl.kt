@@ -7,6 +7,7 @@ import org.springframework.http.server.PathContainer.PathSegment
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.LessonRequest
 import sorsix.project.courseify.domain.Lesson
+import sorsix.project.courseify.domain.Quiz
 import sorsix.project.courseify.repository.CourseRepository
 import sorsix.project.courseify.repository.LessonRepository
 import sorsix.project.courseify.repository.QuizRepository
@@ -57,7 +58,8 @@ class LessonServiceImpl(
             .toAbsolutePath().toString()
 
 
-        val quiz = quizRepository.findById(request.quizId).get()
+        val quiz = quizRepository.findByIdOrNull(request.quizId)
+
         return lessonRepository.save(
             Lesson(
                 0, request.title, request.description, request.videoTitle,
@@ -124,7 +126,7 @@ class LessonServiceImpl(
             .toAbsolutePath().toString()
 
 
-        val quiz = quizRepository.findById(request.quizId).get()
+        val quiz = quizRepository.findByIdOrNull(request.quizId)
         lessonRepository.save(
             Lesson(
                 id, request.title, request.description, request.videoTitle,

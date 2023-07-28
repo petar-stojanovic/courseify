@@ -5,13 +5,19 @@
     <mat-expansion-panel-header>
       <mat-panel-title>{{ lesson.title }}</mat-panel-title>
       <mat-panel-description>
-        {{lesson.description}}
+        {{ lesson.description }}
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-video 
+    <app-video
       [courseId]="lesson.course.id"
       [lessonId]="lesson.id"
       [videoTitle]="lesson.videoTitle"
     ></app-video>
+    <a routerLink="/course/{{ lesson.course.id }}/lessons/{{ lesson.id }}/edit"
+      ><button mat-raised-button color="primary">Edit</button></a
+    >
+    <button mat-raised-button color="primary" (click)="deleteLesson(lesson.id)">
+      Delete
+    </button>
   </mat-expansion-panel>
 </mat-accordion>
