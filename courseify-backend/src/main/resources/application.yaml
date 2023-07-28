@@ -9,12 +9,8 @@ spring:
       max-request-size: 100MB
   jpa:
     show-sql: true
-
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: https://dev-qhpq6har3ade18l7.us.auth0.com/
+    hibernate:
+      ddl-auto: create-drop
 
   application:
     security:

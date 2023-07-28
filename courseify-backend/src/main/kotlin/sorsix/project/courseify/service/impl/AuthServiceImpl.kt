@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.AuthenticationRequest
 import sorsix.project.courseify.api.request.RegisterRequest
 import sorsix.project.courseify.domain.User
+import sorsix.project.courseify.domain.exception.ExistingUsernameException
+import sorsix.project.courseify.domain.exception.PasswordsDoNotMatchException
 import sorsix.project.courseify.domain.response.AuthenticationResponse
 import sorsix.project.courseify.repository.UserRepository
 import sorsix.project.courseify.security.config.JwtService
@@ -30,6 +32,13 @@ class AuthServiceImpl(
 ) : AuthService {
 
     override fun register(request: RegisterRequest): AuthenticationResponse {
+        if (userRepository.existsByUsername(request.username) != null) {
+            throw ExistingUsernameException("Username already exists")
+        }
+        if (request.password != request.confirmPassword) {
+            throw PasswordsDoNotMatchException("Passwords do not match")
+        }
+
         val user = User(
             0,
             request.firstName,
@@ -142,7 +151,7 @@ class AuthServiceImpl(
             val user = userRepository.findByUsername(username) ?: throw AuthenticationException("User not found")
 
             if (jwtService.isTokenValid(token, user)) {
-                 revokeAllUserTokens(user)
+                revokeAllUserTokens(user)
             }
         }
     }
