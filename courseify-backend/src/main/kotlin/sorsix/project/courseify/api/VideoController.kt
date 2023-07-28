@@ -18,12 +18,10 @@ class VideoController(
 
     @GetMapping()
     fun serveVideo(
-        @RequestParam videoTitle: String,
-        @RequestParam courseId: Long,
         @RequestParam lessonId: Long
     ): ResponseEntity<Resource> {
 
-        val videoData = lessonService.getLessonVideoData(videoTitle,courseId,lessonId)
+        val videoData = lessonService.getLessonVideo(lessonId)
 
         val headers = HttpHeaders()
         headers.setContentDispositionFormData("inline", "video.mp4")

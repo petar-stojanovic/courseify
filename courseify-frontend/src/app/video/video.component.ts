@@ -29,18 +29,15 @@ export class VideoComponent implements OnInit {
   }
 
   getVideo(): void {
-    const lessonId = this.route.snapshot.params["lessonId"] 
+    const lessonId = this.route.snapshot.params['lessonId'];
     this.lessonService.getLessonById(+lessonId).subscribe((result) => {
-      this.lesson = result
+      this.lesson = result;
       console.log(this.lesson);
-      
-    })
+    });
 
     this.lessonService
-      .getVideoByCourseIdAndLessonId(
-        this.lesson!!.videoTitle,
-        this.lesson!!.course.id,
-        this.lesson!!.id
+      .getVideoByLessonId(
+        lessonId
       )
       .subscribe(
         (response: any) => {
@@ -54,5 +51,24 @@ export class VideoComponent implements OnInit {
           console.error('Error loading video:', error);
         }
       );
+
+    // this.lessonService
+    //   .getVideoByCourseIdAndLessonId(
+    //     this.lesson!!.videoTitle,
+    //     this.lesson!!.course.id,
+    //     this.lesson!!.id
+    //   )
+    //   .subscribe(
+    //     (response: any) => {
+    //       console.log(response);
+    //       const blob = new Blob([response], { type: 'video/mp4' });
+    //       this.videoUrl = this.sanitizer.bypassSecurityTrustUrl(
+    //         URL.createObjectURL(blob)
+    //       );
+    //     },
+    //     (error) => {
+    //       console.error('Error loading video:', error);
+    //     }
+    //   );
   }
 }

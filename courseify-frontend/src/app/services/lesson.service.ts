@@ -29,6 +29,17 @@ export class LessonService {
     });
   }
 
+  getVideoByLessonId(
+    lessonId: number
+  ): Observable<Blob> {
+    return this.http.get(`/api/video`, {
+      params: {
+        lessonId
+      },
+      responseType: 'blob',
+    });
+  }
+
   getLessonById(id: number): Observable<Lesson>{
     return this.http.get<Lesson>(`/api/lesson/${id}`)
   }
