@@ -21,8 +21,14 @@ create table course
     title       text not null,
     description text not null,
     thumbnail   text not null,
-    author_id   bigint references users,
-    category_id bigint references category
+    author_id   bigint references users
+);
+
+create table course_categories
+(
+    id          bigserial primary key,
+    course_id   bigint references course ON DELETE CASCADE,
+    category_id bigint references category ON DELETE SET NULL
 );
 
 create table lesson

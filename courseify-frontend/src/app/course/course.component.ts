@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Course } from '../interfaces/Course';
 import { CourseService } from '../services/course.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-course',
@@ -73,6 +74,11 @@ export class CourseComponent implements OnInit, OnDestroy {
   }
 
   enrollStudent(id: number) {
-    this.courseService.enrollUserToCourse(id)
+    this.courseService.enrollUserToCourse(id);
+  }
+
+  getDecodedAccessToken(): any {
+    let token = localStorage.getItem('token');
+    console.log(jwt_decode(token!!));
   }
 }

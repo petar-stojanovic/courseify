@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import sorsix.project.courseify.api.request.RegisterRequest
 import sorsix.project.courseify.domain.*
-import sorsix.project.courseify.repository.CategoryRepository
-import sorsix.project.courseify.repository.CourseRepository
-import sorsix.project.courseify.repository.LessonRepository
-import sorsix.project.courseify.repository.UserRepository
+import sorsix.project.courseify.repository.*
 import sorsix.project.courseify.service.definitions.AuthService
 import sorsix.project.courseify.service.definitions.QuestionService
 import sorsix.project.courseify.service.definitions.QuizService
@@ -38,7 +35,7 @@ class DataInitializer() {
     lateinit var lessonRepository: LessonRepository
 
     @Autowired
-    lateinit var quizService: QuizService
+    lateinit var courseCategoriesRepository: CourseCategoriesRepository
 
     @Autowired
     lateinit var questionService: QuestionService
@@ -71,8 +68,11 @@ class DataInitializer() {
 
         val category1 = Category(0, "Java Programming")
         val category2 = Category(0, "Python Programming")
+        val category3 = Category(0, "Spring Boot")
+
         categoryRepository.save(category1)
         categoryRepository.save(category2)
+        categoryRepository.save(category3)
 
         val course1 = Course(
             0,
@@ -80,7 +80,6 @@ class DataInitializer() {
             "Java Programming Course Description",
             "Thumbnail Java",
             author1!!,
-            category1,
         )
 
 
@@ -90,35 +89,43 @@ class DataInitializer() {
             "Python Programming Course For Beginners Description",
             "Thumbnail Python",
             author2!!,
-            category2,
         )
+
+        val courseCategories1 = CourseCategories(0, course1, category1)
+        val courseCategories2 = CourseCategories(0, course2, category2)
+        val courseCategories3 = CourseCategories(0, course2, category3)
 
         courseRepository.save(course1)
         courseRepository.save(course2)
 
+        courseCategoriesRepository.save(courseCategories1)
+        courseCategoriesRepository.save(courseCategories2)
+        courseCategoriesRepository.save(courseCategories3)
+
+
         val lesson1 = Lesson(
-            id= 0,
-            title= "Lesson Title",
-            description= "Lesson Description",
-            videoTitle= "Video Title",
-            videoUrl= "Video Url",
-            fileTitle= "File Title",
-            fileUrl= "File Url",
-            course= course1,
-            quiz= null
+            id = 0,
+            title = "Lesson Title",
+            description = "Lesson Description",
+            videoTitle = "Video Title",
+            videoUrl = "Video Url",
+            fileTitle = "File Title",
+            fileUrl = "File Url",
+            course = course1,
+            quiz = null
         )
 
 
         val lesson2 = Lesson(
-            id= 0,
-            title= "Lesson Title 2",
-            description= "Lesson Description 2",
-            videoTitle= "Video Title 2",
-            videoUrl= "Video Url 2",
-            fileTitle= "File Title 2",
-            fileUrl= "File Url 2",
-            course= course1,
-            quiz= null
+            id = 0,
+            title = "Lesson Title 2",
+            description = "Lesson Description 2",
+            videoTitle = "Video Title 2",
+            videoUrl = "Video Url 2",
+            fileTitle = "File Title 2",
+            fileUrl = "File Url 2",
+            course = course1,
+            quiz = null
         )
 
         lessonRepository.save(lesson1)

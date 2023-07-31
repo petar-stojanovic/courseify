@@ -5,7 +5,9 @@ import org.springframework.core.io.Resource
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.CourseRequest
+import sorsix.project.courseify.domain.Category
 import sorsix.project.courseify.domain.Course
+import sorsix.project.courseify.domain.CourseCategories
 import sorsix.project.courseify.repository.*
 import sorsix.project.courseify.service.definitions.CourseService
 import java.io.File
@@ -17,7 +19,8 @@ import java.nio.file.Paths
 class CourseServiceImpl(
     val courseRepository: CourseRepository,
     val userRepository: UserRepository,
-    val categoryRepository: CategoryRepository
+    val categoryRepository: CategoryRepository,
+    val courseCategoriesRepository: CourseCategoriesRepository
 ) : CourseService {
 
     private val root: Path = Paths.get("uploads")
@@ -30,14 +33,33 @@ class CourseServiceImpl(
         Files.copy(request.thumbnail.inputStream, pathToUpload.resolve("thumbnail.jpeg"))
 
         val user = userRepository.findById(request.authorId).get()
-        val category = categoryRepository.findById(request.categoryId).get()
+
+        /**
+         *   for each category save it if it doesn't exist
+         */
+        val requestCategories = request.categoryNames
+        requestCategories.forEach { category ->
+            categoryRepository.findByName(category) ?: categoryRepository.save(Category(0, category))
+        }
+
 
         val thumbnailPath = pathToUpload.resolve("thumbnail.jpeg").toAbsolutePath().toString()
 
+        val course = Course(
+            0, request.title, request.description, thumbnailPath, user
+        )
+
+        /**
+         *   for each category save it in course_categories
+         */
+
+        requestCategories.forEach {
+            val category = categoryRepository.findByName(it)
+            courseCategoriesRepository.save(CourseCategories(0, course, category!!))
+        }
+
         return courseRepository.save(
-            Course(
-                0, request.title, request.description, thumbnailPath, user, category
-            )
+            course
         )
 
     }
@@ -48,11 +70,15 @@ class CourseServiceImpl(
             val coursePath = course.title.lowercase().replace(" ", "_")
             File("uploads/$coursePath").deleteRecursively()
             courseRepository.delete(course)
+
+            val courseCategories = courseCategoriesRepository.findAllByCourse(course)
+            courseCategoriesRepository.deleteAll(courseCategories)
         }
     }
 
-    override fun getCourses(search: String?, categoryName: String?): List<Course> =
-        if (search != null && categoryName != null) {
+    override fun getCourses(search: String?, categoryName: String?): List<Course> {
+
+        return if (search != null && categoryName != null) {
             courseRepository.findAllByCategoryNameAndTitleContainingIgnoreCase(categoryName, search)
         } else if (search != null) {
             courseRepository.findAllByTitleContainingIgnoreCase(search)
@@ -61,6 +87,8 @@ class CourseServiceImpl(
         } else {
             courseRepository.findAll()
         }
+    }
+
 
     override fun editCourse(id: Long, request: CourseRequest) = courseRepository.findByIdOrNull(id)?.let {
         val oldCourseSlug = it.title.lowercase().replace(" ", "_")
@@ -74,7 +102,7 @@ class CourseServiceImpl(
             File(oldPath.toString()).deleteRecursively()
         } else if (Files.exists(oldPath)) {
             Files.delete(oldPath.resolve("thumbnail.jpeg"))
-        }else{
+        } else {
             Files.createDirectories(newPath)
         }
 
@@ -83,16 +111,36 @@ class CourseServiceImpl(
         val thumbnailPath = newPath.resolve("thumbnail.jpeg").toAbsolutePath().toString()
 
         val author = userRepository.findById(request.authorId).get()
-        val category = categoryRepository.findById(request.categoryId).get()
+
+
+        /**
+         *   for each category save it if it doesn't exist
+         */
+        val requestCategories = request.categoryNames
+        requestCategories.forEach { category ->
+            categoryRepository.findByName(category) ?: categoryRepository.save(Category(0, category))
+        }
+
+
+        val course =  Course(
+            id = id,
+            title = request.title,
+            description = request.description,
+            thumbnail = thumbnailPath,
+            author = author,
+        )
+        /**
+         *   delete the previous categories then for each category save it in course_categories
+         */
+        courseCategoriesRepository.deleteAll(courseCategoriesRepository.findAllByCourse(course))
+
+        requestCategories.forEach {
+            val category = categoryRepository.findByName(it)
+            courseCategoriesRepository.save(CourseCategories(0, course, category!!))
+        }
+
         courseRepository.save(
-            Course(
-                id = id,
-                title = request.title,
-                description = request.description,
-                thumbnail = thumbnailPath,
-                author = author,
-                category = category
-            )
+           course
         )
     }
 
