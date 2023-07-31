@@ -65,7 +65,7 @@ export class AddEditCourseComponent implements OnInit {
     formData.append('title', this.courseForm.get('title')?.value!!);
     formData.append('description', this.courseForm.get('description')?.value!!);
     formData.append('authorId', this.courseForm.get('authorId')?.value!!);
-    // formData.append('categoryId', this.courseForm.get('categoryId')?.value!!);
+    formData.append('categoryNames', this.courseForm.get('categoryId')?.value!!);
 
     if (this.isAddMode) {
       this.courseService

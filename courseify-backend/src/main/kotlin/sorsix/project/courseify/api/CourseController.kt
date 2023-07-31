@@ -1,5 +1,6 @@
 package sorsix.project.courseify.api
 
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.core.io.Resource
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpHeaders
@@ -11,7 +12,6 @@ import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.api.request.UserTakesCourseRequest
 import sorsix.project.courseify.domain.Course
 import sorsix.project.courseify.domain.Lesson
-import sorsix.project.courseify.domain.response.ResponseMessage
 import sorsix.project.courseify.repository.CourseRepository
 import sorsix.project.courseify.repository.LessonRepository
 import sorsix.project.courseify.repository.UserTakesCourseRepository
@@ -29,7 +29,8 @@ class CourseController(
 ) {
 
     @GetMapping
-    fun getAllCourses(@RequestParam search: String?, @RequestParam categoryName: String?): List<Course> = courseService.getCourses(search, categoryName)
+    fun getAllCourses(@RequestParam search: String?, @RequestParam categoryName: String?): List<Course> =
+        courseService.getCourses(search, categoryName)
 
     @GetMapping("/{id}")
     fun getCourse(@PathVariable id: Long): ResponseEntity<*> = courseRepository.findByIdOrNull(id)
@@ -40,8 +41,8 @@ class CourseController(
     fun getCourseLessons(@PathVariable id: Long): List<Lesson> = lessonRepository.findAllByCourseId(id)
 
     @PostMapping("/save")
-    fun saveLesson(@ModelAttribute request: CourseRequest): ResponseEntity<*> {
-        return courseService.saveCourse(request).let { ResponseEntity.ok(it) }
+    fun saveLesson(@ModelAttribute request: CourseRequest, req: HttpServletRequest): ResponseEntity<*> {
+        return courseService.saveCourse(request, req).let { ResponseEntity.ok(it) }
     }
 
     @DeleteMapping("/{id}")
@@ -61,8 +62,8 @@ class CourseController(
     }
 
     @PutMapping("/{id}")
-    fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest): ResponseEntity<*> {
-        return courseService.editCourse(id, request)?.let { ResponseEntity.ok(it) }
+    fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest, req: HttpServletRequest): ResponseEntity<*> {
+        return courseService.editCourse(id, request, req)?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course with id: $id could not br found")
     }
 

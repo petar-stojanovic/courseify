@@ -10,7 +10,6 @@ interface AuthService {
 
     fun register(request: RegisterRequest): AuthenticationResponse
 
-
     fun authenticate(request: AuthenticationRequest): AuthenticationResponse?
 
     fun refreshToken(request: HttpServletRequest, response: HttpServletResponse)

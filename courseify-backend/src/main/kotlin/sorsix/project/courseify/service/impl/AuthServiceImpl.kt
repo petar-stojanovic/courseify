@@ -99,20 +99,6 @@ class AuthServiceImpl(
             token.copy(revoked = true, expired = true)
         }
         tokenRepository.saveAll(modifiedTokens)
-
-        /**
-         * Github with var instead of val:
-         * private void revokeAllUserTokens(User user) {
-         *     var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-         *     if (validUserTokens.isEmpty())
-         *       return;
-         *     validUserTokens.forEach(token -> {
-         *       token.setExpired(true);
-         *       token.setRevoked(true);
-         *     });
-         *     tokenRepository.saveAll(validUserTokens);
-         *   }
-         */
     }
 
 
