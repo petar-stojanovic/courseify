@@ -32,15 +32,16 @@ export class AddEditCourseComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.isAddMode = !this.id;
-
+    
     if (!this.isAddMode && this.id) {
       this.courseService.getCourseById(+this.id).subscribe((result) => {
         this.course = result;
+        console.log(this.course)
         this.courseForm?.patchValue({
           title: this.course.title,
           description: this.course.description,
           authorId: this.course.author.id.toString(),
-          categoryId: this.course.category.id.toString(),
+          // categoryId: this.course.category.id.toString(),
         });
       });
     }
@@ -64,7 +65,7 @@ export class AddEditCourseComponent implements OnInit {
     formData.append('title', this.courseForm.get('title')?.value!!);
     formData.append('description', this.courseForm.get('description')?.value!!);
     formData.append('authorId', this.courseForm.get('authorId')?.value!!);
-    formData.append('categoryId', this.courseForm.get('categoryId')?.value!!);
+    // formData.append('categoryId', this.courseForm.get('categoryId')?.value!!);
 
     if (this.isAddMode) {
       this.courseService
