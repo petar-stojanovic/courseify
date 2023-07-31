@@ -1,100 +1,55 @@
-<h1 *ngIf="isAddMode">Add Lesson</h1>
-<h1 *ngIf="!isAddMode">Edit Lesson - {{ lesson?.title }}</h1>
+<h1 *ngIf="isAddMode" class="text-center">Add Lesson</h1>
+<h1 *ngIf="!isAddMode" class="text-center">
+  Edit Lesson - {{ lesson?.title }}
+</h1>
 
-<div *ngIf="isAddMode">
-  <form [formGroup]="lessonForm" (ngSubmit)="submit()" id="addForm">
-    <div>
-      <label for="title">Title</label>
-      <input id="title" formControlName="title" type="text" />
-    </div>
-    <div>
-      <label for="description">Description</label>
+<!-- <div *ngIf="isAddMode"> -->
+<div>
+  <form
+    [formGroup]="lessonForm"
+    (ngSubmit)="submit()"
+    id="addForm"
+    class="d-flex w-50 mx-auto flex-column"
+  >
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" type="text" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
       <textarea
-        id="description"
+        matInput
         formControlName="description"
         type="text"
         form="addForm"
       ></textarea>
-    </div>
-    <div>
-      <label for="quizId">Quiz</label>
-      <input id="quizId" formControlName="quizId" type="number" />
-    </div>
-    <div>
-      <label for="file">File</label>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Quiz Id</mat-label>
+      <input matInput formControlName="quizId" type="number" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>File Title</mat-label>
+      <input matInput formControlName="fileTitle" type="text" />
+    </mat-form-field>
+    <div class="mb-3">
       <input
-        id="file"
-        formControlName="file"
+        class="form-control"
         type="file"
+        formControlName="file"
         (change)="onFileChange($event)"
       />
     </div>
-    <div>
-      <label for="video">Video</label>
+    <mat-form-field>
+      <mat-label>Video Title</mat-label>
+      <input matInput formControlName="videoTitle" type="text" />
+    </mat-form-field>
+    <div class="mb-3">
       <input
-        id="video"
+        id="inputFile"
+        class="form-control"
+        type="file"
         formControlName="video"
-        type="file"
-        (change)="onVideoChange($event)"
-      />
-    </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
-  </form>
-</div>
-
-<div *ngIf="!isAddMode">
-  <form [formGroup]="lessonForm" (ngSubmit)="submit()" id="editForm">
-    <div>
-      <label for="title">Title</label>
-      <input
-        id="title"
-        formControlName="title"
-        type="text"
-        [value]="lesson?.title"
-      />
-    </div>
-    <div>
-      <label for="description">Description</label>
-      <textarea
-        id="description"
-        formControlName="description"
-        type="text"
-        form="editForm"
-        [value]="lesson?.description"
-      ></textarea>
-    </div>
-    <div>
-      <label for="quizId">Quiz</label>
-      <input
-        id="quizId"
-        formControlName="quizId"
-        type="number"
-        [value]="lesson?.quiz?.id"
-      />
-    </div>
-    <div>
-      <label for="fileTitle">File Title</label>
-      <input id="fileTitle" formControlName="fileTitle" type="text" />
-    </div>
-    <div>
-      <label for="file">File</label>
-      <input
-        id="file"
-        formControlName="file"
-        type="file"
-        (change)="onFileChange($event)"
-      />
-    </div>
-    <div>
-      <label for="videoTitle">Video Title</label>
-      <input id="videoTitle" formControlName="videoTitle" type="text" />
-    </div>
-    <div>
-      <label for="video">Video</label>
-      <input
-        id="video"
-        formControlName="video"
-        type="file"
         (change)="onVideoChange($event)"
       />
     </div>

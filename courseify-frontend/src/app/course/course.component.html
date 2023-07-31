@@ -53,3 +53,27 @@
     </mat-card-actions>
   </mat-card>
 </div>
+<mat-card class="example-card" *ngFor="let course of listCourses$ | async">
+  <app-thumbnail [courseId]="course.id"></app-thumbnail>
+  <mat-card-header>
+    <mat-card-title>{{ course.title }}</mat-card-title>
+    <mat-card-subtitle>
+      Learn Web Development with Easy Tutorials
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      {{ course.description }}
+    </p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <a routerLink="/course/{{ course.id }}/lessons"
+      ><button mat-raised-button color="primary">Preview</button></a
+    >
+    <button mat-raised-button color="primary" (click)="deleteCourse(course.id)">Delete</button>
+    <a routerLink="/course/{{course.id}}/edit"><button mat-raised-button color="primary">Edit</button></a>
+    <button mat-raised-button color="primary" (click)="enrollStudent(course.id)">Enroll</button>
+  </mat-card-actions>
+</mat-card>
+
