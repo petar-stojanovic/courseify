@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthResponse } from '../authResponse';
+import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +47,11 @@ export class AuthService {
 
   isAunthenticated() {
     return localStorage.getItem('token') != null;
+  }
+
+  getUserByToken(): Observable<User> {
+    const token = localStorage.getItem('token');
+    return this.http.get<User>(`/api/auth/user/${token}`);
   }
 
   // getUserDetails() {

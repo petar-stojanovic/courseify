@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Course } from '../interfaces/course';
+import { Course } from '../interfaces/Course';
 import { Observable } from 'rxjs';
-import { Lesson } from '../interfaces/lesson';
+import { Lesson } from '../interfaces/Lesson';
 
 @Injectable({
   providedIn: 'root',
@@ -29,31 +29,28 @@ export class LessonService {
     });
   }
 
-  getVideoByLessonId(
-    lessonId: number
-  ): Observable<Blob> {
+  getVideoByLessonId(lessonId: number): Observable<Blob> {
     return this.http.get(`/api/video`, {
       params: {
-        lessonId
+        lessonId,
       },
       responseType: 'blob',
     });
   }
 
-  getLessonById(id: number): Observable<Lesson>{
-    return this.http.get<Lesson>(`/api/lesson/${id}`)
+  getLessonById(id: number): Observable<Lesson> {
+    return this.http.get<Lesson>(`/api/lesson/${id}`);
   }
 
-  addLesson(data: FormData): Observable<Lesson>{
-    return this.http.post<Lesson>(`/api/lesson/save`, data)
+  addLesson(data: FormData): Observable<Lesson> {
+    return this.http.post<Lesson>(`/api/lesson/save`, data);
   }
 
-  editLesson(id: number, data: FormData): Observable<Lesson>{
-    return this.http.put<Lesson>(`/api/lesson/${id}`, data)
+  editLesson(id: number, data: FormData): Observable<Lesson> {
+    return this.http.put<Lesson>(`/api/lesson/${id}`, data);
   }
 
-  deleteLesson(id: number){
+  deleteLesson(id: number) {
     return this.http.delete<Lesson>(`/api/lesson/${id}`);
   }
-
 }

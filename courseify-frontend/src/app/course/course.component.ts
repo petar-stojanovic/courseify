@@ -3,8 +3,9 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
-import { Course } from '../interfaces/course';
+import { Course } from '../interfaces/Course';
 import { CourseService } from '../services/course.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-course',
@@ -58,10 +59,6 @@ export class CourseComponent implements OnInit, OnDestroy {
           });
         }
       });
-
-    setTimeout(() => {
-      this.listCourses$.subscribe((res) => console.log(res));
-    }, 100);
   }
 
   ngOnDestroy(): void {
@@ -74,5 +71,14 @@ export class CourseComponent implements OnInit, OnDestroy {
     this.courseService.deleteCourse(id).subscribe(() => {
       this.listCourses$ = this.courseService.getCourses();
     });
+  }
+
+  enrollStudent(id: number) {
+    this.courseService.enrollUserToCourse(id);
+  }
+
+  getDecodedAccessToken(): any {
+    let token = localStorage.getItem('token');
+    console.log(jwt_decode(token!!));
   }
 }

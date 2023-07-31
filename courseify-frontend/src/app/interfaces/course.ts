@@ -1,4 +1,4 @@
-import { Category } from "./category";
+import { Category } from './category';
 
 export interface Course {
   id: number;
@@ -8,8 +8,6 @@ export interface Course {
   category: Category;
   thumbnail: string;
 }
-
-
 
 interface Author {
   id: number;

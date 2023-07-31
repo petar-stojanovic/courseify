@@ -1,14 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
-import { Course } from '../interfaces/course';
+import { Observable, tap, mergeMap } from 'rxjs';
+import { Course } from '../interfaces/Course';
 import { Category } from '../interfaces/category';
+import { AuthService } from './auth.service';
+import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getCourses(search?: string, categoryName?: string): Observable<Course[]> {
     let queryParams = new HttpParams();
@@ -47,9 +49,28 @@ export class CourseService {
   getThumbnail(id: number): Observable<Blob> {
     return this.http.get(`/api/course/${id}/thumbnail`, {
       params: {
-        id
+        id,
       },
       responseType: 'blob',
     });
+  }
+
+  enrollUserToCourse(courseId: number){
+    if (this.authService.isAunthenticated()) {
+      const token = localStorage.getItem('token');
+      let body = null;
+
+      this.authService
+        .getUserByToken()
+        .pipe(
+          mergeMap((result) =>
+            this.http.post(`/api/course/enroll`, {
+              courseId: courseId,
+              userId: result.id,
+            })
+          )
+        ).subscribe(() => console.log("Successfully enrolled user")
+        );
+    }
   }
 }

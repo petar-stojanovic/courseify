@@ -1,38 +1,47 @@
-<h1 *ngIf="isAddMode">Add Course</h1>
+<h1 *ngIf="isAddMode" class="text-center display-1">Add Course</h1>
 <h1 *ngIf="!isAddMode">Edit Course - {{ course?.title }}</h1>
 
 <div *ngIf="isAddMode">
-  <form [formGroup]="courseForm" (ngSubmit)="submit()" id="addForm">
-    <div>
-      <label for="title">Title</label>
-      <input id="title" formControlName="title" type="text" />
-    </div>
-    <div>
-      <label for="description">Description</label>
+  <form
+    [formGroup]="courseForm"
+    (ngSubmit)="submit()"
+    id="addForm"
+    class="d-flex flex-column w-50 mx-auto"
+  >
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" type="text" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Description</mat-label>
       <textarea
-        id="description"
+        matInput
         formControlName="description"
         type="text"
         form="addForm"
       ></textarea>
-    </div>
-    <div>
-      <label for="authorId">Author</label>
-      <input id="authorId" formControlName="authorId" type="number" />
-    </div>
-    <div>
-      <label for="categoryId">Category</label>
-      <input id="categoryId" formControlName="categoryId" type="number" />
-    </div>
-    <div>
-      <label for="thumbnail"> File </label>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Author Id</mat-label>
+      <input matInput formControlName="authorId" type="number" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Category Id</mat-label>
+      <input matInput formControlName="categoryId" type="number" />
+    </mat-form-field>
+
+    <div class="mb-3">
       <input
-        id="thumbnail"
-        formControlName="thumbnail"
+        class="form-control"
         type="file"
+        formControlName="thumbnail"
         (change)="onFileChange($event)"
       />
     </div>
+
     <button class="btn btn-primary" type="submit">Submit</button>
   </form>
 </div>
