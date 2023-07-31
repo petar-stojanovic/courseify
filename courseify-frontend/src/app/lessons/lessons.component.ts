@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Lesson } from '../interfaces/Lesson';
 import { LessonService } from '../services/lesson.service';
 import { ActivatedRoute } from '@angular/router';
+import { Course } from '../interfaces/Course';
+import { CourseService } from '../services/course.service';
 
 @Component({
   selector: 'app-lessons',
@@ -9,13 +11,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./lessons.component.css'],
 })
 export class LessonsComponent {
-  courseId?: number;
+  course: Course | undefined;
   lessons: Lesson[] = [];
   panelOpenState = false;
+  @Input() user = null;
 
   constructor(
     private lessonService: LessonService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private courseService: CourseService
   ) {}
 
   ngOnInit(): void {
@@ -23,8 +27,9 @@ export class LessonsComponent {
   }
 
   getLessonsByCourseId(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.lessonService.getLessonsByCourseId(id).subscribe((lessons) => {
+    const courseId = Number(this.route.snapshot.paramMap.get('id'));
+    this.courseService.getCourseById(courseId).subscribe(result => this.course = result)
+    this.lessonService.getLessonsByCourseId(courseId).subscribe((lessons) => {
       this.lessons = lessons;
     });
   }
@@ -32,4 +37,11 @@ export class LessonsComponent {
   deleteLesson(id: number) {
     this.lessonService.deleteLesson(id).subscribe();
   }
+
+  openFile(fileUrl: string){
+    console.log(fileUrl);
+    
+    window.open(fileUrl, '_blank');
+  }
+
 }
