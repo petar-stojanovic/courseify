@@ -117,7 +117,6 @@ export class RegisterComponent implements OnInit {
         confirmPassword
       )
       .subscribe((response) => {
-        // localStorage.setItem('token', response['access_token']);
         this.registerSucess = true;
       });
     formDirective.resetForm();

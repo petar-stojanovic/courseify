@@ -1,5 +1,6 @@
 package sorsix.project.courseify.service.impl
 
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
 import org.springframework.data.repository.findByIdOrNull
@@ -8,7 +9,13 @@ import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.domain.Category
 import sorsix.project.courseify.domain.Course
 import sorsix.project.courseify.domain.CourseCategories
-import sorsix.project.courseify.repository.*
+import sorsix.project.courseify.domain.User
+import sorsix.project.courseify.domain.exception.UserNotFoundException
+import sorsix.project.courseify.repository.CategoryRepository
+import sorsix.project.courseify.repository.CourseCategoriesRepository
+import sorsix.project.courseify.repository.CourseRepository
+import sorsix.project.courseify.repository.UserRepository
+import sorsix.project.courseify.security.token.TokenRepository
 import sorsix.project.courseify.service.definitions.CourseService
 import java.io.File
 import java.nio.file.Files
@@ -20,11 +27,18 @@ class CourseServiceImpl(
     val courseRepository: CourseRepository,
     val userRepository: UserRepository,
     val categoryRepository: CategoryRepository,
-    val courseCategoriesRepository: CourseCategoriesRepository
+    val courseCategoriesRepository: CourseCategoriesRepository,
+    val tokenRepository: TokenRepository
 ) : CourseService {
 
+    fun getCurrentUser(request: HttpServletRequest): User {
+        val token = tokenRepository.findByToken(request.getHeader("Authorization").substring(7))
+            ?: throw UserNotFoundException("User not found")
+        return token.user
+    }
+
     private val root: Path = Paths.get("uploads")
-    override fun saveCourse(request: CourseRequest): Course {
+    override fun saveCourse(request: CourseRequest, req: HttpServletRequest): Course {
 
         val coursePathSlug = request.title.lowercase().replace(" ", "_")
 
@@ -32,7 +46,7 @@ class CourseServiceImpl(
 
         Files.copy(request.thumbnail.inputStream, pathToUpload.resolve("thumbnail.jpeg"))
 
-        val user = userRepository.findById(request.authorId).get()
+        val user = getCurrentUser(req)
 
         /**
          *   for each category save it if it doesn't exist
@@ -52,16 +66,14 @@ class CourseServiceImpl(
         /**
          *   for each category save it in course_categories
          */
+        courseRepository.save(course)
 
         requestCategories.forEach {
             val category = categoryRepository.findByName(it)
             courseCategoriesRepository.save(CourseCategories(0, course, category!!))
         }
 
-        return courseRepository.save(
-            course
-        )
-
+        return course
     }
 
     override fun deleteCourse(id: Long) {
@@ -69,10 +81,10 @@ class CourseServiceImpl(
             val course = this.courseRepository.findById(id).get()
             val coursePath = course.title.lowercase().replace(" ", "_")
             File("uploads/$coursePath").deleteRecursively()
-            courseRepository.delete(course)
-
             val courseCategories = courseCategoriesRepository.findAllByCourse(course)
             courseCategoriesRepository.deleteAll(courseCategories)
+            courseRepository.delete(course)
+
         }
     }
 
@@ -90,7 +102,7 @@ class CourseServiceImpl(
     }
 
 
-    override fun editCourse(id: Long, request: CourseRequest) = courseRepository.findByIdOrNull(id)?.let {
+    override fun editCourse(id: Long, request: CourseRequest, req:HttpServletRequest) = courseRepository.findByIdOrNull(id)?.let {
         val oldCourseSlug = it.title.lowercase().replace(" ", "_")
         val oldPath = root.resolve(oldCourseSlug)
         val newCourseSlug = request.title.lowercase().replace(" ", "_")
@@ -110,8 +122,7 @@ class CourseServiceImpl(
 
         val thumbnailPath = newPath.resolve("thumbnail.jpeg").toAbsolutePath().toString()
 
-        val author = userRepository.findById(request.authorId).get()
-
+        val author = getCurrentUser(req)
 
         /**
          *   for each category save it if it doesn't exist
@@ -122,7 +133,7 @@ class CourseServiceImpl(
         }
 
 
-        val course =  Course(
+        val course = Course(
             id = id,
             title = request.title,
             description = request.description,
@@ -140,7 +151,7 @@ class CourseServiceImpl(
         }
 
         courseRepository.save(
-           course
+            course
         )
     }
 
