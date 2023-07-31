@@ -7,4 +7,5 @@ import sorsix.project.courseify.domain.Category
 @Repository
 interface CategoryRepository : JpaRepository<Category, Long> {
 
+    fun findByName(name: String): Category?
 }

@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Course } from '../interfaces/course';
 import { CourseService } from '../services/course.service';
+import jwt_decode from 'jwt-decode';
+
 
 @Component({
   selector: 'app-course',
@@ -62,6 +64,8 @@ export class CourseComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.listCourses$.subscribe((res) => console.log(res));
     }, 100);
+
+    this.getDecodedAccessToken()
   }
 
   ngOnDestroy(): void {
@@ -74,5 +78,15 @@ export class CourseComponent implements OnInit, OnDestroy {
     this.courseService.deleteCourse(id).subscribe(() => {
       this.listCourses$ = this.courseService.getCourses();
     });
+  }
+
+  getDecodedAccessToken(): any {
+    let token = localStorage.getItem("token")
+    console.log(jwt_decode(token!!))
+    // try {
+    //   return jwt_decode(token);
+    // } catch(Error) {
+    //   return null;
+    // }
   }
 }
