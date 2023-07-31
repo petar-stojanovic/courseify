@@ -1,99 +1,75 @@
-<h1 *ngIf="isAddMode" class="text-center display-1">Add Course</h1>
-<h1 *ngIf="!isAddMode">Edit Course - {{ course?.title }}</h1>
+<div class="wrapper">
+  <div class="form-content">
+    <mat-toolbar
+      class="login-toolbar"
+      color="primary"
+      class="d-flex justify-evenly" 
+      ><div class="m-auto">
+        <span *ngIf="isAddMode">ADD COURSE</span>
+        <span *ngIf="!isAddMode">EDIT COURSE - {{ course?.title }}</span>
+      </div></mat-toolbar
+    >
+    <mat-card>
+      <form
+        [formGroup]="courseForm"
+        (ngSubmit)="submit()"
+        id="addForm"
+        class="d-flex flex-column mx-3 my-1"
+      >
+        <mat-form-field>
+          <mat-label>Title</mat-label>
+          <input matInput autofocus formControlName="title" type="text" />
 
-<div *ngIf="isAddMode">
-  <form
-    [formGroup]="courseForm"
-    (ngSubmit)="submit()"
-    id="addForm"
-    class="d-flex flex-column w-50 mx-auto"
-  >
-    <mat-form-field>
-      <mat-label>Title</mat-label>
-      <input matInput formControlName="title" type="text" />
-    </mat-form-field>
+          <!-- <mat-error *ngIf="checkValidation('username')">
+            {{ fieldRequired }}
+          </mat-error> -->
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <textarea
-        matInput
-        formControlName="description"
-        type="text"
-        form="addForm"
-      ></textarea>
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            type="text"
+            form="addForm"
+          ></textarea>
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Author Id</mat-label>
-      <input matInput formControlName="authorId" type="number" />
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Author Id</mat-label>
+          <input matInput formControlName="authorId" type="number" />
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Category Id</mat-label>
-      <input matInput formControlName="categoryId" type="number" />
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Categories</mat-label>
+          <input matInput formControlName="categoryId" type="text" />
+        </mat-form-field>
 
-    <div class="mb-3">
-      <input
-        class="form-control"
-        type="file"
-        formControlName="thumbnail"
-        (change)="onFileChange($event)"
-      />
-    </div>
+        <!-- <mat-form-field class="example-chip-list">
+          <mat-label>Categories</mat-label>
+          <mat-chip-grid  aria-label="Enter fruits">
+            <mat-chip-row>
+              <button matChipRemove [attr.aria-label]="'remove'">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input placeholder="Category name..." />
+          </mat-chip-grid>
+        </mat-form-field> -->
 
-    <button class="btn btn-primary" type="submit">Submit</button>
-  </form>
-</div>
+        <div class="mb-3 w-100">
+          <input
+            class="form-control"
+            type="file"
+            formControlName="thumbnail"
+            (change)="onFileChange($event)"
+          />
+        </div>
 
-<div *ngIf="!isAddMode">
-  <form [formGroup]="courseForm" (ngSubmit)="submit()" id="editForm">
-    <div>
-      <label for="title">Title</label>
-      <input
-        id="title"
-        formControlName="title"
-        type="text"
-        [value]="course?.title"
-      />
-    </div>
-    <div>
-      <label for="description">Description</label>
-      <textarea
-        id="description"
-        formControlName="description"
-        type="text"
-        form="editForm"
-        [value]="course?.description"
-      ></textarea>
-    </div>
-    <div>
-      <label for="authorId">Author</label>
-      <input
-        id="authorId"
-        formControlName="authorId"
-        type="number"
-        [value]="course?.author?.id"
-      />
-    </div>
-    <div>
-      <label for="categoryId">Category</label>
-      <input
-        id="categoryId"
-        formControlName="categoryId"
-        type="number"
-        [value]="course?.category?.id"
-      />
-    </div>
-    <div>
-      <label for="thumbnail"> File </label>
-      <input
-        id="thumbnail"
-        formControlName="thumbnail"
-        type="file"
-        (change)="onFileChange($event)"
-      />
-    </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
-  </form>
+        <button type="submit" mat-raised-button color="primary" class="mt-1">
+          Add Course
+        </button>
+      </form>
+    </mat-card>
+  </div>
 </div>
