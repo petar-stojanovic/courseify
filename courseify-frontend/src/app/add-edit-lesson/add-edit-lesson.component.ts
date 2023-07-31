@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Lesson } from '../interfaces/lesson';
+import { Lesson } from '../interfaces/Lesson';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LessonService } from '../services/lesson.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-add-edit-lesson',
   templateUrl: './add-edit-lesson.component.html',
-  styleUrls: ['./add-edit-lesson.component.css']
+  styleUrls: ['./add-edit-lesson.component.css'],
 })
 export class AddEditLessonComponent {
   lessonId: string | undefined;
@@ -25,7 +25,7 @@ export class AddEditLessonComponent {
     fileTitle: new FormControl('', [Validators.required]),
     video: new FormControl('', [Validators.required]),
     videoSource: new FormControl('', [Validators.required]),
-    videoTitle: new FormControl('', [Validators.required])
+    videoTitle: new FormControl('', [Validators.required]),
   });
 
   constructor(
@@ -40,9 +40,9 @@ export class AddEditLessonComponent {
     this.isAddMode = !this.lessonId;
 
     this.lessonForm?.patchValue({
-      courseId: this.courseId
-    })
-    
+      courseId: this.courseId,
+    });
+
     if (!this.isAddMode && this.lessonId) {
       this.lessonService.getLessonById(+this.lessonId).subscribe((result) => {
         this.lesson = result;
@@ -51,19 +51,18 @@ export class AddEditLessonComponent {
           description: this.lesson.description,
           quizId: this.lesson.quiz?.id.toString(),
           videoTitle: this.lesson.videoTitle,
-          fileTitle: this.lesson.fileTitle
-        })
+          fileTitle: this.lesson.fileTitle,
+        });
       });
     }
   }
-
 
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.lessonForm?.patchValue({
-        fileSource: file
-      })
+        fileSource: file,
+      });
     }
   }
 
@@ -71,8 +70,8 @@ export class AddEditLessonComponent {
     if (event.target.files.length > 0) {
       const video = event.target.files[0];
       this.lessonForm?.patchValue({
-        videoSource: video
-      })
+        videoSource: video,
+      });
     }
   }
 
@@ -87,14 +86,18 @@ export class AddEditLessonComponent {
     formData.append('quizId', this.lessonForm.get('quizId')?.value!!);
     formData.append('courseId', this.lessonForm.get('courseId')?.value!!);
 
-    if (this.isAddMode){
+    if (this.isAddMode) {
       this.lessonService
-      .addLesson(formData)
-      .subscribe(() => this.router.navigateByUrl(`/course/${this.courseId}/lessons`));
-    }else{
+        .addLesson(formData)
+        .subscribe(() =>
+          this.router.navigateByUrl(`/course/${this.courseId}/lessons`)
+        );
+    } else {
       this.lessonService
-      .editLesson(+this.lessonId!!, formData)
-      .subscribe(() => this.router.navigateByUrl(`/course/${this.courseId}/lessons`));
+        .editLesson(+this.lessonId!!, formData)
+        .subscribe(() =>
+          this.router.navigateByUrl(`/course/${this.courseId}/lessons`)
+        );
     }
   }
 }

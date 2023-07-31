@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
-import { Course } from '../interfaces/course';
+import { Course } from '../interfaces/Course';
 import { CourseService } from '../services/course.service';
 
 @Component({
@@ -58,10 +58,6 @@ export class CourseComponent implements OnInit, OnDestroy {
           });
         }
       });
-
-    setTimeout(() => {
-      this.listCourses$.subscribe((res) => console.log(res));
-    }, 100);
   }
 
   ngOnDestroy(): void {
@@ -74,5 +70,9 @@ export class CourseComponent implements OnInit, OnDestroy {
     this.courseService.deleteCourse(id).subscribe(() => {
       this.listCourses$ = this.courseService.getCourses();
     });
+  }
+
+  enrollStudent(id: number) {
+    this.courseService.enrollUserToCourse(id)
   }
 }

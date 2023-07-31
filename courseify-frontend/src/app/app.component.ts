@@ -19,6 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // localStorage.removeItem("token")
     console.log(localStorage);
   }
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Lesson } from '../interfaces/lesson';
+import { Lesson } from '../interfaces/Lesson';
 import { LessonService } from '../services/lesson.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -29,7 +29,7 @@ export class LessonsComponent {
     });
   }
 
-  deleteLesson(id: number){
-    this.lessonService.deleteLesson(id).subscribe()
+  deleteLesson(id: number) {
+    this.lessonService.deleteLesson(id).subscribe();
   }
 }

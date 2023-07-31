@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../services/course.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Course } from '../interfaces/course';
+import { Course } from '../interfaces/Course';
 
 @Component({
   selector: 'app-add-edit-course',
@@ -40,38 +40,40 @@ export class AddEditCourseComponent implements OnInit {
           title: this.course.title,
           description: this.course.description,
           authorId: this.course.author.id.toString(),
-          categoryId: this.course.category.id.toString()
-        })
+          categoryId: this.course.category.id.toString(),
+        });
       });
     }
   }
-
 
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.courseForm?.patchValue({
-        thumbnailSource: file
-      })
+        thumbnailSource: file,
+      });
     }
   }
 
   submit() {
     const formData = new FormData();
-    formData.append('thumbnail', this.courseForm.get('thumbnailSource')?.value!!);
+    formData.append(
+      'thumbnail',
+      this.courseForm.get('thumbnailSource')?.value!!
+    );
     formData.append('title', this.courseForm.get('title')?.value!!);
     formData.append('description', this.courseForm.get('description')?.value!!);
     formData.append('authorId', this.courseForm.get('authorId')?.value!!);
     formData.append('categoryId', this.courseForm.get('categoryId')?.value!!);
 
-    if (this.isAddMode){
+    if (this.isAddMode) {
       this.courseService
-      .addCourse(formData)
-      .subscribe(() => this.router.navigateByUrl('/'));
-    }else{
+        .addCourse(formData)
+        .subscribe(() => this.router.navigateByUrl('/'));
+    } else {
       this.courseService
-      .editCourse(this.course!!.id, formData)
-      .subscribe(() => this.router.navigateByUrl('/'));
+        .editCourse(this.course!!.id, formData)
+        .subscribe(() => this.router.navigateByUrl('/'));
     }
   }
 }

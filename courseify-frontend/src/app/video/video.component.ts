@@ -3,7 +3,7 @@ import { LessonService } from '../services/lesson.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { VgApiService } from '@videogular/ngx-videogular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Lesson } from '../interfaces/lesson';
+import { Lesson } from '../interfaces/Lesson';
 
 @Component({
   selector: 'app-video',
@@ -35,22 +35,18 @@ export class VideoComponent implements OnInit {
       console.log(this.lesson);
     });
 
-    this.lessonService
-      .getVideoByLessonId(
-        lessonId
-      )
-      .subscribe(
-        (response: any) => {
-          console.log(response);
-          const blob = new Blob([response], { type: 'video/mp4' });
-          this.videoUrl = this.sanitizer.bypassSecurityTrustUrl(
-            URL.createObjectURL(blob)
-          );
-        },
-        (error) => {
-          console.error('Error loading video:', error);
-        }
-      );
+    this.lessonService.getVideoByLessonId(lessonId).subscribe(
+      (response: any) => {
+        console.log(response);
+        const blob = new Blob([response], { type: 'video/mp4' });
+        this.videoUrl = this.sanitizer.bypassSecurityTrustUrl(
+          URL.createObjectURL(blob)
+        );
+      },
+      (error) => {
+        console.error('Error loading video:', error);
+      }
+    );
 
     // this.lessonService
     //   .getVideoByCourseIdAndLessonId(

@@ -27,5 +27,6 @@
     >
     <button mat-raised-button color="primary" (click)="deleteCourse(course.id)">Delete</button>
     <a routerLink="/course/{{course.id}}/edit"><button mat-raised-button color="primary">Edit</button></a>
+    <button mat-raised-button color="primary" (click)="enrollStudent(course.id)">Enroll</button>
   </mat-card-actions>
 </mat-card>
