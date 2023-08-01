@@ -12,4 +12,6 @@ interface LessonService {
     fun delete(id: Long)
 
     fun editLesson(id: Long, request: LessonRequest): Lesson?
+
+    fun getFile(lessonId: Long): Resource?
 }

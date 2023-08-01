@@ -1,9 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap, mergeMap } from 'rxjs';
-import { AuthService } from './auth.service';
+import { Observable, mergeMap } from 'rxjs';
 import { Course } from '../interfaces/Course';
-import { Category } from '../interfaces/Category';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +49,7 @@ export class CourseService {
     });
   }
 
-  enrollUserToCourse(courseId: number){
+  enrollUserToCourse(courseId: number) {
     if (this.authService.isAunthenticated()) {
       const token = localStorage.getItem('token');
       let body = null;
@@ -64,10 +63,16 @@ export class CourseService {
               userId: result.id,
             })
           )
-        ).subscribe(() => console.log("Successfully enrolled user")
-        );
+        )
+        .subscribe(() => console.log('Successfully enrolled user'));
     }
   }
 
+  getUserLearnCourses(id: number): Observable<Course[]> {
+    return this.http.get<Course[]>(`/api/user/${id}/learn`);
+  }
 
+  getUserCreatedCourses(id: number): Observable<Course[]> {
+    return this.http.get<Course[]>(`/api/user/${id}/created`);
+  }
 }

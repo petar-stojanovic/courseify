@@ -7,9 +7,12 @@
     <a routerLink="/course/add" mat-icon-button>
       <mat-icon>library_add</mat-icon>
     </a>
-    <button mat-icon-button>
-      <mat-icon>account_circle</mat-icon>
-    </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>account_circle</mat-icon></button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/user/{{ user?.id }}">Account Details</button>
+      <button mat-menu-item routerLink="/user/{{ user?.id }}/learn">My Learning</button>
+      <button mat-menu-item routerLink="/user/{{ user?.id }}/created">My Courses</button>
+    </mat-menu>
   </div>
   <div *ngIf="!isAuthenticated">
     <a routerLink="register">
