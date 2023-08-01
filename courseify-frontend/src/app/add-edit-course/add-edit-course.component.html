@@ -25,27 +25,56 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Author Id</mat-label>
-          <input matInput formControlName="authorId" type="number" />
-          <mat-error *ngIf="courseForm.get('authorId')?.hasError('required')">
-            Author Id is required
-          </mat-error>
+        <!-- 
+        <mat-form-field class="example-chip-list">
+          <mat-label>Categories</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Enter Categories">
+            <mat-chip-row *ngFor="let category of categoryList" (removed)="remove(category)" [editable]="true"
+              (edited)="edit(category, $event)" [aria-description]="'press enter to edit ' + category">
+              {{category}}
+              <button matChipRemove [attr.aria-label]="'remove ' + category">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input placeholder="New category..." [matChipInputFor]="chipGrid"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+              (matChipInputTokenEnd)="add($event)" />
+          </mat-chip-grid>
+        </mat-form-field> -->
+
+        <mat-form-field class="example-chip-list">
+          <mat-label>Categories</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Enter Categories">
+            <mat-chip-row *ngFor="let category of categoryList" (removed)="remove(category)">
+              {{category.name}}
+              <button matChipRemove [attr.aria-label]="'remove ' + category">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          </mat-chip-grid>
+          <input placeholder="New Category..." #categoryInput formControlName="categoryIds" [matChipInputFor]="chipGrid"
+            [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let category of filteredCategories" [value]="category.id">
+                {{category.name}}
+              </mat-option>
+            </mat-autocomplete>
+            
         </mat-form-field>
 
-        <mat-form-field>
+
+
+        <!-- <mat-form-field>
           <mat-label>Categories</mat-label>
           <input matInput formControlName="categoryId" type="text" />
           <mat-error *ngIf="courseForm.get('categoryId')?.hasError('required')">
             At least one category is required
           </mat-error>
-        </mat-form-field>
+        </mat-form-field> -->
 
-        
-
-          <div class="mb-3 w-100">
-            <input class="form-control" type="file" formControlName="thumbnail" (change)="onFileChange($event)" />
-          </div>
+        <div class="mb-3 w-100">
+          <input class="form-control" type="file" formControlName="thumbnail" (change)="onFileChange($event)" />
+        </div>
 
         <button type="submit" mat-raised-button color="primary" class="mt-1">
           ADD COURSE </button>

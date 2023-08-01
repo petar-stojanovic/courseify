@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { CourseService } from '../services/course.service';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Category } from '../interfaces/Category';
 import { Course } from '../interfaces/Course';
+import { CategoryService } from '../services/category.service';
+import { CourseService } from '../services/course.service';
 
 @Component({
   selector: 'app-add-edit-course',
@@ -13,12 +17,22 @@ export class AddEditCourseComponent implements OnInit {
   id: string | undefined;
   isAddMode: boolean = false;
   course: Course | undefined;
+  categoryList: Category[] = [];
+
+  allCategories: Category[] = [];
+  filteredCategories: Category[] = [];
+  @ViewChild('categoryInput') categoryInput:
+    | ElementRef<HTMLInputElement>
+    | undefined;
+
+  // @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement> ;
+
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
   courseForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    authorId: new FormControl('', [Validators.required]),
-    categoryId: new FormControl('', [Validators.required]),
+    categoryIds: new FormControl('', [Validators.required]),
     thumbnail: new FormControl('', [Validators.required]),
     thumbnailSource: new FormControl('', [Validators.required]),
   });
@@ -26,25 +40,38 @@ export class AddEditCourseComponent implements OnInit {
   constructor(
     private courseService: CourseService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.isAddMode = !this.id;
-    
+
     if (!this.isAddMode && this.id) {
       this.courseService.getCourseById(+this.id).subscribe((result) => {
         this.course = result;
-        console.log(this.course)
+        console.log(this.course);
         this.courseForm?.patchValue({
           title: this.course.title,
           description: this.course.description,
-          authorId: this.course.author.id.toString(),
-          // categoryId: this.course.category.id.toString(),
         });
       });
     }
+
+    this.getAllCategories();
+
+    this.courseForm
+      .get('categoryIds')
+      ?.valueChanges.subscribe((res: string | null) => {
+        this.filteredCategories = this._filter(res!!);
+      });
+  }
+
+  getAllCategories() {
+    this.categoryService
+      .getAllCategories()
+      .subscribe((res) => (this.allCategories = res));
   }
 
   onFileChange(event: any) {
@@ -64,8 +91,10 @@ export class AddEditCourseComponent implements OnInit {
     );
     formData.append('title', this.courseForm.get('title')?.value!!);
     formData.append('description', this.courseForm.get('description')?.value!!);
-    formData.append('authorId', this.courseForm.get('authorId')?.value!!);
-    formData.append('categoryNames', this.courseForm.get('categoryId')?.value!!);
+    const categoryListOfString = this.categoryList
+      .map((category) => category.id)
+      .join(', ');
+    formData.append('categoryIds', categoryListOfString);
 
     if (this.isAddMode) {
       this.courseService
@@ -76,5 +105,33 @@ export class AddEditCourseComponent implements OnInit {
         .editCourse(this.course!!.id, formData)
         .subscribe(() => this.router.navigateByUrl('/'));
     }
+  }
+
+  remove(category: Category): void {
+    const index = this.categoryList.indexOf(category);
+
+    if (index >= 0) {
+      this.categoryList.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.categoryList.push({
+      id: event.option.value,
+      name: event.option.viewValue,
+    });
+
+    this.categoryInput!!.nativeElement.value = '';
+  }
+
+  _filter(value: string): Category[] {
+    if (value) {
+      let filterValue = value.toString().toLowerCase();
+
+      return this.allCategories.filter((category) =>
+        category.name.toLowerCase().includes(filterValue)
+      );
+    }
+    return this.allCategories;
   }
 }

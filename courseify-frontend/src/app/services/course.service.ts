@@ -25,10 +25,6 @@ export class CourseService {
     return this.http.get<Course[]>(`/api/course`, { params: queryParams });
   }
 
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>('/api/category');
-  }
-
   deleteCourse(id: number): Observable<Course> {
     return this.http.delete<Course>(`/api/course/${id}`);
   }
@@ -72,4 +68,6 @@ export class CourseService {
         );
     }
   }
+
+
 }

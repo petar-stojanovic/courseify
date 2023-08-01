@@ -37,6 +37,7 @@ import {
   MatChipInputEvent,
   MatChipsModule,
 } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import {
     MatFormFieldModule,
     MatChipsModule,
     MatIconModule,
+    MatAutocompleteModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

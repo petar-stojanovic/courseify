@@ -7,6 +7,6 @@ data class CourseRequest(
     val thumbnail: MultipartFile,
     val description: String,
 //    val authorId: Long,
-    val categoryNames: List<String>
+    val categoryIds: String
 ) {
 }
