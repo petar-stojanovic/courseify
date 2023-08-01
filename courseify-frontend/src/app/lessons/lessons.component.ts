@@ -38,10 +38,11 @@ export class LessonsComponent {
     this.lessonService.deleteLesson(id).subscribe();
   }
 
-  openFile(fileUrl: string){
-    console.log(fileUrl);
-    
-    window.open(fileUrl, '_blank');
+  openFile(id: number){
+    this.lessonService.downloadPDF(id).subscribe(res => {
+      const fileURL = URL.createObjectURL(res);
+      window.open(fileURL, '_blank');
+    });
   }
 
 }

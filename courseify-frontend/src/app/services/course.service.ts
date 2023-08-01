@@ -72,4 +72,12 @@ export class CourseService {
         );
     }
   }
+
+  getUserLearnCourses(id: number): Observable<Course[]>{
+    return this.http.get<Course[]>(`/api/user/${id}/learn`)
+  }
+
+  getUserCreatedCourses(id: number): Observable<Course[]>{
+    return this.http.get<Course[]>(`/api/user/${id}/created`)
+  }
 }

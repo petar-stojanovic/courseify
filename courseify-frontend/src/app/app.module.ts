@@ -37,6 +37,9 @@ import {
   MatChipInputEvent,
   MatChipsModule,
 } from '@angular/material/chips';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import {MatMenuModule} from '@angular/material/menu';
+import { UserCoursesComponent } from './user-courses/user-courses.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,8 @@ import {
     CategoriesComponent,
     AddEditLessonComponent,
     ThumbnailComponent,
+    UserDetailsComponent,
+    UserCoursesComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +82,7 @@ import {
     MatFormFieldModule,
     MatChipsModule,
     MatIconModule,
+    MatMenuModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

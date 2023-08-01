@@ -1,0 +1,21 @@
+<p>
+  Username: <span>{{ user?.username }}</span>
+</p>
+<p>
+  Email: <span>{{ user?.email }}</span>
+</p>
+<p>
+  First Name: <span>{{ user?.firstName }}</span>
+</p>
+<p>
+  Last Name: <span>{{ user?.lastName }}</span>
+</p>
+<div *ngIf="changePassword">
+    <form [formGroup]="userForm" (submit)="submit()">
+        <input type="password" formControlName="password" placeholder="Password">
+        <input type="password" formControlName="confirmPassword" placeholder="Confirm Password">
+        <button type="submit">Submit</button>
+    </form>
+    
+</div>
+<a (click)="editMode()">Change Password</a>

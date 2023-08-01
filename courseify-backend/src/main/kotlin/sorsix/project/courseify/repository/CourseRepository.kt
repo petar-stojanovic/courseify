@@ -26,4 +26,6 @@ interface CourseRepository : JpaRepository<Course, Long> {
     )
     fun findAllByCategoryNameAndTitleContainingIgnoreCase(name: String, search: String): List<Course>
 
+    fun findAllByAuthorId(id: Long): List<Course>
+
 }
