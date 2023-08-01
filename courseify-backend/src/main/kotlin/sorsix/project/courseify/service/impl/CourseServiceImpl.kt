@@ -40,14 +40,6 @@ class CourseServiceImpl(
 
         Files.copy(request.thumbnail.inputStream, pathToUpload.resolve("thumbnail.jpeg"))
 
-        /**
-         *   for each category save it if it doesn't exist
-         */
-        val requestCategories = request.categoryNames
-        requestCategories.forEach { category ->
-            categoryRepository.findByName(category) ?: categoryRepository.save(Category(0, category))
-        }
-
 
         val thumbnailPath = pathToUpload.resolve("thumbnail.jpeg").toAbsolutePath().toString()
 
@@ -59,12 +51,14 @@ class CourseServiceImpl(
          *   for each category save it in course_categories
          */
         courseRepository.save(course)
+        val requestCategories = request.categoryIds.split(", ").toSet()
 
         requestCategories.forEach {
-            val category = categoryRepository.findByName(it)
-            courseCategoriesRepository.save(CourseCategories(0, course, category!!))
+            val cat = categoryRepository.findByIdOrNull(it.toLong())
+            if (cat != null) {
+                courseCategoriesRepository.save(CourseCategories(0, course, cat))
+            }
         }
-
         return course
     }
 
@@ -114,14 +108,6 @@ class CourseServiceImpl(
 
         val thumbnailPath = newPath.resolve("thumbnail.jpeg").toAbsolutePath().toString()
 
-        /**
-         *   for each category save it if it doesn't exist
-         */
-        val requestCategories = request.categoryNames
-        requestCategories.forEach { category ->
-            categoryRepository.findByName(category) ?: categoryRepository.save(Category(0, category))
-        }
-
 
         val course = Course(
             id = id,
@@ -135,9 +121,13 @@ class CourseServiceImpl(
          */
         courseCategoriesRepository.deleteAll(courseCategoriesRepository.findAllByCourse(course))
 
+        val requestCategories = request.categoryIds.split(", ").toSet()
+
         requestCategories.forEach {
-            val category = categoryRepository.findByName(it)
-            courseCategoriesRepository.save(CourseCategories(0, course, category!!))
+            val category = categoryRepository.findByIdOrNull(it.toLong())
+            if (category != null) {
+                courseCategoriesRepository.save(CourseCategories(0, course, category))
+            }
         }
 
         courseRepository.save(
