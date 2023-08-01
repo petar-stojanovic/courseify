@@ -28,25 +28,17 @@ class CourseServiceImpl(
     val userRepository: UserRepository,
     val categoryRepository: CategoryRepository,
     val courseCategoriesRepository: CourseCategoriesRepository,
-    val tokenRepository: TokenRepository
 ) : CourseService {
 
-    fun getCurrentUser(request: HttpServletRequest): User {
-        val token = tokenRepository.findByToken(request.getHeader("Authorization").substring(7))
-            ?: throw UserNotFoundException("User not found")
-        return token.user
-    }
 
     private val root: Path = Paths.get("uploads")
-    override fun saveCourse(request: CourseRequest, req: HttpServletRequest): Course {
+    override fun saveCourse(request: CourseRequest, user: User): Course {
 
         val coursePathSlug = request.title.lowercase().replace(" ", "_")
 
         val pathToUpload = Files.createDirectory(root.resolve(coursePathSlug))
 
         Files.copy(request.thumbnail.inputStream, pathToUpload.resolve("thumbnail.jpeg"))
-
-        val user = getCurrentUser(req)
 
         /**
          *   for each category save it if it doesn't exist
@@ -102,7 +94,7 @@ class CourseServiceImpl(
     }
 
 
-    override fun editCourse(id: Long, request: CourseRequest, req:HttpServletRequest) = courseRepository.findByIdOrNull(id)?.let {
+    override fun editCourse(id: Long, request: CourseRequest, user: User) = courseRepository.findByIdOrNull(id)?.let {
         val oldCourseSlug = it.title.lowercase().replace(" ", "_")
         val oldPath = root.resolve(oldCourseSlug)
         val newCourseSlug = request.title.lowercase().replace(" ", "_")
@@ -122,8 +114,6 @@ class CourseServiceImpl(
 
         val thumbnailPath = newPath.resolve("thumbnail.jpeg").toAbsolutePath().toString()
 
-        val author = getCurrentUser(req)
-
         /**
          *   for each category save it if it doesn't exist
          */
@@ -138,7 +128,7 @@ class CourseServiceImpl(
             title = request.title,
             description = request.description,
             thumbnail = thumbnailPath,
-            author = author,
+            author = user,
         )
         /**
          *   delete the previous categories then for each category save it in course_categories
