@@ -132,4 +132,14 @@ class LessonServiceImpl(
             )
         )
     }
+
+    override fun getFile(lessonId: Long): Resource? {
+        val lesson = lessonRepository.findById(lessonId).get()
+        val lessonPath = lesson.title.lowercase().replace(" ", "_")
+        val coursePath = courseRepository.findById(lesson.course.id).get().title.lowercase().replace(" ", "_")
+
+        val filePath = Paths.get("uploads/$coursePath/$lessonPath/file.pdf")
+
+        return ByteArrayResource(Files.readAllBytes(filePath))
+    }
 }

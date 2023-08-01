@@ -2,6 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { User } from '../interfaces/User';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +11,19 @@ import { AuthService } from '../services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated?: boolean;
+  user: User | undefined;
 
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.isAuthenticated = this.authService.isAunthenticated();
+    this.authService
+      .getUserByToken()
+      .subscribe((result) => {
+        this.user = result;
+        console.log(this.user);
+        
+      });
   }
 
   logout() {

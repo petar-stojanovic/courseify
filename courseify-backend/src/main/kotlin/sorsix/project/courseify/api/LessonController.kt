@@ -1,7 +1,10 @@
 package sorsix.project.courseify.api
 
+import org.springframework.core.io.Resource
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import sorsix.project.courseify.api.request.LessonRequest
@@ -36,6 +39,20 @@ class LessonController(val lessonRepository: LessonRepository, val lessonService
     fun editLesson(@PathVariable id: Long, @ModelAttribute request: LessonRequest): ResponseEntity<*>{
         return lessonService.editLesson(id, request)?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson with id: $id could not be found")
+    }
+
+    @GetMapping("/{id}/file")
+    fun getThumbnail(
+        @PathVariable id: Long
+    ): ResponseEntity<Resource> {
+
+        val thumbnailData = lessonService.getFile(id)
+
+        val headers = HttpHeaders()
+        headers.setContentDispositionFormData("inline", "file.pdf")
+        headers.contentType = MediaType.parseMediaType("application/pdf")
+
+        return ResponseEntity(thumbnailData, headers, HttpStatus.OK)
     }
 
 }

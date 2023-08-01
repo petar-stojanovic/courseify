@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Course } from '../interfaces/Course';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Lesson } from '../interfaces/Lesson';
 
 @Injectable({
@@ -53,4 +53,11 @@ export class LessonService {
   deleteLesson(id: number) {
     return this.http.delete<Lesson>(`/api/lesson/${id}`);
   }
+
+  downloadPDF(id: number): Observable<Blob> {
+    const options = { responseType: 'blob' as 'json' };
+    return this.http
+   .get<Blob>(`/api/lesson/${id}/file`, options)
+   .pipe(map(res => new Blob([res], { type: 'application/pdf' })));
+ }
 }
