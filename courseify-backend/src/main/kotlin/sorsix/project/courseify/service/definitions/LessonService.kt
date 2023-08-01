@@ -7,7 +7,7 @@ import sorsix.project.courseify.domain.Lesson
 interface LessonService {
     fun save(request: LessonRequest): Lesson
 
-    fun getLessonVideo(lessonId: Long): Resource?
+    fun getVideo(lessonId: Long): Resource?
 
     fun delete(id: Long)
 

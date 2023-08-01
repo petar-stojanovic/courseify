@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Course } from '../interfaces/Course';
 import { Observable, map } from 'rxjs';
 import { Lesson } from '../interfaces/Lesson';
 
@@ -30,10 +29,7 @@ export class LessonService {
   }
 
   getVideoByLessonId(lessonId: number): Observable<Blob> {
-    return this.http.get(`/api/video`, {
-      params: {
-        lessonId,
-      },
+    return this.http.get(`/api/lesson/${lessonId}/video`, {
       responseType: 'blob',
     });
   }
@@ -57,7 +53,7 @@ export class LessonService {
   downloadPDF(id: number): Observable<Blob> {
     const options = { responseType: 'blob' as 'json' };
     return this.http
-   .get<Blob>(`/api/lesson/${id}/file`, options)
-   .pipe(map(res => new Blob([res], { type: 'application/pdf' })));
- }
+      .get<Blob>(`/api/lesson/${id}/file`, options)
+      .pipe(map((res) => new Blob([res], { type: 'application/pdf' })));
+  }
 }
