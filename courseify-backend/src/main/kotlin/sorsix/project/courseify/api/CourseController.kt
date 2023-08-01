@@ -12,9 +12,12 @@ import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.api.request.UserTakesCourseRequest
 import sorsix.project.courseify.domain.Course
 import sorsix.project.courseify.domain.Lesson
+import sorsix.project.courseify.domain.User
+import sorsix.project.courseify.domain.exception.UserNotFoundException
 import sorsix.project.courseify.repository.CourseRepository
 import sorsix.project.courseify.repository.LessonRepository
 import sorsix.project.courseify.repository.UserTakesCourseRepository
+import sorsix.project.courseify.security.token.TokenRepository
 import sorsix.project.courseify.service.definitions.CourseService
 import sorsix.project.courseify.service.definitions.UserTakesCourseService
 
@@ -25,8 +28,17 @@ class CourseController(
     val courseService: CourseService,
     val userTakesCourseService: UserTakesCourseService,
     val userTakesCourseRepository: UserTakesCourseRepository,
-    val lessonRepository: LessonRepository
+    val lessonRepository: LessonRepository,
+    val tokenRepository: TokenRepository
 ) {
+
+
+    fun getCurrentUser(request: HttpServletRequest): User {
+        val token = tokenRepository.findByToken(request.getHeader("Authorization").substring(7))
+            ?: throw UserNotFoundException("User not found")
+        return token.user
+    }
+
 
     @GetMapping
     fun getAllCourses(@RequestParam search: String?, @RequestParam categoryName: String?): List<Course> =
@@ -42,7 +54,8 @@ class CourseController(
 
     @PostMapping("/save")
     fun saveLesson(@ModelAttribute request: CourseRequest, req: HttpServletRequest): ResponseEntity<*> {
-        return courseService.saveCourse(request, req).let { ResponseEntity.ok(it) }
+        val user = getCurrentUser(req)
+        return courseService.saveCourse(request, user).let { ResponseEntity.ok(it) }
     }
 
     @DeleteMapping("/{id}")
@@ -63,7 +76,8 @@ class CourseController(
 
     @PutMapping("/{id}")
     fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest, req: HttpServletRequest): ResponseEntity<*> {
-        return courseService.editCourse(id, request, req)?.let { ResponseEntity.ok(it) }
+        val user = getCurrentUser(req)
+        return courseService.editCourse(id, request, user)?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course with id: $id could not br found")
     }
 
