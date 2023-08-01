@@ -3,11 +3,9 @@ package sorsix.project.courseify.service.impl
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.http.server.PathContainer.PathSegment
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.LessonRequest
 import sorsix.project.courseify.domain.Lesson
-import sorsix.project.courseify.domain.Quiz
 import sorsix.project.courseify.repository.CourseRepository
 import sorsix.project.courseify.repository.LessonRepository
 import sorsix.project.courseify.repository.QuizRepository
@@ -68,19 +66,6 @@ class LessonServiceImpl(
         )
     }
 
-    override fun getLessonVideo(lessonId: Long): Resource? {
-        lessonRepository.findByIdOrNull(lessonId)?.let {
-
-            val coursePath = it.course.title.lowercase().replace(" ","_")
-            val lessonPath = it.title.lowercase().replace(" ", "_")
-            val videoExtension = it.videoUrl.substring(it.videoUrl.lastIndexOf(".") + 1)
-            val videoPath = Paths.get("uploads/$coursePath/$lessonPath/video.$videoExtension")
-
-
-            return ByteArrayResource(Files.readAllBytes(videoPath))
-        }
-        return null
-    }
 
     override fun delete(id: Long) {
         val lesson = this.lessonRepository.findById(id).get()
@@ -133,13 +118,25 @@ class LessonServiceImpl(
         )
     }
 
-    override fun getFile(lessonId: Long): Resource? {
-        val lesson = lessonRepository.findById(lessonId).get()
-        val lessonPath = lesson.title.lowercase().replace(" ", "_")
-        val coursePath = courseRepository.findById(lesson.course.id).get().title.lowercase().replace(" ", "_")
+    override fun getFile(lessonId: Long): Resource? = getResource(lessonId, "file")
 
-        val filePath = Paths.get("uploads/$coursePath/$lessonPath/file.pdf")
+    override fun getVideo(lessonId: Long): Resource? = getResource(lessonId, "video")
 
-        return ByteArrayResource(Files.readAllBytes(filePath))
-    }
+    private fun getResource(lessonId: Long, resourceType: String): Resource? =
+        lessonRepository.findByIdOrNull(lessonId)?.let {
+
+            val coursePath = it.course.title.lowercase().replace(" ", "_")
+            val lessonPath = it.title.lowercase().replace(" ", "_")
+
+            val ext = if (resourceType == "video") {
+                it.videoUrl
+            } else {
+                it.fileUrl
+            }
+
+            val extension = ext.substring(ext.lastIndexOf(".") + 1)
+            val filePath = Paths.get("uploads/$coursePath/$lessonPath/$resourceType.$extension")
+
+            return ByteArrayResource(Files.readAllBytes(filePath))
+        }
 }

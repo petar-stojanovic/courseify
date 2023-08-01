@@ -41,12 +41,26 @@ class LessonController(val lessonRepository: LessonRepository, val lessonService
             ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson with id: $id could not be found")
     }
 
-    @GetMapping("/{id}/file")
-    fun getThumbnail(
-        @PathVariable id: Long
+
+    @GetMapping("/{lessonId}/video")
+    fun getVideo(
+        @PathVariable lessonId: Long
     ): ResponseEntity<Resource> {
 
-        val thumbnailData = lessonService.getFile(id)
+        val thumbnailData = lessonService.getVideo(lessonId)
+
+        val headers = HttpHeaders()
+        headers.setContentDispositionFormData("inline", "video.mp4")
+        headers.contentType = MediaType.parseMediaType("video/mp4")
+
+        return ResponseEntity(thumbnailData, headers, HttpStatus.OK)
+    }
+    @GetMapping("/{lessonId}/file")
+    fun getFile(
+        @PathVariable lessonId: Long
+    ): ResponseEntity<Resource> {
+
+        val thumbnailData = lessonService.getFile(lessonId)
 
         val headers = HttpHeaders()
         headers.setContentDispositionFormData("inline", "file.pdf")
