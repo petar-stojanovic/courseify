@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./error.component.css']
 })
 export class ErrorComponent {
-  errorCode = 0;
+  errorCode = 404;
   defaultErrorMessage = 'Unknown error';
 
 
