@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./error.component.css']
 })
 export class ErrorComponent {
-  errorCode = 0;
+  errorCode = 404;
   defaultErrorMessage = 'Unknown error';
 
 
@@ -42,11 +42,11 @@ export class ErrorComponent {
     },
     500: {
       title: 'Internal Server Error',
-      description: 'The server encountered a situation it doesn\'t know how to handle, causing an internal error.'
+      description: 'The server encountered an unexpected error and was unable to complete your request. Please try again later.'
     },
     502: {
       title: 'Bad Gateway',
-      description: 'The server acting as a gateway or proxy received an invalid response from the upstream server.'
+      description: 'The server received an invalid response from another server. Please try again later.'
     },
     503: {
       title: 'Service Unavailable',
@@ -54,7 +54,7 @@ export class ErrorComponent {
     },
     504: {
       title: 'Gateway Timeout',
-      description: 'The server acting as a gateway or proxy did not receive a timely response from the upstream server.'
+      description: 'The server did not receive a timely response from another server. Please try again later. '
     },
   };
 

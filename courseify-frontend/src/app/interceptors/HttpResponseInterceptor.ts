@@ -19,10 +19,11 @@ export class HttpResponseInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 403) {
-          console.error('Forbidden: ', error.error.message);
-          this.router.navigate(['/error', error.status]);
-        }
+        // if (error.status === 403) {
+          // console.error('Forbidden: ', error.error.message);
+        // }
+        console.error('ERROR: ', error.error.message);
+        this.router.navigate(['/error', error.status]);
         return throwError(() => error);
       })
     );
