@@ -3,10 +3,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Category } from '../interfaces/Category';
-import { Course } from '../interfaces/Course';
-import { CategoryService } from '../services/category.service';
-import { CourseService } from '../services/course.service';
+import { Category } from '../../interfaces/Category';
+import { Course } from '../../interfaces/Course';
+import { CategoryService } from '../../services/category.service';
+import { CourseService } from '../../services/course.service';
 
 @Component({
   selector: 'app-add-edit-course',

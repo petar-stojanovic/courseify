@@ -12,6 +12,7 @@ import sorsix.project.courseify.domain.Lesson
 import sorsix.project.courseify.domain.response.ResponseMessage
 import sorsix.project.courseify.repository.LessonRepository
 import sorsix.project.courseify.service.definitions.LessonService
+import sorsix.project.courseify.service.impl.toSlug
 
 
 @RestController

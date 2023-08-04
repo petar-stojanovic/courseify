@@ -50,7 +50,7 @@ export class CourseService {
   }
 
   enrollUserToCourse(courseId: number) {
-    if (this.authService.isAunthenticated()) {
+    if (this.authService.isAuthenticated()) {
       const token = localStorage.getItem('token');
       let body = null;
 

@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
-import { CourseComponent } from './course/course.component';
-import { LessonsComponent } from './lessons/lessons.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { AddEditLessonComponent } from './add-edit-lesson/add-edit-lesson.component';
-import { VideoComponent } from './video/video.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
-import { UserCoursesComponent } from './user-courses/user-courses.component';
+import { AddEditCourseComponent } from './components/add-edit-course/add-edit-course.component';
+import { CourseComponent } from './components/course/course.component';
+import { LessonsComponent } from './components/lessons/lessons.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { AddEditLessonComponent } from './components/add-edit-lesson/add-edit-lesson.component';
+import { VideoComponent } from './components/video/video.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { UserCoursesComponent } from './components/user-courses/user-courses.component';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 const routes: Routes = [
   { path: '', component: CourseComponent },
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'user/:id', component: UserDetailsComponent },
   { path: 'user/:id/learn', component: UserCoursesComponent },
   { path: 'user/:id/created', component: UserCoursesComponent },
+  { path: 'forbidden/:code', component: ForbiddenComponent },
 ];
 
 @NgModule({

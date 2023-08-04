@@ -5,8 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { User } from '../interfaces/User';
-import { AuthService } from '../services/auth.service';
+import { User } from '../../interfaces/User';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-details',

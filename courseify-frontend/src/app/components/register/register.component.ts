@@ -6,7 +6,7 @@ import {
   FormGroupDirective,
   AbstractControl,
 } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
   registerForm: any;
   fieldRequired = 'This field is required';
   registerSucess = false;
-  
+
   constructor(private auth: AuthService) {}
 
   ngOnInit() {

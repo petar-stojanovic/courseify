@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { Lesson } from '../interfaces/Lesson';
-import { LessonService } from '../services/lesson.service';
+import { Lesson } from '../../interfaces/Lesson';
+import { LessonService } from '../../services/lesson.service';
 import { ActivatedRoute } from '@angular/router';
-import { Course } from '../interfaces/Course';
-import { CourseService } from '../services/course.service';
+import { Course } from '../../interfaces/Course';
+import { CourseService } from '../../services/course.service';
 
 @Component({
   selector: 'app-lessons',
@@ -28,7 +28,9 @@ export class LessonsComponent {
 
   getLessonsByCourseId(): void {
     const courseId = Number(this.route.snapshot.paramMap.get('id'));
-    this.courseService.getCourseById(courseId).subscribe(result => this.course = result)
+    this.courseService
+      .getCourseById(courseId)
+      .subscribe((result) => (this.course = result));
     this.lessonService.getLessonsByCourseId(courseId).subscribe((lessons) => {
       this.lessons = lessons;
     });
@@ -38,11 +40,10 @@ export class LessonsComponent {
     this.lessonService.deleteLesson(id).subscribe();
   }
 
-  openFile(id: number){
-    this.lessonService.downloadPDF(id).subscribe(res => {
+  openFile(id: number) {
+    this.lessonService.downloadPDF(id).subscribe((res) => {
       const fileURL = URL.createObjectURL(res);
       window.open(fileURL, '_blank');
     });
   }
-
 }
