@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Lesson } from '../interfaces/Lesson';
+import { Lesson } from '../../interfaces/Lesson';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LessonService } from '../services/lesson.service';
+import { LessonService } from '../../services/lesson.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

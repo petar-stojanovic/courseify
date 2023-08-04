@@ -1,0 +1,30 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card img {
+    background: #fafafa;
+}
+
+.mat-mdc-card {
+    --mdc-elevated-card-container-elevation: 0;
+    --mdc-outlined-card-container-elevation: 0;
+}
+
+.wrapper h1 {
+    margin: 1rem 0;
+    font-size: 3rem;
+    line-height: 3rem;
+    font-weight: 500;
+}
+
+.wrapper p {
+    font-size: 1.5rem;
+    max-width: 50ch;
+    text-align: center;
+}

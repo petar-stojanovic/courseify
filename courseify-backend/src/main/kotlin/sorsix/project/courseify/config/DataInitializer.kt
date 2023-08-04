@@ -46,7 +46,7 @@ class DataInitializer() {
         val user1 = RegisterRequest(
             firstName = "Petar",
             lastName = "Stojanovic",
-            email = "pepi@yahoo.com",
+            email = "petar@gmail.com",
             password = "Test123!",
             confirmPassword = "Test123!",
             username = "petar",

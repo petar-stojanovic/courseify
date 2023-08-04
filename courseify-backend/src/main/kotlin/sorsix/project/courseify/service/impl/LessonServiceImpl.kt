@@ -27,12 +27,10 @@ class LessonServiceImpl(
         val course = courseRepository.findById(request.courseId).get()
         val root: Path = Paths.get(
             "uploads/${
-                course.title.lowercase()
-                    .replace(" ", "_")
+                course.title.toSlug()
             }"
         )
-        val lessonTitleSlug = request.title.lowercase()
-            .replace(" ", "_")
+        val lessonTitleSlug = request.title.toSlug()
 
         val pathToUpload = Files.createDirectories(root.resolve(lessonTitleSlug))
 
@@ -69,8 +67,8 @@ class LessonServiceImpl(
 
     override fun delete(id: Long) {
         val lesson = this.lessonRepository.findById(id).get()
-        val lessonPath = lesson.title.lowercase().replace(" ", "_")
-        val coursePath = lesson.course.title.lowercase().replace(" ", "_")
+        val lessonPath = lesson.title.toSlug()
+        val coursePath = lesson.course.title.toSlug()
         File("uploads/$coursePath/$lessonPath").deleteRecursively()
 
         lessonRepository.delete(lesson)
@@ -80,12 +78,12 @@ class LessonServiceImpl(
 
         val course = courseRepository.findById(request.courseId).get()
 
-        val oldLessonSlug = it.title.lowercase().replace(" ", "_")
-        val courseSlug = course.title.lowercase().replace(" ", "_")
+        val oldLessonSlug = it.title.toSlug()
+        val courseSlug = course.title.toSlug()
         val oldPath = Paths.get("uploads/$courseSlug/$oldLessonSlug")
         File(oldPath.toString()).deleteRecursively()
 
-        val newLessonSlug = request.title.lowercase().replace(" ", "_")
+        val newLessonSlug = request.title.toSlug()
 
         val newPath = Files.createDirectories(Paths.get("uploads/$courseSlug/$newLessonSlug"))
 
@@ -125,8 +123,8 @@ class LessonServiceImpl(
     private fun getResource(lessonId: Long, resourceType: String): Resource? =
         lessonRepository.findByIdOrNull(lessonId)?.let {
 
-            val coursePath = it.course.title.lowercase().replace(" ", "_")
-            val lessonPath = it.title.lowercase().replace(" ", "_")
+            val coursePath = it.course.title.toSlug()
+            val lessonPath = it.title.toSlug()
 
             val ext = if (resourceType == "video") {
                 it.videoUrl

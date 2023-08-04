@@ -3,8 +3,8 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
-import { Course } from '../interfaces/Course';
-import { CourseService } from '../services/course.service';
+import { Course } from '../../interfaces/Course';
+import { CourseService } from '../../services/course.service';
 import jwt_decode from 'jwt-decode';
 
 @Component({

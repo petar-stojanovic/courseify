@@ -1,8 +1,8 @@
-import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthResponse } from '../authResponse';
+import { AuthResponse } from '../interfaces/AuthResponse';
 import { User } from '../interfaces/User';
 
 @Injectable({
@@ -45,13 +45,17 @@ export class AuthService {
     return this.http.post(`/api/auth/logout`, {});
   }
 
-  isAunthenticated() {
+  isAuthenticated() {
     return localStorage.getItem('token') != null;
   }
 
   getUserByToken(): Observable<User> {
     const token = localStorage.getItem('token');
     return this.http.get<User>(`/api/auth/user/${token}`);
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
   }
 
   // getUserDetails() {
