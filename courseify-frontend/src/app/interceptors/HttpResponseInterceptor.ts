@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Route, Router, Routes } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -23,7 +23,7 @@ export class HttpResponseInterceptor implements HttpInterceptor {
           console.error('Forbidden: ', error.error.message);
           this.router.navigate(['/error', error.status]);
         }
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }

@@ -9,10 +9,7 @@ import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.domain.Course
 import sorsix.project.courseify.domain.CourseCategories
 import sorsix.project.courseify.domain.User
-import sorsix.project.courseify.repository.CategoryRepository
-import sorsix.project.courseify.repository.CourseCategoriesRepository
-import sorsix.project.courseify.repository.CourseRepository
-import sorsix.project.courseify.repository.UserRepository
+import sorsix.project.courseify.repository.*
 import sorsix.project.courseify.service.definitions.CourseService
 import java.io.File
 import java.nio.file.Files
@@ -25,6 +22,7 @@ class CourseServiceImpl(
     val userRepository: UserRepository,
     val categoryRepository: CategoryRepository,
     val courseCategoriesRepository: CourseCategoriesRepository,
+    val lessonRepository: LessonRepository
 ) : CourseService {
 
 
@@ -66,6 +64,8 @@ class CourseServiceImpl(
             File("$root/$coursePath").deleteRecursively()
             val courseCategories = courseCategoriesRepository.findAllByCourse(course)
             courseCategoriesRepository.deleteAll(courseCategories)
+            val lessons = lessonRepository.findAllByCourseId(course.id)
+            lessonRepository.deleteAll(lessons)
             courseRepository.delete(course)
         }
     }
