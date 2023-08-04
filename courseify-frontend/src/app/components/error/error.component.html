@@ -4,6 +4,6 @@
         <img mat-card-xl-image src="/assets/img/error.png" />
     </mat-card>
 
-    <h1>Error {{ errorCode }}: {{ errorMessages[errorCode].title }}</h1>
-    <p>{{ errorMessages[errorCode].description }}</p>
+    <h1>Error {{ errorCode }}: {{ getErrorMessage("title") }}</h1>
+    <p>{{ getErrorMessage("description") }}</p>
 </div>

@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-forbidden',
-  templateUrl: './forbidden.component.html',
-  styleUrls: ['./forbidden.component.css']
+  selector: 'app-error',
+  templateUrl: './error.component.html',
+  styleUrls: ['./error.component.css']
 })
-export class ForbiddenComponent {
+export class ErrorComponent {
   errorCode = 0;
+  defaultErrorMessage = 'Unknown error';
+
 
   errorMessages: { [code: number]: { title: string, description: string } } = {
     400: {
@@ -55,12 +57,21 @@ export class ForbiddenComponent {
       description: 'The server acting as a gateway or proxy did not receive a timely response from the upstream server.'
     },
   };
-  
-  
 
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
       this.errorCode = +params['code']; // Get the error code from route parameters
     });
+
+    if (isNaN(this.errorCode)) {
+      this.errorCode = 404;
+    }
+  }
+
+  getErrorMessage(property: 'title' | 'description'): string {
+    if (this.errorCode in this.errorMessages) {
+      return this.errorMessages[this.errorCode][property];
+    }
+    return this.defaultErrorMessage;
   }
 }

@@ -20,12 +20,8 @@ export class HttpResponseInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 403) {
-          // Handle unauthorized error here
-          // You can show an error message to the user or redirect to a login page
           console.error('Forbidden: ', error.error.message);
-          // For example, redirect to the login page:
-          // window.location.href = '/forbidden';
-          this.router.navigate(['/forbidden',error.status]);
+          this.router.navigate(['/error', error.status]);
         }
         return throwError(error);
       })

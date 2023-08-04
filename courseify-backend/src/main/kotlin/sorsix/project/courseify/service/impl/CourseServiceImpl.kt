@@ -1,6 +1,7 @@
 package sorsix.project.courseify.service.impl
 
 import org.springframework.core.io.ByteArrayResource
+import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.Resource
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -135,6 +136,12 @@ class CourseServiceImpl(
 
         val thumbnailPath = Paths.get("uploads/$coursePath/thumbnail.jpeg")
 
+        try {
+            Files.readAllBytes(thumbnailPath)
+        } catch (_: Exception) {
+            val defaultImagePath = ClassPathResource("/img/default.png")
+            return ByteArrayResource(defaultImagePath.inputStream.readAllBytes())
+        }
         return ByteArrayResource(Files.readAllBytes(thumbnailPath))
     }
 

@@ -22,13 +22,13 @@ import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgCoreModule } from '@videogular/ngx-videogular/core';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
-import { AuthInterceptor } from './interceptors/AuthInterceptor';
-import { AddEditCourseComponent } from './components/add-edit-course/add-edit-course.component';
-import { AddEditLessonComponent } from './components/add-edit-lesson/add-edit-lesson.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AddEditCourseComponent } from './components/add-edit-course/add-edit-course.component';
+import { AddEditLessonComponent } from './components/add-edit-lesson/add-edit-lesson.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { CourseComponent } from './components/course/course.component';
+import { ErrorComponent } from './components/error/error.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LessonsComponent } from './components/lessons/lessons.component';
 import { LoginComponent } from './components/login/login.component';
@@ -37,8 +37,8 @@ import { ThumbnailComponent } from './components/thumbnail/thumbnail.component';
 import { UserCoursesComponent } from './components/user-courses/user-courses.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { VideoComponent } from './components/video/video.component';
+import { AuthInterceptor } from './interceptors/AuthInterceptor';
 import { HttpResponseInterceptor } from './interceptors/HttpResponseInterceptor';
-import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,7 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
     ThumbnailComponent,
     UserDetailsComponent,
     UserCoursesComponent,
-    ForbiddenComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
