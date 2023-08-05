@@ -1,8 +1,7 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Route, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 import { User } from '../../interfaces/User';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -19,21 +18,14 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
 
     if(this.isAuthenticated){
-      this.authService.getUserByToken().subscribe((result) => {
-        this.user = result;
-        console.log(this.user);
-      });
+      this.user = this.authService.getLoggedInUser()!!
     }
   }
 
   logout() {
     this.authService.logout().subscribe(() => {
-      localStorage.removeItem('token');
-      this.ngOnInit();
+      this.isAuthenticated = false
     });
   }
 
-  encodeUserJson(user: User): string {
-    return encodeURIComponent(JSON.stringify(user));
-  }
 }

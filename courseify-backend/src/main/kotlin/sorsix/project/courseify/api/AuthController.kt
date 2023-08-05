@@ -4,19 +4,12 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import sorsix.project.courseify.api.request.AuthenticationRequest
 import sorsix.project.courseify.api.request.RegisterRequest
-import sorsix.project.courseify.domain.User
 import sorsix.project.courseify.domain.response.AuthenticationResponse
+import sorsix.project.courseify.domain.response.UserResponse
 import sorsix.project.courseify.repository.UserRepository
-import sorsix.project.courseify.security.token.TokenRepository
 import sorsix.project.courseify.service.definitions.AuthService
 
 
@@ -32,9 +25,9 @@ class AuthController(val authService: AuthService, val userRepository: UserRepos
     fun authenticate(
         @RequestBody request: AuthenticationRequest
     ): ResponseEntity<*> {
-        return authService.authenticate(request)?.let{
+        return authService.authenticate(request)?.let {
             ResponseEntity.ok(it)
-        }?: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed")
+        } ?: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed")
     }
 
     @PostMapping("/refresh-token")
@@ -57,5 +50,8 @@ class AuthController(val authService: AuthService, val userRepository: UserRepos
     }
 
     @GetMapping("/user/{token}")
-    fun getUserByToken(@PathVariable token: String): User = userRepository.findUserByToken(token)
+    fun getUserByToken(@PathVariable token: String): UserResponse {
+        val user = userRepository.findUserByToken(token)
+        return UserResponse(user.id, user.email, user.firstName, user.lastName, user.username)
+    }
 }

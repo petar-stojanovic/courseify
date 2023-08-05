@@ -41,13 +41,11 @@ export class LoginComponent implements OnInit {
   onSubmit(formData: FormGroup, loginDirective: FormGroupDirective) {
     const username = formData.value.username;
     const password = formData.value.password;
-    this.authService.signinUser(username, password).subscribe(
+    this.authService.signInUser(username, password).subscribe(
       (response) => {
-        localStorage.setItem('token', response['access_token']);
         location.href = '/';
       },
       (error) => {
-        // console.log("jkgdlakjsdfklasfksdasdfjk")
         this.invalidCredentials = true;
       }
     );

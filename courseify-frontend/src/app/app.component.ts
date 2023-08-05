@@ -1,6 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { User } from './interfaces/User';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -8,11 +7,15 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   mobileQuery: MediaQueryList;
   _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private authService: AuthService) {
+  constructor(
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher,
+    private authService: AuthService
+  ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -20,10 +23,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // localStorage.removeItem("token")
+    this.authService.loadCachedUser();
     console.log(localStorage);
   }
 
-  ngOnDestroy(): void {
-    this.mobileQuery?.removeListener(this._mobileQueryListener);
-  }
 }

@@ -14,7 +14,7 @@
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['/user', encodeUserJson(user!!)]">
+      <button mat-menu-item routerLink="/user">
         Account Details
       </button>
       <button mat-menu-item routerLink="/user/{{ user?.id }}/learn">

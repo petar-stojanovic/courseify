@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './AuthGuard';
 import { AddEditCourseComponent } from './components/add-edit-course/add-edit-course.component';
 import { AddEditLessonComponent } from './components/add-edit-lesson/add-edit-lesson.component';
 import { CourseComponent } from './components/course/course.component';
@@ -10,7 +11,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { UserCoursesComponent } from './components/user-courses/user-courses.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { VideoComponent } from './components/video/video.component';
-import { AuthGuard } from './AuthGuard';
 
 const routes: Routes = [
   { path: '', component: CourseComponent },
@@ -44,7 +44,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'user/:userJson',
+    path: 'user',
     component: UserDetailsComponent,
     canActivate: [AuthGuard],
   },
