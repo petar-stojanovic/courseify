@@ -19,7 +19,6 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
 
     if(this.isAuthenticated){
-
       this.authService.getUserByToken().subscribe((result) => {
         this.user = result;
         console.log(this.user);
@@ -32,5 +31,9 @@ export class HeaderComponent implements OnInit {
       localStorage.removeItem('token');
       this.ngOnInit();
     });
+  }
+
+  encodeUserJson(user: User): string {
+    return encodeURIComponent(JSON.stringify(user));
   }
 }

@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { User } from '../../interfaces/User';
 import { AuthService } from '../../services/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-details',
@@ -14,19 +15,28 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./user-details.component.css'],
 })
 export class UserDetailsComponent implements OnInit {
-  user: User | undefined;
+  user?: User;
   changePassword: boolean = false;
+  isAuthenticated?: boolean;
+
   userForm = new FormGroup({
     password: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required]),
   });
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.authService.getUserByToken().subscribe((result) => {
-      this.user = result;
-    });
+    console.log(this.user);
+    // this.isAuthenticated = this.authService.isAuthenticated();
+
+    // this.authService.getUserByToken().subscribe((result) => {
+    //   this.user = result;
+    // });
+
+    const userJson = this.route.snapshot.paramMap.get('userJson');
+    this.user = JSON.parse(decodeURIComponent(userJson!!));
+
   }
 
   editMode() {
