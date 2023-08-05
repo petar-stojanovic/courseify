@@ -23,7 +23,7 @@ export class HttpResponseInterceptor implements HttpInterceptor {
           // console.error('Forbidden: ', error.error.message);
         // }
         console.error('ERROR: ', error.error.message);
-        this.router.navigate(['/error', error.status]);
+        // this.router.navigate(['/error', error.status]);
         return throwError(() => error);
       })
     );

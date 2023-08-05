@@ -104,7 +104,6 @@ class CourseServiceImpl(
 
         val thumbnailPath = newPath.resolve("thumbnail.jpeg").toAbsolutePath().toString()
 
-
         val course = Course(
             id = id,
             title = request.title,

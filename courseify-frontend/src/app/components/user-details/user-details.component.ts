@@ -14,8 +14,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./user-details.component.css'],
 })
 export class UserDetailsComponent implements OnInit {
-  user: User | undefined;
+  user: User | null = null;
   changePassword: boolean = false;
+
   userForm = new FormGroup({
     password: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required]),
@@ -24,9 +25,11 @@ export class UserDetailsComponent implements OnInit {
   constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.getUserByToken().subscribe((result) => {
-      this.user = result;
-    });
+    this.getUser()
+  }
+  
+  getUser() {
+    this.user = this.authService.getLoggedInUser()
   }
 
   editMode() {
