@@ -33,4 +33,12 @@ export class UserCoursesComponent implements OnInit {
         .subscribe((result) => (this.courses = result));
     }
   }
+
+  deleteCourse(id: number) {
+    console.log('delete Course called');
+
+    this.courseService.deleteCourse(id).subscribe(() => {
+      this.getUserLearnCourses();
+    });
+  }
 }
