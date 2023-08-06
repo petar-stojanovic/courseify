@@ -7,7 +7,5 @@
     <h1>Error {{ errorCode }}: {{ getErrorMessage("title") }}</h1>
     <p>{{ getErrorMessage("description") }}</p>
 
-    <a routerLink="/courses"
-        ><button mat-raised-button color="primary">Go Back</button></a
-      >
+    <button mat-raised-button color="primary" (click)="goBack()">Go Back</button>
 </div>
