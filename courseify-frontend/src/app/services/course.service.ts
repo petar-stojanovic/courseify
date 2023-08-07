@@ -73,11 +73,7 @@ export class CourseService {
   }
 
   getUserCreatedCourses(id: number): Observable<Course[]> {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('active', false);
-    return this.http.get<Course[]>(`/api/user/${id}/created`, {
-      params: queryParams,
-    });
+    return this.http.get<Course[]>(`/api/user/${id}/created`);
   }
 
   checkCourseAuthor(courseId: number): boolean {
