@@ -18,10 +18,11 @@ create table users
 create table course
 (
     id          bigserial primary key,
-    title       text not null,
-    description text not null,
-    thumbnail   text not null,
-    author_id   bigint references users
+    title       text    not null,
+    description text    not null,
+    thumbnail   text    not null,
+    author_id   bigint references users,
+    is_active   boolean not null
 );
 
 create table course_categories

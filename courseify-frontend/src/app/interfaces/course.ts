@@ -8,6 +8,7 @@ export interface Course {
   author: Author;
   category: Category;
   thumbnail: string;
+  isActive: boolean;
 }
 
 interface Author {

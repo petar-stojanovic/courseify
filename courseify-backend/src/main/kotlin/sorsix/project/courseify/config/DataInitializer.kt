@@ -80,6 +80,7 @@ class DataInitializer() {
             "Java Programming Course Description",
             "Thumbnail Java",
             author1!!,
+            false
         )
 
 
@@ -89,6 +90,7 @@ class DataInitializer() {
             "Python Programming Course For Beginners Description",
             "Thumbnail Python",
             author2!!,
+            true
         )
 
         val courseCategories1 = CourseCategories(0, course1, category1)

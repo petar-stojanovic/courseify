@@ -16,10 +16,13 @@
         <mat-card-actions>
             <a routerLink="/course/{{ course.id }}/lessons"><button mat-raised-button
                     color="primary">Preview</button></a>
-            <button mat-raised-button color="primary" (click)="deleteCourse(course.id)">
+            <button *ngIf="!previewMode" mat-raised-button color="primary" (click)="deleteCourse(course.id)">
                 Delete
             </button>
-            <a routerLink="/course/{{ course.id }}/edit"><button mat-raised-button color="primary">Edit</button></a>
+            <a *ngIf="!previewMode" routerLink="/course/{{ course.id }}/edit"><button mat-raised-button color="primary">Edit</button></a>
+            <button *ngIf="!course.isActive" mat-raised-button color="primary" (click)="publishCourse(course.id)">
+                Publish
+            </button>
         </mat-card-actions>
     </mat-card>
 </div>

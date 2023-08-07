@@ -42,9 +42,7 @@ export class LoginComponent implements OnInit {
     const username = formData.value.username;
     const password = formData.value.password;
     this.authService.signInUser(username, password).subscribe(
-      (response) => {
-        location.href = '/';
-      },
+      (response) => {},
       (error) => {
         this.invalidCredentials = true;
       }
