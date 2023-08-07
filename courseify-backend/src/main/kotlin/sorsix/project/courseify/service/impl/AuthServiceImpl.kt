@@ -10,9 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.AuthenticationRequest
 import sorsix.project.courseify.api.request.RegisterRequest
+import sorsix.project.courseify.api.request.ResetPasswordRequest
 import sorsix.project.courseify.domain.User
-import sorsix.project.courseify.domain.exception.ExistingUsernameException
-import sorsix.project.courseify.domain.exception.PasswordsDoNotMatchException
+import sorsix.project.courseify.domain.exception.*
 import sorsix.project.courseify.domain.response.AuthenticationResponse
 import sorsix.project.courseify.repository.UserRepository
 import sorsix.project.courseify.security.config.JwtService
@@ -67,7 +67,7 @@ class AuthServiceImpl(
                 )
             )
         } catch (e: Exception) {
-            return null
+            throw InvalidCredentialsException("Invalid Credentials")
         }
         /**
          * The code above will try to log in user. IF this fails the code below will not execute. That is why we use !!
@@ -141,5 +141,23 @@ class AuthServiceImpl(
             }
         }
     }
+
+    override fun resetPassword(request: ResetPasswordRequest): User {
+        val user = userRepository.findByUsername(request.username)
+        if (user != null) {
+            if (!passwordEncoder.matches(request.oldPassword, user.password)) {
+                throw InvalidCredentialsException("Invalid Credentials")
+            }
+
+            val updatedUser = user.copy(password = passwordEncoder.encode(request.newPassword))
+            userRepository.save(updatedUser)
+            revokeAllUserTokens(updatedUser)
+
+            return updatedUser
+        } else {
+            throw UserNotFoundException("User not found")
+        }
+    }
+
 
 }

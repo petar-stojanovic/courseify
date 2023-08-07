@@ -9,21 +9,37 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ErrorHandleService } from '../services/errorHandle.service';
 
 @Injectable()
 export class HttpResponseInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private errorHandleService: ErrorHandleService
+  ) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        // if (error.status === 403) {
-          // console.error('Forbidden: ', error.error.message);
-        // }
         console.error('ERROR: ', error.error.message);
-        this.router.navigate(['/error', error.status]);
+        const authErrorReason = error.headers.get('X-Auth-Error-Reason');
+        console.error(authErrorReason);
+
+        if (authErrorReason === 'invalidCredentials') {
+          this.errorHandleService.setErrorMessage(
+            'Invalid Credentials. Please Try Again'
+          );
+        } else if (authErrorReason === 'wrongPassword') {
+          this.errorHandleService.setErrorMessage(
+            'Wrong Password. Please Try Again'
+          );
+        } else {
+          console.log('ROUTER');
+          this.router.navigate(['/error', error.status]);
+        }
+
         return throwError(() => error);
       })
     );

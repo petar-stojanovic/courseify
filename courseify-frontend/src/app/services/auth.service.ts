@@ -91,4 +91,13 @@ export class AuthService {
   getToken() {
     return localStorage.getItem('token');
   }
+
+  changePassword(username: string, oldPassword: string, newPassword: string) {
+    const body = {
+      username: username,
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    };
+    return this.http.post(`/api/auth/change-password`, body);
+  }
 }

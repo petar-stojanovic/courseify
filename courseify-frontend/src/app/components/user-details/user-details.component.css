@@ -1,0 +1,45 @@
+.wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+mat-card {
+    width: 24rem;
+    margin: 0 auto;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+mat-card p, mat-card div {
+    margin: 1rem auto;
+}
+
+
+.mat-mdc-form-field {
+    width: 100%;
+    margin: 1.5rem 1rem;
+}
+
+.mat-mdc-raised-button {
+    width: 50%;
+    height: 3rem;
+    margin: 1rem auto;
+}
+
+.fieldClass {
+    margin-bottom: 1.25rem;
+}
+
+.invalidCredentials{
+    color:#f44336;
+    font-weight: bold;
+  }
