@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import sorsix.project.courseify.api.request.AuthenticationRequest
 import sorsix.project.courseify.api.request.RegisterRequest
+import sorsix.project.courseify.api.request.ResetPasswordRequest
+import sorsix.project.courseify.domain.User
 import sorsix.project.courseify.domain.response.AuthenticationResponse
 
 interface AuthService {
@@ -15,5 +17,8 @@ interface AuthService {
     fun refreshToken(request: HttpServletRequest, response: HttpServletResponse)
 
     fun logout(request: HttpServletRequest, response: HttpServletResponse)
+
+    fun resetPassword(request: ResetPasswordRequest): User
+
 
 }

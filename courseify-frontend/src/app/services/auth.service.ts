@@ -53,7 +53,10 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return localStorage.getItem('token') != null && localStorage.getItem("user_data") != null;
+    return (
+      localStorage.getItem('token') != null &&
+      localStorage.getItem('user_data') != null
+    );
   }
 
   getUserByToken(): Observable<User> {
@@ -65,6 +68,8 @@ export class AuthService {
         tap((user) => {
           this.cachedUser = user;
           localStorage.setItem('user_data', JSON.stringify(user));
+          location.href = '/';
+          console.log(localStorage);
         })
       );
     }
@@ -88,5 +93,14 @@ export class AuthService {
 
   getToken() {
     return localStorage.getItem('token');
+  }
+
+  changePassword(username: string, oldPassword: string, newPassword: string) {
+    const body = {
+      username: username,
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    };
+    return this.http.post(`/api/auth/change-password`, body);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,21 +7,37 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { ErrorHandleService } from 'src/app/services/errorHandle.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: any;
   fieldRequired = 'This field is required';
   invalidCredentials = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  errorMessage: string | null = null;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private errorHandleService: ErrorHandleService
+  ) {}
+
 
   ngOnInit() {
     this.createForm();
+    this.errorHandleService.errorMessage$.subscribe((message) => {
+      this.errorMessage = message;
+    });
+  }
+
+  
+  ngOnDestroy(): void {
+    this.errorHandleService.clearErrorMessage()
   }
 
   createForm() {
@@ -43,7 +59,7 @@ export class LoginComponent implements OnInit {
     const password = formData.value.password;
     this.authService.signInUser(username, password).subscribe(
       (response) => {
-        location.href = '/';
+        this.errorHandleService.clearErrorMessage()
       },
       (error) => {
         this.invalidCredentials = true;
