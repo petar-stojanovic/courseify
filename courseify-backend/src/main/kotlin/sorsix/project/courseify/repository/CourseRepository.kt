@@ -11,10 +11,20 @@ import sorsix.project.courseify.domain.UserTakesCourse
 interface CourseRepository : JpaRepository<Course, Long> {
 
     fun findAllByIdIn(list: List<Long>): List<Course>
-    fun findAllByTitleContainingIgnoreCase(search: String): List<Course>
 
-    @Query("select c.course from CourseCategories c where c.category.name = :name ")
-    fun findAllByCategoryName(name: String): List<Course>
+    @Query("""
+        select c
+        from Course c
+        where lower(c.title) like concat('%', lower(:search) , '%') 
+        and c.isActive = true 
+    """)
+    fun findAllByTitleContainingIgnoreCaseAndActiveTrue(search: String): List<Course>
+
+    @Query("""select c.course
+            from CourseCategories c
+            where c.category.name = :name 
+            and c.course.isActive = true """)
+    fun findAllByCategoryNameAndActiveTrue(name: String): List<Course>
 
     @Query(
         """
@@ -22,10 +32,14 @@ interface CourseRepository : JpaRepository<Course, Long> {
                 JOIN CourseCategories cc ON cc.course = c 
                 JOIN Category cat ON cc.category = cat 
                 WHERE cat.name = :name AND LOWER(c.title) LIKE CONCAT('%', LOWER(:search), '%')
+                AND c.isActive = true 
                 """
     )
     fun findAllByCategoryNameAndTitleContainingIgnoreCase(name: String, search: String): List<Course>
 
-    fun findAllByAuthorId(id: Long): List<Course>
+    @Query("select c from Course c where c.author.id = :id and c.isActive = :active")
+    fun findAllByActiveByAuthorId(id: Long, active: Boolean): List<Course>
+    @Query("select c from Course c where c.isActive = true")
+    fun findAllByActiveTrue(): List<Course>
 
 }

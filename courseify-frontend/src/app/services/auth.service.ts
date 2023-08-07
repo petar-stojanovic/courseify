@@ -41,7 +41,11 @@ export class AuthService {
     return this.http.post<AuthResponse>(`/api/auth/authenticate`, body).pipe(
       tap((response) => {
         localStorage.setItem('token', response['access_token']);
-        this.getUserByToken().subscribe();
+        this.getUserByToken().subscribe((user) => {
+          this.cachedUser = user;
+          localStorage.setItem('user_data', JSON.stringify(user));
+          location.href = '/';
+        });
       })
     );
   }
@@ -64,14 +68,7 @@ export class AuthService {
       return of(this.cachedUser);
     } else {
       const token = localStorage.getItem('token');
-      return this.http.get<User>(`/api/auth/user/${token}`).pipe(
-        tap((user) => {
-          this.cachedUser = user;
-          localStorage.setItem('user_data', JSON.stringify(user));
-          location.href = '/';
-          console.log(localStorage);
-        })
-      );
+      return this.http.get<User>(`/api/auth/user/${token}`);
     }
   }
 

@@ -21,5 +21,7 @@ data class Course(
     @JoinColumn(name = "author_id")
     val author: User,
 
+    val isActive: Boolean = false
+
 ) {
 }

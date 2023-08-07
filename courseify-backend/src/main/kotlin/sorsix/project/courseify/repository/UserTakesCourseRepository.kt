@@ -7,5 +7,7 @@ import sorsix.project.courseify.domain.UserTakesCourse
 
 @Repository
 interface UserTakesCourseRepository: JpaRepository<UserTakesCourse, Long> {
+
+
     fun findAllByUserId(id: Long): List<UserTakesCourse>
 }

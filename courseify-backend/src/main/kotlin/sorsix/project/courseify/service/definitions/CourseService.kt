@@ -14,4 +14,6 @@ interface CourseService {
     fun getCourses(search: String?, categoryName: String?): List<Course>
     fun editCourse(id: Long, request: CourseRequest, user: User): Course?
     fun getThumbnail(courseId: Long): Resource?
+
+    fun publishCourse(courseId: Long): Course
 }

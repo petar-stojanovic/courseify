@@ -81,4 +81,10 @@ export class CourseComponent implements OnInit, OnDestroy {
     let token = localStorage.getItem('token');
     console.log(jwt_decode(token!!));
   }
+
+  checkCourseAuthor(id: number): boolean {
+    console.log(this.courseService.checkCourseAuthor(id));
+    return this.courseService.checkCourseAuthor(id);
+  }
+  
 }

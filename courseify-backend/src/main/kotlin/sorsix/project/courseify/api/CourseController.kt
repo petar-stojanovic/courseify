@@ -101,4 +101,8 @@ class CourseController(
         return ResponseEntity(thumbnailData, headers, HttpStatus.OK)
     }
 
+    @PostMapping("/{id}/publish")
+    fun enrollCourse(@PathVariable id: Long): ResponseEntity<*> =
+        courseService.publishCourse(id).let { ResponseEntity.ok(it) }
+
 }

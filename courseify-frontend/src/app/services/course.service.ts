@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, mergeMap } from 'rxjs';
+import { Observable, mergeMap, tap } from 'rxjs';
 import { Course } from '../interfaces/Course';
 import { AuthService } from './auth.service';
 
@@ -64,7 +64,7 @@ export class CourseService {
             })
           )
         )
-        .subscribe(() => console.log('Successfully enrolled user'));
+        .subscribe((result) => console.log(result));
     }
   }
 
@@ -73,6 +73,26 @@ export class CourseService {
   }
 
   getUserCreatedCourses(id: number): Observable<Course[]> {
-    return this.http.get<Course[]>(`/api/user/${id}/created`);
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('active', false);
+    return this.http.get<Course[]>(`/api/user/${id}/created`, {
+      params: queryParams,
+    });
+  }
+
+  checkCourseAuthor(courseId: number): boolean {
+    const user = this.authService.getLoggedInUser();
+    let status = false;
+    // this.getCourseById(courseId).subscribe((value) => {
+    //   if (value.author.id == user?.id) {
+    //     status = true;
+    //   }
+    // });
+
+    return status;
+  }
+
+  publishCourse(id: number): Observable<Course>{
+    return this.http.post<Course>(`/api/course/${id}/publish`, {})
   }
 }

@@ -19,7 +19,6 @@ import java.nio.file.Paths
 @Service
 class CourseServiceImpl(
     val courseRepository: CourseRepository,
-    val userRepository: UserRepository,
     val categoryRepository: CategoryRepository,
     val courseCategoriesRepository: CourseCategoriesRepository,
     val lessonRepository: LessonRepository
@@ -75,11 +74,11 @@ class CourseServiceImpl(
         return if (search != null && categoryName != null) {
             courseRepository.findAllByCategoryNameAndTitleContainingIgnoreCase(categoryName, search)
         } else if (search != null) {
-            courseRepository.findAllByTitleContainingIgnoreCase(search)
+            courseRepository.findAllByTitleContainingIgnoreCaseAndActiveTrue(search)
         } else if (categoryName != null) {
-            courseRepository.findAllByCategoryName(categoryName)
+            courseRepository.findAllByCategoryNameAndActiveTrue(categoryName)
         } else {
-            courseRepository.findAll()
+            courseRepository.findAllByActiveTrue()
         }
     }
 
@@ -142,6 +141,12 @@ class CourseServiceImpl(
             return ByteArrayResource(defaultImagePath.inputStream.readAllBytes())
         }
         return ByteArrayResource(Files.readAllBytes(thumbnailPath))
+    }
+
+    override fun publishCourse(courseId: Long): Course {
+        val course = courseRepository.findById(courseId).get()
+        val updatedCourse = course.copy(isActive = true)
+        return courseRepository.save(updatedCourse)
     }
 
 }
