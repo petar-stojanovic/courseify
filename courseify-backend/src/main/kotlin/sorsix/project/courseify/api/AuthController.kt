@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import sorsix.project.courseify.api.request.AuthenticationRequest
 import sorsix.project.courseify.api.request.RegisterRequest
+import sorsix.project.courseify.api.request.ResetPasswordRequest
 import sorsix.project.courseify.domain.response.AuthenticationResponse
 import sorsix.project.courseify.domain.response.UserResponse
 import sorsix.project.courseify.repository.UserRepository
@@ -16,6 +17,7 @@ import sorsix.project.courseify.service.definitions.AuthService
 @RestController
 @RequestMapping("/api/auth")
 class AuthController(val authService: AuthService, val userRepository: UserRepository) {
+
 
     @PostMapping("/register")
     fun register(@RequestBody request: RegisterRequest): ResponseEntity<AuthenticationResponse> =
@@ -28,6 +30,16 @@ class AuthController(val authService: AuthService, val userRepository: UserRepos
         return authService.authenticate(request)?.let {
             ResponseEntity.ok(it)
         } ?: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed")
+    }
+
+    @PostMapping("/change-password")
+    fun resetPassword(
+        @RequestBody request: ResetPasswordRequest
+    ): ResponseEntity<UserResponse> {
+        return authService.resetPassword(request).let {
+            val user = UserResponse(it.id, it.email, it.firstName, it.lastName, it.username)
+            ResponseEntity.ok(user)
+        }
     }
 
     @PostMapping("/refresh-token")

@@ -1,21 +1,60 @@
-<p>
-  Username: <span>{{ user?.username }}</span>
-</p>
-<p>
-  Email: <span>{{ user?.email }}</span>
-</p>
-<p>
-  First Name: <span>{{ user?.firstName }}</span>
-</p>
-<p>
-  Last Name: <span>{{ user?.lastName }}</span>
-</p>
-<div *ngIf="changePassword">
-    <form [formGroup]="userForm" (submit)="submit()">
-        <input type="password" formControlName="password" placeholder="Password">
-        <input type="password" formControlName="confirmPassword" placeholder="Confirm Password">
-        <button type="submit">Submit</button>
-    </form>
-    
+<div class="wrapper">
+  <div class="content">
+
+    <mat-card class="fs-2">
+      <p>
+        Username: <span class="fs-3">{{ user?.username }}</span>
+      </p>
+      <p>
+        Email: <span class="fs-3">{{ user?.email }}</span>
+      </p>
+      <p>
+        First Name: <span class="fs-3">{{ user?.firstName }}</span>
+      </p>
+      <p>
+        Last Name: <span class="fs-3">{{ user?.lastName }}</span>
+      </p>
+      <div *ngIf="changePassword">
+
+        <form [formGroup]="userForm" #formDirective="ngForm" *ngIf="!passwordChangeSucess" (ngSubmit)="onSubmit(userForm, formDirective)">
+
+          <mat-form-field>
+            <mat-icon matPrefix>lock_outline</mat-icon>
+            <mat-label>Old Password</mat-label>
+
+            <input type="password" autocomplete="false" matInput formControlName="oldPassword" />
+            <mat-error *ngIf="checkValidation('oldPassword')">
+              {{ getPasswordErrors('oldPassword') }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-icon matPrefix>lock</mat-icon>
+            <mat-label>New Password</mat-label>
+
+            <input type="password" autocomplete="false" matInput formControlName="newPassword" />
+            <mat-error *ngIf="checkValidation('newPassword')">
+              {{ getPasswordErrors('newPassword') }}
+            </mat-error>
+          </mat-form-field>
+
+          <button [disabled]="userForm.invalid" type="submit" mat-raised-button color="primary">
+            CHANGE PASSWORD
+          </button>
+
+        </form>
+
+        <h2 *ngIf="errorMessage" class="invalidCredentials">
+          {{errorMessage}}
+        </h2>
+        <h1 *ngIf="passwordChangeSucess" class="text-success">
+          Password Changed Successfully
+        </h1>
+      </div>
+
+      <button *ngIf="!changePassword" mat-raised-button (click)="editMode()" color="primary" style="font-size: 1.5rem">
+        Change Password
+      </button>
+    </mat-card>
+  </div>
 </div>
-<a (click)="editMode()">Change Password</a>

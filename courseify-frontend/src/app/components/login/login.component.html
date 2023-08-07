@@ -44,8 +44,8 @@
               </mat-error>
             </mat-form-field>
 
-            <h2 *ngIf="invalidCredentials" class="invalidCredentials">
-              Invalid Credentials. Please Try Again
+            <h2 *ngIf="errorMessage" class="invalidCredentials">
+              {{errorMessage}}
             </h2>
             <button
               type="submit"
