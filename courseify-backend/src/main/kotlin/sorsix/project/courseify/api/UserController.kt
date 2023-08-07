@@ -22,7 +22,7 @@ class UserController(val userTakesCourseRepository: UserTakesCourseRepository,
     }
 
     @GetMapping("/{id}/created")
-    fun findAllUserCreatedCourses(@PathVariable id: Long, @RequestParam active: Boolean) = courseRepository.findAllByActiveByAuthorId(id, active)
+    fun findAllUserCreatedCourses(@PathVariable id: Long) = courseRepository.findAllByAuthorId(id)
 
 
 

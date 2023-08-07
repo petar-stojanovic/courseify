@@ -36,9 +36,7 @@ interface CourseRepository : JpaRepository<Course, Long> {
                 """
     )
     fun findAllByCategoryNameAndTitleContainingIgnoreCase(name: String, search: String): List<Course>
-
-    @Query("select c from Course c where c.author.id = :id and c.isActive = :active")
-    fun findAllByActiveByAuthorId(id: Long, active: Boolean): List<Course>
+    fun findAllByAuthorId(id: Long): List<Course>
     @Query("select c from Course c where c.isActive = true")
     fun findAllByActiveTrue(): List<Course>
 
