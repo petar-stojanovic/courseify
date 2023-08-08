@@ -21,7 +21,8 @@ class CourseServiceImpl(
     val courseRepository: CourseRepository,
     val categoryRepository: CategoryRepository,
     val courseCategoriesRepository: CourseCategoriesRepository,
-    val lessonRepository: LessonRepository
+    val lessonRepository: LessonRepository,
+    val userTakesCourseRepository: UserTakesCourseRepository
 ) : CourseService {
 
 
@@ -65,6 +66,8 @@ class CourseServiceImpl(
             courseCategoriesRepository.deleteAll(courseCategories)
             val lessons = lessonRepository.findAllByCourseId(course.id)
             lessonRepository.deleteAll(lessons)
+            val userCourses = userTakesCourseRepository.findAllByCourse(course)
+            userTakesCourseRepository.deleteAll(userCourses)
             courseRepository.delete(course)
         }
     }
@@ -94,7 +97,9 @@ class CourseServiceImpl(
             Files.move(oldPath, oldPath.resolveSibling(newCourseSlug))
             File(oldPath.toString()).deleteRecursively()
         } else if (Files.exists(oldPath)) {
-            Files.delete(oldPath.resolve("thumbnail.jpeg"))
+            if (Files.exists(oldPath.resolve("thumbnail.jpeg"))){
+                Files.delete(oldPath.resolve("thumbnail.jpeg"))
+            }
         } else {
             Files.createDirectories(newPath)
         }

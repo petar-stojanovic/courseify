@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode';
 import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-course',
@@ -17,6 +18,7 @@ export class CourseComponent implements OnInit, OnDestroy {
   _mobileQueryListener: () => void;
   searchQuery = '';
   categoryQuery = '';
+  user = this.authService.getLoggedInUser();
 
   searchControl = new FormControl();
   listCourses$: Observable<Course[] | undefined> =
@@ -27,7 +29,8 @@ export class CourseComponent implements OnInit, OnDestroy {
     private router: Router,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -65,26 +68,10 @@ export class CourseComponent implements OnInit, OnDestroy {
     this.mobileQuery?.removeListener(this._mobileQueryListener);
   }
 
-  deleteCourse(id: number) {
-    console.log('delete Course called');
-
-    this.courseService.deleteCourse(id).subscribe(() => {
-      this.listCourses$ = this.courseService.getCourses();
-    });
-  }
-
-  enrollStudent(id: number) {
-    this.courseService.enrollUserToCourse(id);
-  }
+  
 
   getDecodedAccessToken(): any {
     let token = localStorage.getItem('token');
     console.log(jwt_decode(token!!));
   }
-
-  checkCourseAuthor(id: number): boolean {
-    console.log(this.courseService.checkCourseAuthor(id));
-    return this.courseService.checkCourseAuthor(id);
-  }
-  
 }

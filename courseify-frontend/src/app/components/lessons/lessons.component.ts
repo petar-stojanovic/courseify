@@ -4,6 +4,7 @@ import { LessonService } from '../../services/lesson.service';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-lessons',
@@ -14,12 +15,13 @@ export class LessonsComponent {
   course: Course | undefined;
   lessons: Lesson[] = [];
   panelOpenState = false;
-  @Input() user = null;
+  user = this.authService.getLoggedInUser();
 
   constructor(
     private lessonService: LessonService,
     private route: ActivatedRoute,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -45,5 +47,9 @@ export class LessonsComponent {
       const fileURL = URL.createObjectURL(res);
       window.open(fileURL, '_blank');
     });
+  }
+
+  enrollStudent(courseId: number) {
+    this.courseService.enrollUserToCourse(courseId);
   }
 }

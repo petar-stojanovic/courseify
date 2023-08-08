@@ -1,64 +1,85 @@
 <div class="container">
-    <div class="display-5 mt-3 text-center">Published</div>
-    <hr>
-    <div *ngFor="let course of courses">
-        <mat-card class="example-card" *ngIf="course.isActive">
-            <app-thumbnail [courseId]="course.id"></app-thumbnail>
-            <mat-card-header>
-                <mat-card-title>{{ course.title }}</mat-card-title>
-                <mat-card-subtitle>
-                    Learn Web Development with Easy Tutorials
-                </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <p>
-                    {{ course.description }}
-                </p>
-            </mat-card-content>
-    
-            <mat-card-actions>
-                <a routerLink="/course/{{ course.id }}/lessons"><button mat-raised-button
-                        color="primary">Preview</button></a>
-                <button *ngIf="!previewMode" mat-raised-button color="primary" (click)="deleteCourse(course.id)">
-                    Delete
-                </button>
-                <a *ngIf="!previewMode" routerLink="/course/{{ course.id }}/edit"><button mat-raised-button color="primary">Edit</button></a>
-                <button *ngIf="!course.isActive" mat-raised-button color="primary" (click)="publishCourse(course.id)">
-                    Publish
-                </button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
-    
-    <div class="display-5 mt-3 text-center">Unpublished</div>
-    <hr>
-    <div *ngFor="let course of courses">
-        <mat-card class="example-card" *ngIf="!course.isActive">
-            <app-thumbnail [courseId]="course.id"></app-thumbnail>
-            <mat-card-header>
-                <mat-card-title>{{ course.title }}</mat-card-title>
-                <mat-card-subtitle>
-                    Learn Web Development with Easy Tutorials
-                </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <p>
-                    {{ course.description }}
-                </p>
-            </mat-card-content>
-    
-            <mat-card-actions>
-                <a routerLink="/course/{{ course.id }}/lessons"><button mat-raised-button
-                        color="primary">Preview</button></a>
-                <button *ngIf="!previewMode" mat-raised-button color="primary" (click)="deleteCourse(course.id)">
-                    Delete
-                </button>
-                <a *ngIf="!previewMode" routerLink="/course/{{ course.id }}/edit"><button mat-raised-button color="primary">Edit</button></a>
-                <button *ngIf="!course.isActive" mat-raised-button color="primary" (click)="publishCourse(course.id)">
-                    Publish
-                </button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
-    
+  <div *ngIf="!previewMode" class="display-5 mt-3 text-center">Published</div>
+  <hr *ngIf="!previewMode" />
+  <div *ngFor="let course of courses">
+    <mat-card class="example-card" *ngIf="course.isActive">
+      <app-thumbnail [courseId]="course.id"></app-thumbnail>
+      <mat-card-header>
+        <mat-card-title>
+          <a routerLink="/course/{{ course.id }}/lessons">{{ course.title }}</a>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{ course.description }}
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button
+          *ngIf="!previewMode"
+          mat-icon-button
+          color="primary"
+          (click)="deleteCourse(course.id)"
+        >
+          <mat-icon>delete-outline</mat-icon>
+        </button>
+        <a *ngIf="!previewMode" routerLink="/course/{{ course.id }}/edit"
+          ><button mat-icon-button color="primary">
+            <mat-icon>edit</mat-icon>
+          </button></a
+        >
+        <button
+          *ngIf="!course.isActive"
+          mat-icon-button
+          color="primary"
+          (click)="publishCourse(course.id)"
+        >
+          <mat-icon>check</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!previewMode" class="display-5 mt-3 text-center">Unpublished</div>
+  <hr *ngIf="!previewMode" />
+  <div *ngFor="let course of courses">
+    <mat-card class="example-card" *ngIf="!course.isActive">
+      <app-thumbnail [courseId]="course.id"></app-thumbnail>
+      <mat-card-header>
+        <mat-card-title>
+          <a routerLink="/course/{{ course.id }}/lessons">{{ course.title }}</a>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{ course.description }}
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button
+          *ngIf="!previewMode"
+          mat-icon-button
+          color="primary"
+          (click)="deleteCourse(course.id)"
+        >
+          <mat-icon>delete-outline</mat-icon>
+        </button>
+        <a *ngIf="!previewMode" routerLink="/course/{{ course.id }}/edit"
+          ><button mat-icon-button color="primary">
+            <mat-icon>edit</mat-icon>
+          </button></a
+        >
+        <button
+          *ngIf="!course.isActive"
+          mat-icon-button
+          color="primary"
+          (click)="publishCourse(course.id)"
+        >
+          <mat-icon>check</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
