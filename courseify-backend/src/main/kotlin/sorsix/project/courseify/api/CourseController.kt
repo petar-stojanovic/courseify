@@ -14,9 +14,7 @@ import sorsix.project.courseify.domain.Course
 import sorsix.project.courseify.domain.Lesson
 import sorsix.project.courseify.domain.User
 import sorsix.project.courseify.domain.exception.UserNotFoundException
-import sorsix.project.courseify.repository.CourseRepository
-import sorsix.project.courseify.repository.LessonRepository
-import sorsix.project.courseify.repository.UserTakesCourseRepository
+import sorsix.project.courseify.repository.*
 import sorsix.project.courseify.security.token.TokenRepository
 import sorsix.project.courseify.service.definitions.CourseService
 import sorsix.project.courseify.service.definitions.UserTakesCourseService
@@ -29,7 +27,9 @@ class CourseController(
     val userTakesCourseService: UserTakesCourseService,
     val userTakesCourseRepository: UserTakesCourseRepository,
     val lessonRepository: LessonRepository,
-    val tokenRepository: TokenRepository
+    val tokenRepository: TokenRepository,
+    val courseCategoriesRepository: CourseCategoriesRepository,
+    val categoryRepository: CategoryRepository
 ) {
 
 
@@ -48,6 +48,16 @@ class CourseController(
     fun getCourse(@PathVariable id: Long): ResponseEntity<*> = courseRepository.findByIdOrNull(id)
         ?.let { ResponseEntity.ok(it) } ?: ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body("The course with id $id does not exist!")
+
+    @GetMapping("/{id}/categories")
+    fun getCourseCategories(@PathVariable id: Long): ResponseEntity<*> =
+        courseRepository.findByIdOrNull(id)?.let {
+            val courseCategories = courseCategoriesRepository.findAllByCourse(it)
+            val categoryIds = courseCategories.map { it.category.id }
+            ResponseEntity.ok(categoryRepository.findAllByIdIn(categoryIds))
+        } ?: ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body("There are no categories for course with id:  $id does !")
+
 
     @GetMapping("/{id}/lessons")
     fun getCourseLessons(@PathVariable id: Long): List<Lesson> = lessonRepository.findAllByCourseId(id)
@@ -75,7 +85,11 @@ class CourseController(
     }
 
     @PutMapping("/{id}")
-    fun editCourse(@PathVariable id: Long, @ModelAttribute request: CourseRequest, req: HttpServletRequest): ResponseEntity<*> {
+    fun editCourse(
+        @PathVariable id: Long,
+        @ModelAttribute request: CourseRequest,
+        req: HttpServletRequest
+    ): ResponseEntity<*> {
         val user = getCurrentUser(req)
         return courseService.editCourse(id, request, user)?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course with id: $id could not br found")
@@ -100,6 +114,7 @@ class CourseController(
 
         return ResponseEntity(thumbnailData, headers, HttpStatus.OK)
     }
+
 
     @PostMapping("/{id}/publish")
     fun enrollCourse(@PathVariable id: Long): ResponseEntity<*> =
