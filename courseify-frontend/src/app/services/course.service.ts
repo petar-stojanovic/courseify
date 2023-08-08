@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, mergeMap, tap } from 'rxjs';
-import { Course } from '../interfaces/Course';
 import { AuthService } from './auth.service';
+import { Course } from '../interfaces/Course';
 
 @Injectable({
   providedIn: 'root',
@@ -91,4 +91,5 @@ export class CourseService {
   publishCourse(id: number): Observable<Course>{
     return this.http.post<Course>(`/api/course/${id}/publish`, {})
   }
+  
 }

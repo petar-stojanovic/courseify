@@ -30,3 +30,22 @@
   margin: 1rem;
   /* display: none; */
 }
+
+
+.categoryError {
+  width: 100%;
+  margin-top: -1.25rem;
+  margin-bottom: 1rem;
+  padding-inline: 1rem;
+  color: #f44336;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  line-height: 20px;
+}
+
+.categoryInputError{
+  color: #f44336;
+}
+.categoryInputError ::placeholder{
+  color: #f44336;
+}

@@ -4,9 +4,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from '../../interfaces/Category';
-import { Course } from '../../interfaces/Course';
 import { CategoryService } from '../../services/category.service';
 import { CourseService } from '../../services/course.service';
+import { Course } from 'src/app/interfaces/Course';
+import { mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-course',
@@ -24,8 +25,6 @@ export class AddEditCourseComponent implements OnInit {
   @ViewChild('categoryInput') categoryInput:
     | ElementRef<HTMLInputElement>
     | undefined;
-
-  // @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement> ;
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
@@ -47,25 +46,34 @@ export class AddEditCourseComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.isAddMode = !this.id;
+    this.getAllCategories();
+
 
     if (!this.isAddMode && this.id) {
-      this.courseService.getCourseById(+this.id).subscribe((result) => {
-        this.course = result;
-        console.log(this.course);
-        this.courseForm?.patchValue({
-          title: this.course.title,
-          description: this.course.description,
+      this.courseService
+        .getCourseById(+this.id)
+        .pipe(
+          mergeMap((result) => {
+            this.course = result;
+            this.courseForm?.patchValue({
+              title: this.course.title,
+              description: this.course.description,
+            });
+            return this.categoryService.getCategoriesForCourse(+this.id!!);
+          })
+        )
+        .subscribe((res) => {
+          this.categoryList = res;
         });
-      });
     }
-
-    this.getAllCategories();
 
     this.courseForm
       .get('categoryIds')
       ?.valueChanges.subscribe((res: string | null) => {
         this.filteredCategories = this._filter(res!!);
       });
+
+      
   }
 
   getAllCategories() {
@@ -99,11 +107,11 @@ export class AddEditCourseComponent implements OnInit {
     if (this.isAddMode) {
       this.courseService
         .addCourse(formData)
-        .subscribe(() => this.router.navigateByUrl('/'));
+        .subscribe(() => this.router.navigateByUrl('user/created'));
     } else {
       this.courseService
         .editCourse(this.course!!.id, formData)
-        .subscribe(() => this.router.navigateByUrl('/'));
+        .subscribe(() => this.router.navigateByUrl('user/created'));
     }
   }
 
@@ -134,4 +142,6 @@ export class AddEditCourseComponent implements OnInit {
     }
     return this.allCategories;
   }
+
+
 }

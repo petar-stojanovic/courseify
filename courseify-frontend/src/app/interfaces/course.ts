@@ -16,12 +16,6 @@ interface Author {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
   username: string;
-  role: Role;
 }
 
-interface Role {
-  id: number;
-  roleName: string;
-}

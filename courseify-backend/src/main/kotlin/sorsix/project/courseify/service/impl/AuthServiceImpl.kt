@@ -148,7 +148,6 @@ class AuthServiceImpl(
             if (!passwordEncoder.matches(request.oldPassword, user.password)) {
                 throw InvalidCredentialsException("Invalid Credentials")
             }
-
             val updatedUser = user.copy(password = passwordEncoder.encode(request.newPassword))
             userRepository.save(updatedUser)
             revokeAllUserTokens(updatedUser)
