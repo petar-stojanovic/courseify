@@ -11,6 +11,8 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 export class ThumbnailComponent implements OnInit {
   @Input()
   courseId = 0;
+  @Input()
+  thumbnail_class = '';
   thumbnailUrl?: SafeUrl | null = null;
 
   constructor(

@@ -76,20 +76,8 @@ export class CourseService {
     return this.http.get<Course[]>(`/api/user/${id}/created`);
   }
 
-  checkCourseAuthor(courseId: number): boolean {
-    const user = this.authService.getLoggedInUser();
-    let status = false;
-    // this.getCourseById(courseId).subscribe((value) => {
-    //   if (value.author.id == user?.id) {
-    //     status = true;
-    //   }
-    // });
-
-    return status;
-  }
-
-  publishCourse(id: number): Observable<Course>{
-    return this.http.post<Course>(`/api/course/${id}/publish`, {})
+  publishCourse(id: number): Observable<Course> {
+    return this.http.post<Course>(`/api/course/${id}/publish`, {});
   }
   
 }

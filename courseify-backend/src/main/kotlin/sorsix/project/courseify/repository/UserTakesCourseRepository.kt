@@ -10,4 +10,5 @@ interface UserTakesCourseRepository: JpaRepository<UserTakesCourse, Long> {
 
 
     fun findAllByUserId(id: Long): List<UserTakesCourse>
+    fun findAllByCourse(course: Course): List<UserTakesCourse>
 }

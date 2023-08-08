@@ -44,11 +44,19 @@ export class UserCoursesComponent implements OnInit {
 
   deleteCourse(id: number) {
     this.courseService.deleteCourse(id).subscribe(() => {
-      this.getUserLearnCourses();
+      this.reloadPage();
     });
   }
 
   publishCourse(id:number) {
-    this.courseService.publishCourse(id).subscribe();
+    this.courseService.publishCourse(id).subscribe(() => this.reloadPage());
   }
+
+  reloadPage() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/blank', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
+  }
+  
 }
