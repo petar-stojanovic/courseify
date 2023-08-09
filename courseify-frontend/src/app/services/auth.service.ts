@@ -100,4 +100,10 @@ export class AuthService {
     };
     return this.http.post(`/api/auth/change-password`, body);
   }
+
+  userHasAccessToCourse(lessonId: number): Observable<boolean> {
+    return this.http.get<boolean>(
+      `/api/auth/checkUserAccessToLesson/${lessonId}`
+    );
+  }
 }

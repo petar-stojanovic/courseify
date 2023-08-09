@@ -32,13 +32,11 @@ class CourseController(
     val categoryRepository: CategoryRepository
 ) {
 
-
     fun getCurrentUser(request: HttpServletRequest): User {
         val token = tokenRepository.findByToken(request.getHeader("Authorization").substring(7))
             ?: throw UserNotFoundException("User not found")
         return token.user
     }
-
 
     @GetMapping
     fun getAllCourses(@RequestParam search: String?, @RequestParam categoryName: String?): List<Course> =

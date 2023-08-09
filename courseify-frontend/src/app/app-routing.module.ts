@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './AuthGuard';
+import { AuthenticationGuard } from './AuthenticationGuard';
 import { AddEditCourseComponent } from './components/add-edit-course/add-edit-course.component';
 import { AddEditLessonComponent } from './components/add-edit-lesson/add-edit-lesson.component';
 import { CourseComponent } from './components/course/course.component';
@@ -12,6 +12,8 @@ import { UserCoursesComponent } from './components/user-courses/user-courses.com
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { VideoComponent } from './components/video/video.component';
 import { QuizComponent } from './components/quiz/quiz.component';
+import { AddEditQuizComponent } from './components/add-edit-quiz/add-edit-quiz.component';
+import { AuthorizationGuard } from './AuthorizationGuard';
 
 const routes: Routes = [
   { path: '', component: CourseComponent },
@@ -19,7 +21,7 @@ const routes: Routes = [
   {
     path: 'course/add',
     component: AddEditCourseComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthenticationGuard],
   },
   { path: 'course/:id/lessons', component: LessonsComponent },
   { path: 'login', component: LoginComponent },
@@ -27,42 +29,53 @@ const routes: Routes = [
   {
     path: 'course/:id/edit',
     component: AddEditCourseComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'course/:courseId/lessons/:lessonId/edit',
     component: AddEditLessonComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'course/:courseId/lessons/add',
     component: AddEditLessonComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'course/:courseId/lessons/:lessonId/video',
     component: VideoComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'user',
     component: UserDetailsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'user/learn',
     component: UserCoursesComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'user/created',
     component: UserCoursesComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthenticationGuard],
+  },
+
+  {
+    path: 'course/:courseId/lessons/:lessonId/quiz',
+    component: QuizComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'quiz/add',
+    component: AddEditQuizComponent,
+    canActivate: [AuthenticationGuard,AuthorizationGuard],
   },
   {
     path: 'course/:courseId/lessons/:lessonId/quiz',
     component: QuizComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthenticationGuard],
   },
   { path: 'error/:code', component: ErrorComponent },
   { path: '**', component: ErrorComponent },
