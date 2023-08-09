@@ -11,6 +11,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { UserCoursesComponent } from './components/user-courses/user-courses.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { VideoComponent } from './components/video/video.component';
+import { QuizComponent } from './components/quiz/quiz.component';
 
 const routes: Routes = [
   { path: '', component: CourseComponent },
@@ -56,6 +57,11 @@ const routes: Routes = [
   {
     path: 'user/created',
     component: UserCoursesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'course/:courseId/lessons/:lessonId/quiz',
+    component: QuizComponent,
     canActivate: [AuthGuard],
   },
   { path: 'error/:code', component: ErrorComponent },

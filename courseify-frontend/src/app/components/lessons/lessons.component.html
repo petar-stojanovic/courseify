@@ -35,12 +35,19 @@
               >{{ lesson.fileTitle }}
             </a>
             <span class="border"></span>
-            <a
+            <a *ngIf="lesson.quiz == null"
               routerLink="/course/{{ lesson.course.id }}/lessons/{{
                 lesson.id
               }}/quiz"
               class="d-flex align-items-center"
               ><mat-icon class="me-2">question_mark</mat-icon> Add Quiz</a
+            >
+            <a *ngIf="lesson.quiz != null"
+              routerLink="/course/{{ lesson.course.id }}/lessons/{{
+                lesson.id
+              }}/quiz"
+              class="d-flex align-items-center"
+              ><mat-icon class="me-2">question_mark</mat-icon>{{lesson.quiz.title}}</a
             >
           </div>
           <div *ngIf="user?.id == lesson.course.author.id">

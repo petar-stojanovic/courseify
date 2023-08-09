@@ -1,4 +1,5 @@
 import { Course } from './Course';
+import { Quiz } from './Quiz';
 
 export interface Lesson {
   id: number;
@@ -12,7 +13,3 @@ export interface Lesson {
   quiz: Quiz;
 }
 
-interface Quiz {
-  id: number;
-  title: string;
-}
