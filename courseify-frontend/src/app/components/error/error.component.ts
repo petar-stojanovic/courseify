@@ -84,7 +84,4 @@ export class ErrorComponent {
     return this.defaultErrorMessage;
   }
 
-  goBack() {
-    this.location.back();
-  }
 }
