@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { Quiz } from 'src/app/interfaces/Quiz';
+import { QuizService } from 'src/app/services/quiz.service';
 
 
 @Component({
@@ -19,13 +21,14 @@ export class LessonsComponent {
   user = this.authService.getLoggedInUser();
   takesCourse = false;
   courseId = Number(this.route.snapshot.paramMap.get('id'));
+  quiz: Quiz | undefined;
 
   constructor(
     private lessonService: LessonService,
     private route: ActivatedRoute,
     private courseService: CourseService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +44,8 @@ export class LessonsComponent {
       .getLessonsByCourseId(this.courseId)
       .subscribe((lessons) => {
         this.lessons = lessons;
+        console.log(lessons.at(1));
+        
       });
   }
 

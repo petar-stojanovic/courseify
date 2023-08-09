@@ -72,6 +72,11 @@ const routes: Routes = [
     component: AddEditQuizComponent,
     canActivate: [AuthenticationGuard,AuthorizationGuard],
   },
+  {
+    path: 'course/:courseId/lessons/:lessonId/quiz',
+    component: QuizComponent,
+    canActivate: [AuthenticationGuard],
+  },
   { path: 'error/:code', component: ErrorComponent },
   { path: '**', component: ErrorComponent },
 ];
