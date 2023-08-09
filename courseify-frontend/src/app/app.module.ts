@@ -39,6 +39,8 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
 import { VideoComponent } from './components/video/video.component';
 import { AuthInterceptor } from './interceptors/AuthInterceptor';
 import { HttpResponseInterceptor } from './interceptors/HttpResponseInterceptor';
+import { QuizComponent } from './components/quiz/quiz.component';
+import { AddEditQuizComponent } from './components/add-edit-quiz/add-edit-quiz.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { HttpResponseInterceptor } from './interceptors/HttpResponseInterceptor'
     UserDetailsComponent,
     UserCoursesComponent,
     ErrorComponent,
+    QuizComponent,
+    AddEditQuizComponent,
   ],
   imports: [
     BrowserModule,

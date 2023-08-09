@@ -48,7 +48,6 @@ export class AddEditCourseComponent implements OnInit {
     this.isAddMode = !this.id;
     this.getAllCategories();
 
-
     if (!this.isAddMode && this.id) {
       this.courseService
         .getCourseById(+this.id)
@@ -64,6 +63,10 @@ export class AddEditCourseComponent implements OnInit {
         )
         .subscribe((res) => {
           this.categoryList = res;
+          const categoryListOfString = this.categoryList
+          .map((category) => category.id)
+          .join(', ');
+          this.courseForm.get("categoryIds")?.setValue(categoryListOfString) 
         });
     }
 
@@ -72,8 +75,6 @@ export class AddEditCourseComponent implements OnInit {
       ?.valueChanges.subscribe((res: string | null) => {
         this.filteredCategories = this._filter(res!!);
       });
-
-      
   }
 
   getAllCategories() {
@@ -142,6 +143,4 @@ export class AddEditCourseComponent implements OnInit {
     }
     return this.allCategories;
   }
-
-
 }
