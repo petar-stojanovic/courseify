@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row mt-4">
-    <div class="col-md-12 col-lg-6 col-md-6 mb-3" *ngIf="course?.author?.id == user?.id || takesCourse">
+    <div class="col-md-12 col-lg-6 col-md-6 order-sm-2 order-md-2 order-lg-1 order-xl-1" *ngIf="course?.author?.id == user?.id || takesCourse">
       <mat-accordion>
         <mat-expansion-panel hideToggle *ngFor="let lesson of lessons; let i = index" class="d-flex flex-column">
           <mat-expansion-panel-header>
@@ -45,7 +45,7 @@
         </button></a>
     </div>
 
-    <div class="col-md-12 col-lg-6 col-md-6 mb-3" *ngIf="course?.author?.id != user?.id && !takesCourse">
+    <div class="col-md-12 col-lg-6 col-md-6 order-sm-2 order-md-2 order-lg-1 order-xl-1" *ngIf="course?.author?.id != user?.id && !takesCourse">
       <ol class="list-group list-group-numbered">
         <li class="list-group-item d-flex justify-content-between align-items-start"
           *ngFor="let lesson of lessons; let i = index">
@@ -57,7 +57,7 @@
       </ol>
     </div>
 
-    <div class="col-lg-6 col-md-12 rounded-5 shadow-lg text-center">
+    <div class="col-lg-6 col-md-12 rounded-5 shadow-lg mb-3 text-center order-sm-1 order-md-1 order-lg-2 order-xl-2">
       <div class="mx-5">
 
         <div class="display-5 my-3 text-center">{{ course?.title }}</div>
