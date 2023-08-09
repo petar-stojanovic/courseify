@@ -33,7 +33,7 @@
   margin-top: 15px;
 }
 
-.invalidCredentials{
+.errorMessage{
   color:#f44336;
   font-weight: bold;
 }

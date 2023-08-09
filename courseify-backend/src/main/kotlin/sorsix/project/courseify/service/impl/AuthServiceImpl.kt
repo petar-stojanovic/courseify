@@ -35,6 +35,9 @@ class AuthServiceImpl(
         if (userRepository.existsByUsername(request.username) != null) {
             throw ExistingUsernameException("Username already exists")
         }
+        if (userRepository.existsByEmail(request.email.lowercase()) != null) {
+            throw ExistingEmailException("Email already exists")
+        }
         if (request.password != request.confirmPassword) {
             throw PasswordsDoNotMatchException("Passwords do not match")
         }

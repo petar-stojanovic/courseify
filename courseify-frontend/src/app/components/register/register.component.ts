@@ -7,6 +7,7 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { ErrorHandleService } from 'src/app/services/errorHandle.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -16,11 +17,19 @@ export class RegisterComponent implements OnInit {
   registerForm: any;
   fieldRequired = 'This field is required';
   registerSucess = false;
+  errorMessage: string | null = null;
 
-  constructor(private auth: AuthService) {}
+  constructor(
+    private auth: AuthService,
+    private errorHandleService: ErrorHandleService
+  ) {}
 
   ngOnInit() {
     this.createForm();
+
+    this.errorHandleService.errorMessage$.subscribe((message) => {
+      this.errorMessage = message;
+    });
   }
 
   createForm() {
@@ -117,9 +126,8 @@ export class RegisterComponent implements OnInit {
         confirmPassword
       )
       .subscribe((response) => {
+        this.errorHandleService.clearErrorMessage();
         this.registerSucess = true;
       });
-    formDirective.resetForm();
-    this.registerForm.reset();
   }
 }

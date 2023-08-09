@@ -2,28 +2,16 @@
   <form>
     <div class="login-container">
       <div class="login-content">
-        <mat-toolbar
-          class="login-toolbar"
-          color="primary"
-          class="d-flex justify-evenly"
-          ><div class="m-auto">LOGIN</div></mat-toolbar
-        >
+        <mat-toolbar class="login-toolbar" color="primary" class="d-flex justify-evenly">
+          <div class="m-auto">LOGIN</div>
+        </mat-toolbar>
         <mat-card>
-          <form
-            [formGroup]="loginForm"
-            #formDirective="ngForm"
-            (ngSubmit)="onSubmit(loginForm, formDirective)"
-            class="d-flex flex-column mx-3 my-2"
-          >
+          <form [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onSubmit(loginForm, formDirective)"
+            class="d-flex flex-column mx-3 my-2">
             <mat-form-field>
               <mat-icon matPrefix>person_outline</mat-icon>
               <mat-label>Username</mat-label>
-              <input
-                autofocus
-                type="text"
-                matInput
-                formControlName="username"
-              />
+              <input autofocus type="text" matInput formControlName="username" />
               <mat-error *ngIf="checkValidation('username')">
                 {{ fieldRequired }}
               </mat-error>
@@ -33,27 +21,16 @@
               <mat-icon matPrefix>lock_outline</mat-icon>
               <mat-label>Password</mat-label>
 
-              <input
-                type="password"
-                autocomplete="false"
-                matInput
-                formControlName="password"
-              />
+              <input type="password" autocomplete="false" matInput formControlName="password" />
               <mat-error *ngIf="checkValidation('password')">
                 {{ fieldRequired }}
               </mat-error>
             </mat-form-field>
 
-            <h2 *ngIf="errorMessage" class="invalidCredentials">
+            <h2 *ngIf="errorMessage" class="errorMessage">
               {{errorMessage}}
             </h2>
-            <button
-              type="submit"
-              [disabled]="loginForm.invalid"
-              mat-raised-button
-              color="primary"
-              class="mt-1"
-            >
+            <button type="submit" [disabled]="loginForm.invalid" mat-raised-button color="primary" class="mt-1">
               LOGIN
             </button>
           </form>
