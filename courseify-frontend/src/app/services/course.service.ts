@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, mergeMap, tap } from 'rxjs';
+import { Observable, mergeMap, of, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Course } from '../interfaces/Course';
 
@@ -79,5 +79,12 @@ export class CourseService {
   publishCourse(id: number): Observable<Course> {
     return this.http.post<Course>(`/api/course/${id}/publish`, {});
   }
-  
+
+  checkTakesCourse(courseId: number, userId: number | undefined): Observable<boolean> {
+    const body = {
+      courseId: courseId,
+      userId: userId
+    }
+    return this.http.post<boolean>("/api/user/enrolled", body)
+  }
 }

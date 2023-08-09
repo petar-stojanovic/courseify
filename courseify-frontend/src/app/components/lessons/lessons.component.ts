@@ -16,6 +16,8 @@ export class LessonsComponent {
   lessons: Lesson[] = [];
   panelOpenState = false;
   user = this.authService.getLoggedInUser();
+  takesCourse = false;
+  courseId = Number(this.route.snapshot.paramMap.get('id'));
 
   constructor(
     private lessonService: LessonService,
@@ -26,16 +28,18 @@ export class LessonsComponent {
 
   ngOnInit(): void {
     this.getLessonsByCourseId();
+    this.checkEnrolledStudent();
   }
 
   getLessonsByCourseId(): void {
-    const courseId = Number(this.route.snapshot.paramMap.get('id'));
-    this.courseService
-      .getCourseById(courseId)
-      .subscribe((result) => (this.course = result));
-    this.lessonService.getLessonsByCourseId(courseId).subscribe((lessons) => {
-      this.lessons = lessons;
+    this.courseService.getCourseById(this.courseId).subscribe((result) => {
+      this.course = result;
     });
+    this.lessonService
+      .getLessonsByCourseId(this.courseId)
+      .subscribe((lessons) => {
+        this.lessons = lessons;
+      });
   }
 
   deleteLesson(id: number) {
@@ -51,5 +55,14 @@ export class LessonsComponent {
 
   enrollStudent(courseId: number) {
     this.courseService.enrollUserToCourse(courseId);
+  }
+
+  checkEnrolledStudent() {
+    this.courseService
+      .checkTakesCourse(this.courseId, this.user?.id)
+      .subscribe(result => {
+        console.log(result);
+        this.takesCourse = result;
+      });
   }
 }
