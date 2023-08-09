@@ -13,6 +13,13 @@ import { ErrorHandleService } from '../services/errorHandle.service';
 
 @Injectable()
 export class HttpResponseInterceptor implements HttpInterceptor {
+  authErrorMessages: { [key: string]: string } = {
+    invalidCredentials: 'Invalid Credentials. Please Try Again',
+    wrongPassword: 'Wrong Password. Please Try Again',
+    usernameExists: 'Username already exists. Please Try Again',
+    emailExists: 'Email already exists. Please Try Again',
+  };
+
   constructor(
     private router: Router,
     private errorHandleService: ErrorHandleService
@@ -23,29 +30,17 @@ export class HttpResponseInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.error('ERROR: ', error.error.message);
+        console.error('ERROR: ', error.error.error);
         const authErrorReason = error.headers.get('X-Auth-Error-Reason');
         console.error(authErrorReason);
 
-        if (authErrorReason === 'invalidCredentials') {
+        if (authErrorReason && this.authErrorMessages[authErrorReason]) {
           this.errorHandleService.setErrorMessage(
-            'Invalid Credentials. Please Try Again'
-          );
-        } else if (authErrorReason === 'wrongPassword') {
-          this.errorHandleService.setErrorMessage(
-            'Wrong Password. Please Try Again'
-          );
-        } else if (authErrorReason === 'usernameExists') {
-          this.errorHandleService.setErrorMessage(
-            'Username already exists. Please Try Again'
-          );
-        } else if (authErrorReason === 'emailExists') {
-          this.errorHandleService.setErrorMessage(
-            'Email already exists. Please Try Again'
+            this.authErrorMessages[authErrorReason]
           );
         } else {
           console.log('ROUTER');
-          // this.router.navigate(['/error', error.status]);
+          this.router.navigate(['/error', error.status]);
         }
 
         return throwError(() => error);

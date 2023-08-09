@@ -129,7 +129,5 @@ export class RegisterComponent implements OnInit {
         this.errorHandleService.clearErrorMessage();
         this.registerSucess = true;
       });
-    // formDirective.resetForm();
-    // this.registerForm.reset();
   }
 }
