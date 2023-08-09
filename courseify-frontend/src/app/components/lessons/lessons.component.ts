@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Lesson } from '../../interfaces/Lesson';
 import { LessonService } from '../../services/lesson.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
 import { AuthService } from 'src/app/services/auth.service';
+
 
 @Component({
   selector: 'app-lessons',
@@ -23,7 +24,8 @@ export class LessonsComponent {
     private lessonService: LessonService,
     private route: ActivatedRoute,
     private courseService: CourseService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +57,7 @@ export class LessonsComponent {
 
   enrollStudent(courseId: number) {
     this.courseService.enrollUserToCourse(courseId);
+    this.reloadPage();
   }
 
   checkEnrolledStudent() {
@@ -64,5 +67,12 @@ export class LessonsComponent {
         console.log(result);
         this.takesCourse = result;
       });
+  }
+
+  reloadPage() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/blank', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 }
