@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Observable, forkJoin, merge, mergeMap, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-lessons',

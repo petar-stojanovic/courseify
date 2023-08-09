@@ -1,57 +1,47 @@
-<h1 *ngIf="isAddMode" class="text-center">Add Lesson</h1>
-<h1 *ngIf="!isAddMode" class="text-center">
-  Edit Lesson - {{ lesson?.title }}
-</h1>
+<div class="wrapper">
+  <div class="form-content">
+    <mat-toolbar class="login-toolbar" color="primary" class="d-flex justify-evenly">
+      <div class="m-auto">
+        <span *ngIf="isAddMode">ADD LESSON</span>
+        <span *ngIf="!isAddMode">EDIT LESSON - {{ lesson?.title }}</span>
+      </div>
+    </mat-toolbar>
 
-<div>
-  <form
-    [formGroup]="lessonForm"
-    (ngSubmit)="submit()"
-    id="addForm"
-    class="d-flex w-50 mx-auto flex-column"
-  >
-    <mat-form-field>
-      <mat-label>Title</mat-label>
-      <input matInput formControlName="title" type="text" />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <textarea
-        matInput
-        formControlName="description"
-        type="text"
-        form="addForm"
-      ></textarea>
-    </mat-form-field>
-    <!-- <mat-form-field>
-      <mat-label>Quiz Id</mat-label>
-      <input matInput formControlName="quizId" type="number" />
-    </mat-form-field> -->
-    <mat-form-field>
-      <mat-label>File Title</mat-label>
-      <input matInput formControlName="fileTitle" type="text" />
-    </mat-form-field>
-    <div class="mb-3">
-      <input
-        class="form-control"
-        type="file"
-        formControlName="file"
-        (change)="onFileChange($event)"
-      />
-    </div>
-    <mat-form-field>
-      <mat-label>Video Title</mat-label>
-      <input matInput formControlName="videoTitle" type="text" />
-    </mat-form-field>
-    <div class="mb-3">
-      <input
-        id="inputFile"
-        class="form-control"
-        type="file"
-        formControlName="video"
-        (change)="onVideoChange($event)"
-      />
-    </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
-  </form>
+    <form [formGroup]="lessonForm" (ngSubmit)="submit()" id="addForm" class="d-flex flex-column mx-3 my-1">
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" type="text" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" type="text" form="addForm"></textarea>
+      </mat-form-field>
+      <!-- <mat-form-field>
+        <mat-label>Quiz Id</mat-label>
+        <input matInput formControlName="quizId" type="number" />
+      </mat-form-field> -->
+      <mat-form-field>
+        <mat-label>File Title</mat-label>
+        <input matInput formControlName="fileTitle" type="text" />
+      </mat-form-field>
+      <div class="mb-3 w-100">
+        <input class="form-control" type="file" formControlName="file" (change)="onFileChange($event)" />
+      </div>
+      <mat-form-field>
+        <mat-label>Video Title</mat-label>
+        <input matInput formControlName="videoTitle" type="text" />
+      </mat-form-field>
+      <div class="mb-3 w-100">
+        <input id="inputFile" class="form-control" type="file" formControlName="video"
+          (change)="onVideoChange($event)" />
+      </div>
+
+      <button *ngIf="isAddMode" type="submit" mat-raised-button color="primary" class="mt-1"
+        [disabled]="lessonForm.invalid">
+        ADD LESSON </button>
+      <button *ngIf="!isAddMode" type="submit" mat-raised-button color="primary" class="mt-1"
+        [disabled]="lessonForm.invalid">
+        EDIT LESSON </button>
+    </form>
+  </div>
 </div>

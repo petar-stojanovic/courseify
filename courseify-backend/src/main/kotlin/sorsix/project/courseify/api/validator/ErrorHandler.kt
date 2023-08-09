@@ -14,7 +14,21 @@ class ErrorHandler {
 
     @ExceptionHandler(ExistingUsernameException::class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    fun onUsernameInvalidException(e: ExistingUsernameException): Map<String, String> {
+    fun onExistingUsernameException(
+        e: ExistingUsernameException,
+        response: HttpServletResponse
+    ): Map<String, String> {
+        response.setHeader("X-Auth-Error-Reason", "usernameExists")
+        return mapOf("error" to (e.message ?: ""))
+    }
+
+    @ExceptionHandler(ExistingEmailException::class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    fun onExistingEmailException(
+        e: ExistingEmailException,
+        response: HttpServletResponse
+    ): Map<String, String> {
+        response.setHeader("X-Auth-Error-Reason", "emailExists")
         return mapOf("error" to (e.message ?: ""))
     }
 
@@ -45,13 +59,5 @@ class ErrorHandler {
         return mapOf("error" to (e.message ?: ""))
     }
 
-    @ExceptionHandler(WrongPasswordException::class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    fun onWrongPasswordException(
-        e: WrongPasswordException,
-        response: HttpServletResponse
-    ): Map<String, String> {
-        response.setHeader("X-Auth-Error-Reason", "wrongPassword")
-        return mapOf("error" to (e.message ?: ""))
-    }
+
 }

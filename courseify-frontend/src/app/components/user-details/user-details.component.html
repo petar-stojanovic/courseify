@@ -16,7 +16,8 @@
       </p>
       <div *ngIf="changePassword">
 
-        <form [formGroup]="userForm" #formDirective="ngForm" *ngIf="!passwordChangeSucess" (ngSubmit)="onSubmit(userForm, formDirective)">
+        <form [formGroup]="userForm" #formDirective="ngForm" *ngIf="!passwordChangeSucess"
+          (ngSubmit)="onSubmit(userForm, formDirective)">
 
           <mat-form-field>
             <mat-icon matPrefix>lock_outline</mat-icon>

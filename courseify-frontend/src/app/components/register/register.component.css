@@ -36,3 +36,9 @@
 .fieldClass {
   margin-bottom: 1.25rem;
 }
+
+
+.errorMessage{
+  color:#f44336;
+  font-weight: bold;
+}
