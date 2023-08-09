@@ -109,6 +109,10 @@
             </mat-error>
           </mat-form-field>
 
+          <h2 *ngIf="errorMessage" class="errorMessage">
+            {{errorMessage}}
+          </h2>
+
             <button
               [disabled]="registerForm.invalid"
               type="submit"

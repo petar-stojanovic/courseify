@@ -35,9 +35,17 @@ export class HttpResponseInterceptor implements HttpInterceptor {
           this.errorHandleService.setErrorMessage(
             'Wrong Password. Please Try Again'
           );
+        } else if (authErrorReason === 'usernameExists') {
+          this.errorHandleService.setErrorMessage(
+            'Username already exists. Please Try Again'
+          );
+        } else if (authErrorReason === 'emailExists') {
+          this.errorHandleService.setErrorMessage(
+            'Email already exists. Please Try Again'
+          );
         } else {
           console.log('ROUTER');
-          this.router.navigate(['/error', error.status]);
+          // this.router.navigate(['/error', error.status]);
         }
 
         return throwError(() => error);
