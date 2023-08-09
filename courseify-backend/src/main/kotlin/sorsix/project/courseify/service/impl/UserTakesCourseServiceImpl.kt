@@ -18,4 +18,10 @@ class UserTakesCourseServiceImpl(val userTakesCourseRepository: UserTakesCourseR
         val user = userRepository.findById(request.userId).get()
         return userTakesCourseRepository.save(UserTakesCourse(0, user, course, LocalDate.now(), null))
     }
+
+    override fun checkEnrolledUser(request: UserTakesCourseRequest): Boolean {
+        val course = courseRepository.findById(request.courseId).get()
+        val user = userRepository.findById(request.userId).get()
+        return userTakesCourseRepository.existsByCourseAndUser(course, user)
+    }
 }

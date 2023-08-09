@@ -19,7 +19,7 @@ export class AddEditLessonComponent {
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     courseId: new FormControl('', [Validators.required]),
-    quizId: new FormControl('', [Validators.required]),
+    // quizId: new FormControl('', [Validators.required]),
     file: new FormControl('', [Validators.required]),
     fileSource: new FormControl('', [Validators.required]),
     fileTitle: new FormControl('', [Validators.required]),
@@ -49,7 +49,7 @@ export class AddEditLessonComponent {
         this.lessonForm?.patchValue({
           title: this.lesson.title,
           description: this.lesson.description,
-          quizId: this.lesson.quiz?.id.toString(),
+          // quizId: this.lesson.quiz?.id.toString(),
           videoTitle: this.lesson.videoTitle,
           fileTitle: this.lesson.fileTitle,
         });
@@ -83,7 +83,7 @@ export class AddEditLessonComponent {
     formData.append('fileTitle', this.lessonForm.get('fileTitle')?.value!!);
     formData.append('title', this.lessonForm.get('title')?.value!!);
     formData.append('description', this.lessonForm.get('description')?.value!!);
-    formData.append('quizId', this.lessonForm.get('quizId')?.value!!);
+    formData.append('quizId', "0");
     formData.append('courseId', this.lessonForm.get('courseId')?.value!!);
 
     if (this.isAddMode) {

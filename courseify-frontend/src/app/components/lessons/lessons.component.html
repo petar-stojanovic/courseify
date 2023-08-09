@@ -4,25 +4,25 @@
       <mat-accordion>
         <mat-expansion-panel
           hideToggle
-          *ngFor="let lesson of lessons"
+          *ngFor="let lesson of lessons; let i = index"
           class="d-flex flex-column"
         >
           <mat-expansion-panel-header>
-            <mat-panel-title>{{ lesson.title }}</mat-panel-title>
+            <mat-panel-title>Lesson {{ i + 1 }}</mat-panel-title>
             <mat-panel-description>
-              {{ lesson.description }}
+              {{ lesson.title }}
             </mat-panel-description>
           </mat-expansion-panel-header>
           <a
             routerLink="/course/{{ lesson.course.id }}/lessons/{{
               lesson.id
             }}/video"
+            class="d-flex align-items-center"
+            ><mat-icon class="me-2">video_library</mat-icon
             >{{ lesson.videoTitle }}</a
           >
-          <a>
-            <p mat-raised-button (click)="openFile(lesson.id)">
-              {{ lesson.fileTitle }}
-            </p>
+          <a (click)="openFile(lesson.id)" class="d-flex align-items-center" style="cursor: pointer;">
+            <mat-icon class="me-2"> attach_file</mat-icon>{{ lesson.fileTitle }}
           </a>
 
           <div *ngIf="user?.id == lesson.course.author.id">
@@ -48,17 +48,19 @@
       <a
         *ngIf="user?.id == course?.author?.id"
         routerLink="/course/{{ course?.id }}/lessons/add"
-        ><button mat-raised-button color="primary" class="w-100">Add Lesson</button></a
+        ><button mat-raised-button color="primary" class="w-100">
+          Add Lesson
+        </button></a
       >
     </div>
     <div class="col-6">
       <app-thumbnail
-        [courseId]="course!!.id"
+        [courseId]="1"
         thumbnail_class="thumbnail"
       ></app-thumbnail>
       <div class="display-5 my-3 text-center">{{ course?.title }}</div>
       <button
-        *ngIf="course?.author?.id != user?.id"
+        *ngIf="course?.author?.id != user?.id && !takesCourse"
         mat-raised-button
         color="primary"
         (click)="enrollStudent(course!!.id)"
