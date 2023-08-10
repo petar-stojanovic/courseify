@@ -1,1 +1,54 @@
-<p>add-edit-quiz works!</p>
+<h3>Add Lesson Quiz:</h3>
+<form class="add-quiz-form" [formGroup]="quizForm" (ngSubmit)="submit()">
+    <ng-container formArrayName="questions">
+        <ng-container *ngFor="let questionForm of $any(questions.controls); let i = index">
+            <div class="question-form-row" [formGroup]="questionForm">
+                <mat-icon class="delete-btn" (click)="deleteQuestion(i)">
+                    delete_forever</mat-icon>
+                <mat-form-field appearance="fill">
+                    <input matInput formControlName="question" placeholder="Question name">
+                </mat-form-field>
+
+                <div class="add-answer-form">
+                    <ng-container formArrayName="answers">
+                        <ng-container
+                            *ngFor="let answerForm of $any(questionForm.controls.answers.controls); let j = index">
+                            <div class="question-form-row" [formGroup]="answerForm">
+                                <mat-form-field appearance="fill">
+                                    <input matInput formControlName="answer" placeholder="Answer name">
+                                </mat-form-field>
+                                <!-- <mat-checkbox formControlName="isCorrect">Correct</mat-checkbox> -->
+                                <!-- <input type="checkbox" [formControl]="answerForm.get('isCorrect')"> Correct -->
+                                <mat-radio-group [formControl]="questionForm.get('correctAnswer')"
+                                    [name]="'question_' + i">
+                                    <mat-radio-button [value]="j">Correct</mat-radio-button>
+                                </mat-radio-group>
+
+                                <mat-icon class="delete-btn" (click)="deleteAnswer(i, j)">
+                                    delete_forever
+                                </mat-icon>
+
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
+                    <button mat-raised-button color="primary" (click)="addAnswer(i)">
+                        Add answer
+                    </button>
+
+                </div>
+
+            </div>
+        </ng-container>
+    </ng-container>
+
+    <button mat-raised-button color="primary" (click)="addQuestion()">
+        Add Question
+    </button>
+
+    <br />
+
+    <button type="submit" mat-raised-button color="primary" class="mt-1" [disabled]="quizForm.invalid">
+        ADD QUIZ </button>
+
+</form>
