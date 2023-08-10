@@ -19,7 +19,6 @@ export class AddEditLessonComponent {
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     courseId: new FormControl('', [Validators.required]),
-    // quizId: new FormControl('', [Validators.required]),
     file: new FormControl('', [Validators.required]),
     fileSource: new FormControl('', [Validators.required]),
     fileTitle: new FormControl('', [Validators.required]),
@@ -49,7 +48,6 @@ export class AddEditLessonComponent {
         this.lessonForm?.patchValue({
           title: this.lesson.title,
           description: this.lesson.description,
-          // quizId: this.lesson.quiz?.id.toString(),
           videoTitle: this.lesson.videoTitle,
           fileTitle: this.lesson.fileTitle,
         });

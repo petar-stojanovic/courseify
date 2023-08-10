@@ -43,7 +43,7 @@ class CourseController(
         courseService.getCourses(search, categoryName)
 
     @GetMapping("/{id}")
-    fun getCourse(@PathVariable id: Long): ResponseEntity<*> = courseRepository.findByIdOrNull(id)
+    fun getCourse(@PathVariable id: Long): ResponseEntity<*> = courseRepository.findByIdOrNullCustom(id)
         ?.let { ResponseEntity.ok(it) } ?: ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body("The course with id $id does not exist!")
 

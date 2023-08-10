@@ -1,6 +1,5 @@
 package sorsix.project.courseify.service.definitions
 
-import jakarta.servlet.http.HttpServletRequest
 import org.springframework.core.io.Resource
 import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.domain.Course
