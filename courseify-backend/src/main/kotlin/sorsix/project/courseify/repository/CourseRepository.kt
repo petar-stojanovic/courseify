@@ -56,6 +56,6 @@ interface CourseRepository : JpaRepository<Course, Long> {
         left join  User u on c.author.id = u.id
         where c.id = :id
     """)
-    fun findByIdOrNullCustom(id: Long): Course?
+    fun findByIdOrNull(id: Long): Course?
 
 }

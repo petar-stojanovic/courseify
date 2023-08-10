@@ -135,7 +135,7 @@ class CourseServiceImpl(
     }
 
     override fun getThumbnail(courseId: Long): Resource? {
-        val coursePath = courseRepository.findByIdOrNullCustom(courseId)?.title?.toSlug()
+        val coursePath = courseRepository.findByIdOrNull(courseId)?.title?.toSlug()
 
         val thumbnailPath = Paths.get("uploads/$coursePath/thumbnail.jpeg")
 
