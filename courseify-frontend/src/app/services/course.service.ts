@@ -64,7 +64,7 @@ export class CourseService {
             })
           )
         )
-        .subscribe((result) => console.log(result));
+        .subscribe();
     }
   }
 

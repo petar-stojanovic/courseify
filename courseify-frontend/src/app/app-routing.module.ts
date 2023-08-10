@@ -63,7 +63,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'course/:courseId/lessons/:lessonId/quiz',
+    path: 'quiz',
     component: QuizComponent,
     canActivate: [AuthenticationGuard],
   },

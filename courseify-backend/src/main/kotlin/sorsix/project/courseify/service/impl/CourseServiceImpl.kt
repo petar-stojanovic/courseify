@@ -9,6 +9,7 @@ import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.domain.Course
 import sorsix.project.courseify.domain.CourseCategories
 import sorsix.project.courseify.domain.User
+import sorsix.project.courseify.domain.response.CourseResponse
 import sorsix.project.courseify.repository.*
 import sorsix.project.courseify.service.definitions.CourseService
 import java.io.File
@@ -75,7 +76,7 @@ class CourseServiceImpl(
     override fun getCourses(search: String?, categoryName: String?): List<Course> {
 
         return if (search != null && categoryName != null) {
-            courseRepository.findAllByCategoryNameAndTitleContainingIgnoreCase(categoryName, search)
+            courseRepository.findAllByCategoryNameAndTitleContainingIgnoreCaseAndActive(categoryName, search)
         } else if (search != null) {
             courseRepository.findAllByTitleContainingIgnoreCaseAndActiveTrue(search)
         } else if (categoryName != null) {
@@ -97,7 +98,7 @@ class CourseServiceImpl(
             Files.move(oldPath, oldPath.resolveSibling(newCourseSlug))
             File(oldPath.toString()).deleteRecursively()
         } else if (Files.exists(oldPath)) {
-            if (Files.exists(oldPath.resolve("thumbnail.jpeg"))){
+            if (Files.exists(oldPath.resolve("thumbnail.jpeg"))) {
                 Files.delete(oldPath.resolve("thumbnail.jpeg"))
             }
         } else {
@@ -135,7 +136,7 @@ class CourseServiceImpl(
     }
 
     override fun getThumbnail(courseId: Long): Resource? {
-        val coursePath = courseRepository.findById(courseId).get().title.toSlug()
+        val coursePath = courseRepository.findByIdOrNullCustom(courseId)?.title?.toSlug()
 
         val thumbnailPath = Paths.get("uploads/$coursePath/thumbnail.jpeg")
 

@@ -6,7 +6,6 @@ import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Quiz } from 'src/app/interfaces/Quiz';
-import { QuizService } from 'src/app/services/quiz.service';
 
 
 @Component({
@@ -44,8 +43,6 @@ export class LessonsComponent {
       .getLessonsByCourseId(this.courseId)
       .subscribe((lessons) => {
         this.lessons = lessons;
-        console.log(lessons.at(1));
-        
       });
   }
 
@@ -69,7 +66,6 @@ export class LessonsComponent {
     this.courseService
       .checkTakesCourse(this.courseId, this.user?.id)
       .subscribe(result => {
-        console.log(result);
         this.takesCourse = result;
       });
   }

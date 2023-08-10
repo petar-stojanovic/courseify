@@ -20,8 +20,6 @@ class UserTakesCourseServiceImpl(val userTakesCourseRepository: UserTakesCourseR
     }
 
     override fun checkEnrolledUser(request: UserTakesCourseRequest): Boolean {
-        val course = courseRepository.findById(request.courseId).get()
-        val user = userRepository.findById(request.userId).get()
-        return userTakesCourseRepository.existsByCourseAndUser(course, user)
+        return userTakesCourseRepository.existsByCourseIdAndUserId(request.courseId, request.userId)
     }
 }

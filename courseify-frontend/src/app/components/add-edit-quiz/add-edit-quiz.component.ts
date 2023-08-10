@@ -7,14 +7,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./add-edit-quiz.component.css'],
 })
 export class AddEditQuizComponent implements OnInit {
-  id: string | undefined;
+  lessonId: string | undefined;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.id = params['lessonId'];
-      if (!this.id) {
+      this.lessonId = params['lessonId'];
+      if (!this.lessonId) {
         this.router.navigateByUrl('/error/404');
       }
     });
