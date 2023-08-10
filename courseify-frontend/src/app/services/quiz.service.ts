@@ -13,6 +13,4 @@ export class QuizService {
   getQuizWithLessonId(lessonId: number): Observable<Quiz>{
     return this.http.get<Quiz>(`/api/quiz/${lessonId}`)
   }
-
-
 }
