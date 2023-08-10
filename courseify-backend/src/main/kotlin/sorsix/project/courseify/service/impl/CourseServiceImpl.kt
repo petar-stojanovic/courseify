@@ -9,7 +9,6 @@ import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.domain.Course
 import sorsix.project.courseify.domain.CourseCategories
 import sorsix.project.courseify.domain.User
-import sorsix.project.courseify.domain.response.CourseResponse
 import sorsix.project.courseify.repository.*
 import sorsix.project.courseify.service.definitions.CourseService
 import java.io.File
