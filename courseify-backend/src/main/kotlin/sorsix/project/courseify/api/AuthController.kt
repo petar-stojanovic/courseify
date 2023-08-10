@@ -88,7 +88,7 @@ class AuthController(
     fun checkUserAccessToLesson(@PathVariable lessonId: Long, req: HttpServletRequest): Boolean {
         val user = getCurrentUser(req)
         val course: Course
-        val lesson = lessonRepository.findByIdOrNull(lessonId).let {
+         lessonRepository.findByIdOrNull(lessonId).let {
             if (it != null) {
                 course = it.course
                 return course.author == user
