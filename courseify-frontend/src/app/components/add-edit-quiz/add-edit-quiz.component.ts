@@ -34,6 +34,8 @@ export class AddEditQuizComponent implements OnInit {
         this.router.navigateByUrl('/error/404');
       }
     });
+
+    this.addQuestion()
   }
 
   get questions() {

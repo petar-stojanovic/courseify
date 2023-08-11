@@ -27,15 +27,6 @@ data class LogoutService(
         jwt = authHeader.substring(7)
         var storedToken = tokenRepository.findByToken(jwt)
 
-        /**
-         * This is from GitHub
-         * if (storedToken != null) {
-         *             storedToken.expired = true
-         *             storedToken.revoked = true
-         *             tokenRepository.save(storedToken)
-         *             SecurityContextHolder.clearContext()
-         *         }
-         */
 
         if (storedToken != null) {
             val newToken = Token(
