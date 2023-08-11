@@ -6,6 +6,7 @@ import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Quiz } from 'src/app/interfaces/Quiz';
+import { map } from 'rxjs';
 
 
 @Component({
@@ -64,10 +65,14 @@ export class LessonsComponent {
 
   checkEnrolledStudent() {
     this.courseService
-      .checkTakesCourse(this.courseId, this.user?.id)
-      .subscribe(result => {
-        this.takesCourse = result;
-      });
+      .checkTakesCourse(this.courseId, this.user?.id).pipe(
+        map((result) => {
+          this.takesCourse = result;
+        })
+      )
+      // .subscribe(result => {
+      //   this.takesCourse = result;
+      // });
   }
 
   reloadPage() {

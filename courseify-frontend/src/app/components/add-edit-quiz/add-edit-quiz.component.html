@@ -1,52 +1,74 @@
-<h3>Add Lesson Quiz:</h3>
-<form class="add-quiz-form" [formGroup]="quizForm" (ngSubmit)="submit()">
-    <ng-container formArrayName="questions">
-        <ng-container *ngFor="let questionForm of $any(questions.controls); let i = index">
-            <div class="question-form-row" [formGroup]="questionForm">
-                <mat-icon class="delete-btn" (click)="deleteQuestion(i)">
-                    delete_forever</mat-icon>
-                <mat-form-field appearance="fill">
-                    <input matInput formControlName="question" placeholder="Question name">
-                </mat-form-field>
+<div class="wrapper">
+    <div class="form-content">
+        <mat-toolbar class="login-toolbar" color="primary" class="d-flex justify-evenly">
+            <div class="m-auto">
+                <span>ADD QUIZ</span>
+            </div>
+        </mat-toolbar>
+        <mat-card>
+            <form class="add-quiz-form px-2" [formGroup]="quizForm" (ngSubmit)="submit()">
+                <ng-container formArrayName="questions">
+                    <ng-container *ngFor="let questionForm of $any(questions.controls); let i = index">
+                        <div class="question-form-row" [formGroup]="questionForm">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
 
-                <div class="add-answer-form">
-                    <ng-container formArrayName="answers">
-                        <ng-container
-                            *ngFor="let answerControl of $any(questionForm.get('answers').controls); let j = index">
-                            <div class="question-form-row" [formGroup]="answerControl">
-                                <mat-form-field appearance="fill">
-                                    <input matInput [formControl]="answerControl" placeholder="Answer name">
+                                <p class="fs-2 m-0">{{i+1}}.</p>
+                                <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                                    <input matInput formControlName="question" placeholder="Question name">
                                 </mat-form-field>
-                                <mat-radio-group [formControl]="questionForm.get('correctAnswer')"
-                                    [name]="'question_' + i">
-                                    <mat-radio-button [value]="j">Correct</mat-radio-button>
-                                </mat-radio-group>
 
-                                <mat-icon class="delete-btn" (click)="deleteAnswer(i, j)">
-                                    delete_forever
+
+                                <mat-icon class="delete-btn" (click)="deleteQuestion(i)">
+                                    delete
                                 </mat-icon>
+                            </div>
+
+                            <div class="add-answer-form">
+                                <ng-container formArrayName="answers">
+                                    <ng-container
+                                        *ngFor="let answerControl of $any(questionForm.get('answers').controls); let j = index">
+                                        <div class="question-form-row d-flex align-items-center"
+                                            [formGroup]="answerControl">
+                                            <p class="mx-3"></p>
+                                            <mat-radio-group [formControl]="questionForm.get('correctAnswer')"
+                                                [name]="'question_' + i">
+                                                <mat-radio-button [value]="j"></mat-radio-button>
+                                            </mat-radio-group>
+                                            <mat-form-field appearance="fill" subscriptSizing="dynamic"
+                                                class="answerInput">
+                                                <input matInput [formControl]="answerControl" placeholder="Answer name">
+                                            </mat-form-field>
+
+                                            <mat-icon class="delete-btn" (click)="deleteAnswer(i, j)">
+                                                delete_outline
+                                            </mat-icon>
+
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+
+                                <!-- <button mat-raised-button color="primary" (click)="addAnswer(i)">
+                                    Add answer
+                                </button> -->
+                                <p class="addOption" (click)="addAnswer(i)">+ Add answer</p>
 
                             </div>
-                        </ng-container>
+
+                        </div>
                     </ng-container>
+                </ng-container>
 
-                    <button mat-raised-button color="primary" (click)="addAnswer(i)">
-                        Add answer
-                    </button>
+                <button mat-raised-button color="primary" (click)="addQuestion()">
+                    Add Question
+                </button>
 
-                </div>
+                <br />
 
-            </div>
-        </ng-container>
-    </ng-container>
+                <button type="submit" mat-raised-button color="primary" class="mb-3" [disabled]="quizForm.invalid">
+                    ADD QUIZ </button>
 
-    <button mat-raised-button color="primary" (click)="addQuestion()">
-        Add Question
-    </button>
+            </form>
+        </mat-card>
 
-    <br />
-
-    <button type="submit" mat-raised-button color="primary" class="mt-1" [disabled]="quizForm.invalid">
-        ADD QUIZ </button>
-
-</form>
+    </div>
+</div>
