@@ -27,11 +27,6 @@ data class Question (
 
     @OneToOne
     @JoinColumn(name = "correct_answer_id")
-    val correctAnswer: Answer,
-
-    @OneToMany(mappedBy = "question")
-    @JsonManagedReference
-    val answers: List<Answer>
-
+    val correctAnswer: Answer?,
 ){
 }

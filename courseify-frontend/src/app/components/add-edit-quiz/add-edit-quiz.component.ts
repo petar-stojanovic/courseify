@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from 'src/app/services/quiz.service';
 import { Quiz } from '../../interfaces/Quiz';
+import { Question } from 'src/app/interfaces/Question';
 
 @Component({
   selector: 'app-add-edit-quiz',
@@ -46,15 +47,11 @@ export class AddEditQuizComponent implements OnInit {
       correctAnswer: [null, Validators.required],
     });
 
-    const answerForm = this.fb.group({
-      answer: ['', Validators.required],
-      isCorrect: false,
-    });
+    const answerControl = this.fb.control('', Validators.required);
 
-    (questionForm.get('answers') as FormArray).push(answerForm);
+    (questionForm.get('answers') as FormArray).push(answerControl);
 
     this.questions.push(questionForm);
-    console.log(questionForm.controls);
   }
 
   deleteQuestion(lessonIndex: number) {
@@ -62,15 +59,12 @@ export class AddEditQuizComponent implements OnInit {
   }
 
   addAnswer(questionIndex: number) {
-    const answerForm = this.fb.group({
-      answer: ['', Validators.required],
-    });
+    const answerControl = this.fb.control('', Validators.required);
 
     (this.questions.at(questionIndex).get('answers') as FormArray).push(
-      answerForm
+      answerControl
     );
     this.questions.at(questionIndex).get('correctAnswer')?.setValue(null);
-    console.log(answerForm.controls);
   }
 
   deleteAnswer(questionIndex: number, lessonIndex: number) {
@@ -84,8 +78,25 @@ export class AddEditQuizComponent implements OnInit {
   }
 
   submit() {
-    const formData = this.quizForm.value;
+    if (this.quizForm.valid) {
+      const formData = this.quizForm.value;
 
-    console.log(formData);
+      const transformedData = {
+        lessonId: this.id,
+        title: 'Quiz Title',
+        questions: formData.questions?.map((question: any) => {
+          const transformedQuestion: Question = {
+            content: question.question,
+            correctAnswerId: question.correctAnswer,
+            answers: question.answers,
+          };
+          return transformedQuestion;
+        }),
+      };
+
+      this.quizService.save(transformedData).subscribe((res) => {
+        console.log(res);
+      });
+    }
   }
 }
