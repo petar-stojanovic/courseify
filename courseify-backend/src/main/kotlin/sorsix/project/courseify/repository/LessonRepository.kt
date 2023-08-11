@@ -13,6 +13,6 @@ interface LessonRepository : JpaRepository<Lesson, Long> {
         on c.id = l.course.id
         left join User u 
         on u.id = c.author.id
-        where l.id = :id""")
+        where l.course.id = :id""")
     fun findAllByCourseId(id: Long): List<Lesson>
 }

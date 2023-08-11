@@ -33,12 +33,10 @@ export class VideoComponent implements OnInit {
     const lessonId = this.route.snapshot.params['lessonId'];
     this.lessonService.getLessonById(+lessonId).subscribe((result) => {
       this.lesson = result;
-      console.log(this.lesson);
     });
 
     this.lessonService.getVideoByLessonId(lessonId).subscribe(
       (response: any) => {
-        console.log(response);
         const blob = new Blob([response], { type: 'video/mp4' });
         this.videoUrl = this.sanitizer.bypassSecurityTrustUrl(
           URL.createObjectURL(blob)

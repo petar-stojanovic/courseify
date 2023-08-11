@@ -18,9 +18,6 @@ import sorsix.project.courseify.service.definitions.QuizService
 @RequestMapping("/api/quiz")
 class QuizController(val quizRepository: QuizRepository, val quizService: QuizService) {
 
-//    @GetMapping()
-//    fun getAll(): List<Quiz> = quizRepository.findAll()
-
     @GetMapping()
     fun getQuizWithLessonId(@RequestParam id: Long): ResponseEntity<*> =
         quizService.getQuiz(id)
