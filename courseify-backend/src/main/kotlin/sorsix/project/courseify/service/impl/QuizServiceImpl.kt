@@ -6,6 +6,8 @@ import sorsix.project.courseify.api.request.QuizRequest
 import sorsix.project.courseify.domain.Answer
 import sorsix.project.courseify.domain.Question
 import sorsix.project.courseify.domain.Quiz
+import sorsix.project.courseify.domain.response.QuestionResponse
+import sorsix.project.courseify.domain.response.QuizResponse
 import sorsix.project.courseify.repository.AnswerRepository
 import sorsix.project.courseify.repository.LessonRepository
 import sorsix.project.courseify.repository.QuestionRepository
@@ -32,7 +34,7 @@ class QuizServiceImpl(
             it.answers.forEach {
                 val answer = Answer(0, it, question)
                 answerRepository.save(answer)
-                if ( it == correctAnswer){
+                if (it == correctAnswer) {
                     questionRepository.save(question.copy(correctAnswer = answer))
                 }
             }
@@ -40,5 +42,17 @@ class QuizServiceImpl(
         val copiedLesson = lesson.copy(quiz = quiz)
         lessonRepository.save(copiedLesson)
         return quiz
+    }
+
+    override fun getQuiz(id: Long): QuizResponse? {
+        val quiz = quizRepository.getQuizByLessonId(id)
+        val questions = ArrayList<QuestionResponse>()
+        questionRepository.findAllByQuizId(quiz!!.id)
+            .map { QuestionResponse(it.id, it.content, it.correctAnswer!!.id, mutableListOf()) }
+            .forEach {
+                val answers = answerRepository.getAllByQuestionId(it.id)
+                questions.add(it.copy(answers = answers))
+            }
+        return QuizResponse(quiz.id, quiz.title, questions)
     }
 }

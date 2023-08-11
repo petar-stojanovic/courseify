@@ -20,12 +20,10 @@ export class CategoriesComponent implements OnInit {
 
   loadCachedCategories(): void {
     const cachedCategories = localStorage.getItem('categories');
-    console.log(this.cachedCategories);
     if (cachedCategories) {
       this.cachedCategories = JSON.parse(cachedCategories);
     }else{
       this.categoryService.getAllCategories().subscribe((result) => {
-        console.log(result);
         this.cachedCategories = result;
         localStorage.setItem('categories', JSON.stringify(result));
   

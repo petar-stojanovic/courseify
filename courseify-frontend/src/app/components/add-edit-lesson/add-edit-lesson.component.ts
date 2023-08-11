@@ -83,7 +83,7 @@ export class AddEditLessonComponent {
     formData.append('description', this.lessonForm.get('description')?.value!!);
     formData.append('quizId', "0");
     formData.append('courseId', this.lessonForm.get('courseId')?.value!!);
-
+    
     if (this.isAddMode) {
       this.lessonService
         .addLesson(formData)

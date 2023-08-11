@@ -39,7 +39,6 @@ export class HttpResponseInterceptor implements HttpInterceptor {
             this.authErrorMessages[authErrorReason]
           );
         } else {
-          console.log('ROUTER');
           this.router.navigate(['/error', error.status]);
         }
 

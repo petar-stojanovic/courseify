@@ -39,6 +39,8 @@ export class LessonsComponent {
   getLessonsByCourseId(): void {
     this.courseService.getCourseById(this.courseId).subscribe((result) => {
       this.course = result;
+      
+      
     });
     this.lessonService
       .getLessonsByCourseId(this.courseId)

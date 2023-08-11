@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Quiz } from '../interfaces/Quiz';
@@ -9,8 +9,10 @@ import { Quiz } from '../interfaces/Quiz';
 export class QuizService {
   constructor(private http: HttpClient) {}
 
-  getQuizWithLessonId(lessonId: number): Observable<Quiz> {
-    return this.http.get<Quiz>(`/api/quiz/${lessonId}`);
+  getQuizWithLessonId(id: number): Observable<Quiz> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('id', id);
+    return this.http.get<Quiz>('/api/quiz', { params: queryParams });
   }
 
   save(data: any): Observable<Quiz> {

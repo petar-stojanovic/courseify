@@ -72,6 +72,5 @@ export class CourseComponent implements OnInit, OnDestroy {
 
   getDecodedAccessToken(): any {
     let token = localStorage.getItem('token');
-    console.log(jwt_decode(token!!));
   }
 }

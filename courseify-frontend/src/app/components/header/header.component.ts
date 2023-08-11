@@ -19,7 +19,6 @@ export class HeaderComponent implements OnInit {
 
     if(this.isAuthenticated){
       this.user = this.authService.getLoggedInUser()!!
-      console.log(this.user);
       
     }
   }

@@ -96,9 +96,7 @@ export class AddEditQuizComponent implements OnInit {
         }),
       };
 
-      this.quizService.save(transformedData).subscribe((res) => {
-        console.log(res);
-      });
+      this.quizService.save(transformedData).subscribe();
     }
   }
 }

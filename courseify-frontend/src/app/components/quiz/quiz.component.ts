@@ -31,8 +31,6 @@ export class QuizComponent implements OnInit {
   getQuizByLessonId(id: number) {
     this.quizService.getQuizWithLessonId(id).subscribe((result) => {
       this.quiz = result;
-      console.log(this.quiz);
-      
     });
   }
 }

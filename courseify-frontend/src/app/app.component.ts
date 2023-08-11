@@ -22,9 +22,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // localStorage.removeItem("token")
     this.authService.loadCachedUser();
-    console.log(localStorage);
   }
-
 }
