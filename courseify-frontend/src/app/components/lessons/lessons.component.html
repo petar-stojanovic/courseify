@@ -99,7 +99,7 @@
       </ol>
     </div>
 
-    <div
+    <div *ngIf="course?.id"
       class="col-lg-6 col-md-12 rounded-5 shadow-lg mb-3 text-center order-sm-1 order-md-1 order-lg-2 order-xl-2"
     >
       <div class="mx-5">
@@ -112,7 +112,7 @@
           {{ course?.author?.firstName }} {{ course?.author?.lastName }}
         </h1>
         <button
-          *ngIf="course?.author?.id != user?.id && !takesCourse"
+          *ngIf="course?.author?.id != user?.id && !takesCourse && user"
           mat-raised-button
           color="primary"
           (click)="enrollStudent(course!!.id)"
