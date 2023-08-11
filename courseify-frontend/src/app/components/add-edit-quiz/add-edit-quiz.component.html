@@ -12,13 +12,11 @@
                 <div class="add-answer-form">
                     <ng-container formArrayName="answers">
                         <ng-container
-                            *ngFor="let answerForm of $any(questionForm.controls.answers.controls); let j = index">
-                            <div class="question-form-row" [formGroup]="answerForm">
+                            *ngFor="let answerControl of $any(questionForm.get('answers').controls); let j = index">
+                            <div class="question-form-row" [formGroup]="answerControl">
                                 <mat-form-field appearance="fill">
-                                    <input matInput formControlName="answer" placeholder="Answer name">
+                                    <input matInput [formControl]="answerControl" placeholder="Answer name">
                                 </mat-form-field>
-                                <!-- <mat-checkbox formControlName="isCorrect">Correct</mat-checkbox> -->
-                                <!-- <input type="checkbox" [formControl]="answerForm.get('isCorrect')"> Correct -->
                                 <mat-radio-group [formControl]="questionForm.get('correctAnswer')"
                                     [name]="'question_' + i">
                                     <mat-radio-button [value]="j">Correct</mat-radio-button>
