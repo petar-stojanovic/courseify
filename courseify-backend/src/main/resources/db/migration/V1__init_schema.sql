@@ -80,7 +80,8 @@ create table takes_course
     user_id    bigint references users ON DELETE CASCADE,
     course_id  bigint references course ON DELETE CASCADE,
     start_date date not null,
-    end_date   date
+    end_date   date,
+    progress   float
 );
 
 
@@ -93,4 +94,12 @@ create table token
     revoked    bool not null,
     expired    bool not null,
     user_id    bigint references users ON DELETE CASCADE
+);
+
+create table user_quiz
+(
+    id        bigserial primary key,
+    user_id   bigint references users ON DELETE CASCADE,
+    quiz_id   bigint references quiz ON DELETE CASCADE,
+    course_id bigint references course ON DELETE CASCADE
 );

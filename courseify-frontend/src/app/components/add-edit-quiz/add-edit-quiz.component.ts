@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from 'src/app/services/quiz.service';
 import { Quiz } from '../../interfaces/Quiz';
 import { Question } from 'src/app/interfaces/Question';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-edit-quiz',
@@ -24,7 +25,8 @@ export class AddEditQuizComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private quizService: QuizService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +99,9 @@ export class AddEditQuizComponent implements OnInit {
         }),
       };
 
-      this.quizService.save(transformedData).subscribe();
+      this.quizService.save(transformedData).subscribe(
+        () => this.location.back()
+      );
     }
   }
 }

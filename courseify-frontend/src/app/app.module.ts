@@ -42,6 +42,7 @@ import { AuthInterceptor } from './interceptors/AuthInterceptor';
 import { HttpResponseInterceptor } from './interceptors/HttpResponseInterceptor';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { AddEditQuizComponent } from './components/add-edit-quiz/add-edit-quiz.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { AddEditQuizComponent } from './components/add-edit-quiz/add-edit-quiz.c
     MatAutocompleteModule,
     MatMenuModule,
     MatRadioModule,
+    MatProgressBarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

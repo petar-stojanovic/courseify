@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Quiz } from 'src/app/interfaces/Quiz';
+import { User } from 'src/app/interfaces/User';
+import { AuthService } from 'src/app/services/auth.service';
 import { QuizService } from 'src/app/services/quiz.service';
 
 @Component({
@@ -11,11 +13,13 @@ import { QuizService } from 'src/app/services/quiz.service';
 export class QuizComponent implements OnInit {
   lessonId: string | undefined;
   quiz: Quiz | undefined;
+  user = this.authService.getLoggedInUser();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private quizService: QuizService
+    private quizService: QuizService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -25,7 +29,7 @@ export class QuizComponent implements OnInit {
         this.router.navigateByUrl('/error/404');
       }
     });
-    this.getQuizByLessonId(+this.lessonId!!)
+    this.getQuizByLessonId(+this.lessonId!!);
   }
 
   getQuizByLessonId(id: number) {
@@ -33,5 +37,9 @@ export class QuizComponent implements OnInit {
       this.quiz = result;
       console.log(result)
     });
+  }
+
+  completeQuiz(id: number | undefined){
+    this.quizService.completeQuiz(id, this.user?.id)
   }
 }
