@@ -87,4 +87,12 @@ export class CourseService {
     }
     return this.http.post<boolean>("/api/user/enrolled", body)
   }
+
+  getProgress(courseId: number | undefined, userId: number | undefined): Observable<number> {
+    const body = {
+      courseId: courseId,
+      userId: userId
+    }
+    return this.http.post<number>("/api/course/progress", body)
+  }
 }

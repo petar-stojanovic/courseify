@@ -7,10 +7,13 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import sorsix.project.courseify.api.request.UserCompletedQuizRequest
 import sorsix.project.courseify.api.request.UserTakesCourseRequest
 import sorsix.project.courseify.domain.Course
 import sorsix.project.courseify.repository.CourseRepository
+import sorsix.project.courseify.repository.UserCompletedQuizRepository
 import sorsix.project.courseify.repository.UserTakesCourseRepository
+import sorsix.project.courseify.service.definitions.UserCompletedQuizService
 import sorsix.project.courseify.service.definitions.UserTakesCourseService
 
 @RestController

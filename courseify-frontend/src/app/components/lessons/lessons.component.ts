@@ -21,6 +21,7 @@ export class LessonsComponent {
   takesCourse = false;
   courseId = Number(this.route.snapshot.paramMap.get('id'));
   quiz: Quiz | undefined;
+  progress: number | undefined;
 
   constructor(
     private lessonService: LessonService,
@@ -33,6 +34,7 @@ export class LessonsComponent {
   ngOnInit(): void {
     this.getLessonsByCourseId();
     this.checkEnrolledStudent();
+    this.getProgress();
   }
 
   getLessonsByCourseId(): void {
@@ -78,5 +80,15 @@ export class LessonsComponent {
       .then(() => {
         this.router.navigate([currentUrl]);
       });
+  }
+
+  getProgress(){
+    this.courseService.getProgress(this.courseId, this.user?.id).subscribe(
+      (result) => {
+        this.progress = result * 100;
+        console.log(this.progress);
+        
+      }
+    )
   }
 }

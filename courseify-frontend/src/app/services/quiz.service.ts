@@ -23,4 +23,16 @@ export class QuizService {
     };
     return this.http.post<Quiz>(`/api/quiz`, data, httpOptions);
   }
+
+  completeQuiz(quizId: number | undefined, userId: number | undefined){
+    console.log(quizId, userId);
+    let queryParams = new HttpParams();
+    const data = {
+      quizId: quizId,
+      userId: userId
+    }
+    this.http.post<any>(`/api/quiz/complete`, data)
+    .subscribe(() => "Successfully completed quiz!")
+    
+  }
 }

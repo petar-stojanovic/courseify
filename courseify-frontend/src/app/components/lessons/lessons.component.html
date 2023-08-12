@@ -111,6 +111,7 @@
         <h1>
           {{ course?.author?.firstName }} {{ course?.author?.lastName }}
         </h1>
+        <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
         <button
           *ngIf="course?.author?.id != user?.id && !takesCourse && user"
           mat-raised-button

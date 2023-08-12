@@ -118,4 +118,8 @@ class CourseController(
     fun enrollCourse(@PathVariable id: Long): ResponseEntity<*> =
         courseService.publishCourse(id).let { ResponseEntity.ok(it) }
 
+    @PostMapping("/progress")
+    fun getProgress(@RequestBody request: UserTakesCourseRequest): ResponseEntity<*> =
+        userTakesCourseService.getProgress(request.courseId, request.userId).let { ResponseEntity.ok(it) }
+
 }
