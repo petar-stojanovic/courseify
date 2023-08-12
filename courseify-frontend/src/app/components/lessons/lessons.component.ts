@@ -6,8 +6,7 @@ import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Quiz } from 'src/app/interfaces/Quiz';
-import { map } from 'rxjs';
-
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-lessons',
@@ -28,7 +27,7 @@ export class LessonsComponent {
     private route: ActivatedRoute,
     private courseService: CourseService,
     private authService: AuthService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -39,8 +38,6 @@ export class LessonsComponent {
   getLessonsByCourseId(): void {
     this.courseService.getCourseById(this.courseId).subscribe((result) => {
       this.course = result;
-      
-      
     });
     this.lessonService
       .getLessonsByCourseId(this.courseId)
@@ -62,25 +59,24 @@ export class LessonsComponent {
 
   enrollStudent(courseId: number) {
     this.courseService.enrollUserToCourse(courseId);
-    this.reloadPage();
+    // this.reloadPage();
+    this.checkEnrolledStudent();
   }
 
   checkEnrolledStudent() {
     this.courseService
-      .checkTakesCourse(this.courseId, this.user?.id).pipe(
-        map((result) => {
-          this.takesCourse = result;
-        })
-      )
-      // .subscribe(result => {
-      //   this.takesCourse = result;
-      // });
+      .checkTakesCourse(this.courseId, this.user?.id)
+      .subscribe((res) => {
+        this.takesCourse = res;
+      });
   }
 
   reloadPage() {
     const currentUrl = this.router.url;
-    this.router.navigateByUrl('/blank', { skipLocationChange: true }).then(() => {
-      this.router.navigate([currentUrl]);
-    });
+    this.router
+      .navigateByUrl('/blank', { skipLocationChange: true })
+      .then(() => {
+        this.router.navigate([currentUrl]);
+      });
   }
 }
