@@ -52,6 +52,7 @@ export class AddEditQuizComponent implements OnInit {
     const answerControl = this.fb.control('', Validators.required);
 
     (questionForm.get('answers') as FormArray).push(answerControl);
+    (questionForm.get('answers') as FormArray).push(answerControl);
 
     this.questions.push(questionForm);
   }

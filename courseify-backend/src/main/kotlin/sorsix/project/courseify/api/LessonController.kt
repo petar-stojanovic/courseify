@@ -19,7 +19,7 @@ import sorsix.project.courseify.service.impl.toSlug
 @RequestMapping("/api/lesson")
 class LessonController(val lessonRepository: LessonRepository, val lessonService: LessonService) {
 
-    @GetMapping(path = ["", "/"])
+    @GetMapping
     fun getAllLessons(): List<Lesson> = lessonRepository.findAll()
 
     @GetMapping("/{id}")

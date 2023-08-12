@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Lesson } from '../../interfaces/Lesson';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LessonService } from '../../services/lesson.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Lesson } from 'src/app/interfaces/Lesson';
 
 @Component({
   selector: 'app-add-edit-lesson',
