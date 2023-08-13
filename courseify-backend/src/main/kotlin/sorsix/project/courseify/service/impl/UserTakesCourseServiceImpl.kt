@@ -3,6 +3,7 @@ package sorsix.project.courseify.service.impl
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.UserTakesCourseRequest
 import sorsix.project.courseify.domain.UserTakesCourse
+import sorsix.project.courseify.domain.response.ProgressAndUncompletedLessonsResponse
 import sorsix.project.courseify.repository.*
 import sorsix.project.courseify.service.definitions.UserTakesCourseService
 import java.time.LocalDate
@@ -13,7 +14,8 @@ class UserTakesCourseServiceImpl(
     val courseRepository: CourseRepository,
     val userRepository: UserRepository,
     private val userCompletedQuizRepository: UserCompletedQuizRepository,
-    private val lessonRepository: LessonRepository
+    private val lessonRepository: LessonRepository,
+    val quizRepository: QuizRepository
 ) : UserTakesCourseService {
     override fun save(request: UserTakesCourseRequest): UserTakesCourse {
         val course = courseRepository.findById(request.courseId).get()
@@ -25,18 +27,28 @@ class UserTakesCourseServiceImpl(
         return userTakesCourseRepository.existsByCourseIdAndUserId(request.courseId, request.userId)
     }
 
-    override fun getProgress(courseId: Long, userId: Long): Double? {
-
+    override fun getProgressAndUncompletedLessons(courseId: Long, userId: Long): ProgressAndUncompletedLessonsResponse {
         val userTakesCourse = userTakesCourseRepository.findByCourseIdAndUserId(courseId, userId)
 
         if (userTakesCourse != null) {
-            val countCompletedQuiz = userCompletedQuizRepository.countByCourseIdAndUserId(courseId, userId)
-            val countAllQuiz = lessonRepository.countByCourseId(courseId)
+            val completedQuizzes = userCompletedQuizRepository.findByCourseIdAndUserId(courseId, userId)
+            val completedQuizIds = completedQuizzes.map { it.quiz.id }
+
+            val countCompletedQuiz = completedQuizzes.size
+            val countAllQuiz = lessonRepository.findAllByCourseId(courseId).count { it.quiz != null }
 
             val progress = countCompletedQuiz.toDouble() / countAllQuiz.toDouble()
+
+            val uncompletedLessons = lessonRepository.findAllByCourseId(courseId)
+                .filter { it.quiz != null && it.quiz.id !in completedQuizIds }
+                .map { it.id }
+
             userTakesCourseRepository.save(userTakesCourse.copy(progress = progress))
-            return progress
+
+            return ProgressAndUncompletedLessonsResponse(progress, uncompletedLessons)
         }
-        return null
+        return ProgressAndUncompletedLessonsResponse(0.0, listOf())
     }
+
+
 }

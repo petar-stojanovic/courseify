@@ -16,12 +16,12 @@ import { catchError, map, of } from 'rxjs';
 export class LessonsComponent {
   course: Course | undefined;
   lessons: Lesson[] = [];
-  panelOpenState = false;
   user = this.authService.getLoggedInUser();
   takesCourse = false;
   courseId = Number(this.route.snapshot.paramMap.get('id'));
   quiz: Quiz | undefined;
   progress: number | undefined;
+  uncompletedLessonIds: number[] | undefined;
 
   constructor(
     private lessonService: LessonService,
@@ -82,13 +82,14 @@ export class LessonsComponent {
       });
   }
 
-  getProgress(){
-    this.courseService.getProgress(this.courseId, this.user?.id).subscribe(
-      (result) => {
-        this.progress = result * 100;
-        console.log(this.progress);
-        
-      }
-    )
+  getProgress() {
+    this.courseService
+      .getProgress(this.courseId, this.user?.id)
+      .subscribe((result) => {
+        this.progress = result.progress * 100;
+        this.uncompletedLessonIds = result.uncompletedLessonIds;
+        console.log(result.progress);
+        console.log(result.uncompletedLessonIds);
+      });
   }
 }

@@ -9,8 +9,9 @@
       <h3>
         <span class="fw-medium"> Author:</span> {{ course?.author?.firstName }} {{ course?.author?.lastName }}
       </h3>
-      <h3>
-        <span class="fw-medium"> Your Progress:</span>  <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+      <h3 *ngIf="course?.author?.id != user?.id">
+        <span class="fw-medium"> Your Progress:</span> <mat-progress-bar mode="determinate"
+          [value]="progress"></mat-progress-bar>
       </h3>
       <h2>Course Content</h2>
       <mat-accordion>
@@ -35,9 +36,14 @@
             <a *ngIf="lesson.quiz == null && course?.author?.id == user?.id" [routerLink]="['/quiz/add']"
               [queryParams]="{ lessonId: lesson.id }" class="d-flex align-items-center"><mat-icon
                 class="me-2">question_mark</mat-icon> Add Quiz</a>
-            <a *ngIf="lesson.quiz != null" [routerLink]="['/quiz']"
-              [queryParams]="{ lessonId: lesson.id, lessontitle: lesson.title }" lessonTitle="lesson.title"
+            <!-- postoi kviz i user ne ga zimaja -->
+            <a *ngIf="lesson.quiz != null && uncompletedLessonIds?.includes(lesson.id)" [routerLink]="['/quiz']"
+              [queryParams]="{ lessonId: lesson.id, lessontitle: lesson.title }"
               class="d-flex align-items-center"><mat-icon class="me-2">question_mark</mat-icon>Take Quiz</a>
+            <!-- postoi kviz i user ga zimaja -->
+            <a *ngIf="lesson.quiz != null && !uncompletedLessonIds?.includes(lesson.id) "
+              class="d-flex align-items-center text-success fw-medium"><mat-icon
+                class="me-2">done</mat-icon>Completed</a>
           </div>
           <div *ngIf="user?.id == course?.author?.id">
             <a routerLink="/course/{{ lesson.course.id }}/lessons/{{
@@ -79,7 +85,7 @@
     </div>
 
     <div *ngIf="course?.id"
-      class="col-lg-6 col-md-12 rounded-5 shadow-lg mb-3 order-1 order-lg-2 order-xl-2 order-xxl-2">
+      class="col-lg-6 col-md-12 rounded-5 shadow-lg text-center mb-3 order-1 order-lg-2 order-xl-2 order-xxl-2">
       <div class="mx-1">
         <app-thumbnail [courseId]="course!!.id" thumbnail_class="thumbnail_lesson"></app-thumbnail>
 

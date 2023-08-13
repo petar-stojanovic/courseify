@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, mergeMap, of, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Course } from '../interfaces/Course';
+import { ProgressResponse } from '../interfaces/ProgressResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -80,19 +81,25 @@ export class CourseService {
     return this.http.post<Course>(`/api/course/${id}/publish`, {});
   }
 
-  checkTakesCourse(courseId: number, userId: number | undefined): Observable<boolean> {
+  checkTakesCourse(
+    courseId: number,
+    userId: number | undefined
+  ): Observable<boolean> {
     const body = {
       courseId: courseId,
-      userId: userId
-    }
-    return this.http.post<boolean>("/api/user/enrolled", body)
+      userId: userId,
+    };
+    return this.http.post<boolean>('/api/user/enrolled', body);
   }
 
-  getProgress(courseId: number | undefined, userId: number | undefined): Observable<number> {
+  getProgress(
+    courseId: number | undefined,
+    userId: number | undefined
+  ): Observable<ProgressResponse> {
     const body = {
       courseId: courseId,
-      userId: userId
-    }
-    return this.http.post<number>("/api/course/progress", body)
+      userId: userId,
+    };
+    return this.http.post<ProgressResponse>('/api/course/progress', body);
   }
 }
