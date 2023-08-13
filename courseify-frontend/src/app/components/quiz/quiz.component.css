@@ -20,8 +20,11 @@
 
 
 .correct {
-    font-size: 2rem;
-    color: green;
+    background-color: rgba(137, 227, 162, 1);
+}
+
+.incorrect {
+    background-color: rgb(227, 137, 137);
 }
 
 .answer {
@@ -34,7 +37,13 @@
     display: block;
 }
 
+
 .answer:hover {
     cursor: pointer;
     background-color: rgba(245, 245, 245, 1);
+}
+
+
+.quizOver {
+    font-weight: 500 !important;
 }

@@ -1,7 +1,7 @@
 <div class="container pb-5">
   <div class="row mt-4">
 
-    <div class="col-md-12 col-lg-6 col-md-6 order-sm-2 order-md-2 order-lg-1 order-xl-1 order-xs-2 "
+    <div class="col-md-12 col-lg-6 col-md-6 order-2 order-lg-1 order-xl-1 order-xxl-1"
       *ngIf="course?.author?.id == user?.id || takesCourse">
       <div class="display-5 my-3 text-center fw-bold">{{ course?.title }}</div>
 
@@ -26,14 +26,15 @@
             <a (click)="openFile(lesson.id)" class="d-flex align-items-center" style="cursor: pointer">
               <mat-icon class="me-2"> attach_file</mat-icon>{{ lesson.fileTitle }}
             </a>
-            <span class="border"></span>
 
-            <a *ngIf="lesson.quiz == null" [routerLink]="['/quiz/add']" [queryParams]="{ lessonId: lesson.id }"
-              class="d-flex align-items-center"><mat-icon class="me-2">question_mark</mat-icon> Add Quiz</a>
+            <span *ngIf="lesson.quiz != null" class="border"></span>
+
+            <a *ngIf="lesson.quiz == null && course?.author?.id == user?.id" [routerLink]="['/quiz/add']"
+              [queryParams]="{ lessonId: lesson.id }" class="d-flex align-items-center"><mat-icon
+                class="me-2">question_mark</mat-icon> Add Quiz</a>
             <a *ngIf="lesson.quiz != null" [routerLink]="['/quiz']"
               [queryParams]="{ lessonId: lesson.id, lessontitle: lesson.title }" lessonTitle="lesson.title"
-              class="d-flex align-items-center"><mat-icon class="me-2">question_mark</mat-icon>{{ lesson.quiz.title
-              }}</a>
+              class="d-flex align-items-center"><mat-icon class="me-2">question_mark</mat-icon>Take Quiz</a>
           </div>
           <div *ngIf="user?.id == course?.author?.id">
             <a routerLink="/course/{{ lesson.course.id }}/lessons/{{
@@ -54,7 +55,7 @@
         </button></a>
     </div>
 
-    <div class="col-md-12 col-lg-6 col-md-6 order-xs-2 order-sm-2 order-md-2 order-lg-1 order-xl-1"
+    <div class="col-md-12 col-lg-6 col-md-6 order-2 order-lg-1 order-xl-1 order-xxl-1"
       *ngIf="course?.author?.id != user?.id && !takesCourse">
       <div class="display-5 my-3 text-center fw-bold">{{ course?.title }}</div>
 
@@ -75,7 +76,7 @@
     </div>
 
     <div *ngIf="course?.id"
-      class="col-lg-6 col-md-12 rounded-5 shadow-lg mb-3 text-center order-xs-1 order-sm-1 order-md-1 order-lg-2 order-xl-2">
+      class="col-lg-6 col-md-12 rounded-5 shadow-lg mb-3 text-center order-1 order-lg-2 order-xl-2 order-xxl-2">
       <div class="mx-1">
         <app-thumbnail [courseId]="course!!.id" thumbnail_class="thumbnail_lesson"></app-thumbnail>
 

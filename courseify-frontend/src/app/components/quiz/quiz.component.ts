@@ -4,6 +4,7 @@ import { Quiz } from 'src/app/interfaces/Quiz';
 import { User } from 'src/app/interfaces/User';
 import { AuthService } from 'src/app/services/auth.service';
 import { QuizService } from 'src/app/services/quiz.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-quiz',
@@ -18,12 +19,15 @@ export class QuizComponent implements OnInit {
 
   currentQuestionIndex = 0;
   selectedAnswerIndex: number | null = null;
+  correctAnswers = 0;
+  totalAnswers = 0;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private quizService: QuizService,
-    private authService: AuthService
+    private authService: AuthService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -43,8 +47,12 @@ export class QuizComponent implements OnInit {
       this.currentQuestionIndex++;
 
       if (this.currentQuestionIndex >= this.quiz?.questions?.length!!) {
-        console.log('Quiz completed');
-        return;
+        if(this.correctAnswers === this.totalAnswers){
+          this.completeQuiz(this.quiz!!.id)
+        }
+        setTimeout(() => {
+          this.location.back();
+        }, 3000);
       }
     }
   }
@@ -52,22 +60,24 @@ export class QuizComponent implements OnInit {
   getQuizByLessonId(id: number) {
     this.quizService.getQuizWithLessonId(id).subscribe((result) => {
       this.quiz = result;
+      this.totalAnswers = result.questions.length;
       console.log(result);
       this.showNextQuestion();
     });
   }
 
   onAnswerSelected(index: number) {
-    console.log(this.isCorrectAnswer(index));
-
     if (this.selectedAnswerIndex != null) {
       return;
+    }
+    if (this.isCorrectAnswer(index)) {
+      this.correctAnswers++;
     }
     this.selectedAnswerIndex = index;
 
     setTimeout(() => {
       this.showNextQuestion();
-    }, 2000);
+    }, 1000);
   }
 
   isCorrectAnswer(answerId: number): boolean {

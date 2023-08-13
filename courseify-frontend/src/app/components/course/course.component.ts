@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css'],
 })
-export class CourseComponent implements OnInit, OnDestroy {
+export class CourseComponent implements OnInit {
   mobileQuery: MediaQueryList;
   _mobileQueryListener: () => void;
   searchQuery = '';
@@ -63,11 +63,7 @@ export class CourseComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  ngOnDestroy(): void {
-    this.mobileQuery?.removeListener(this._mobileQueryListener);
-  }
-
+ 
   
 
   getDecodedAccessToken(): any {
