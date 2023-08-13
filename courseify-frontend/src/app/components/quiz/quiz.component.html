@@ -1,2 +1,47 @@
-<h1>{{quiz?.title}}</h1>
-<button (click)="completeQuiz(quiz?.id)">Placeholder</button>
+<div class="wrapper">
+    <div class="form-content">
+        <mat-toolbar class="login-toolbar" color="primary" class="d-flex justify-evenly">
+            <div class="m-auto">
+                {{lessonTitle}}
+            </div>
+        </mat-toolbar>
+        <mat-card>
+            <div class="quiz" *ngIf="quiz">
+                <div *ngIf="currentQuestionIndex >= 0 && currentQuestionIndex < quiz.questions.length">
+                    <h2><span>{{currentQuestionIndex+1}}. </span>{{ quiz.questions[currentQuestionIndex].content }}</h2>
+                    <div *ngFor="let answer of quiz.questions[currentQuestionIndex].answers" class="answer my-1">
+
+                        <mat-radio-button [value]="answer.id" [disabled]="selectedAnswerIndex !== null"
+                            class="answerRadio"
+                            [class.correct]="isCorrectAnswer(answer.id) && selectedAnswerIndex === answer.id"
+                            [class.incorrect]="!isCorrectAnswer(answer.id) && selectedAnswerIndex === answer.id"
+                            [checked]="selectedAnswerIndex === answer.id" (mousedown)="onAnswerSelected(answer.id)">
+                            {{ answer.content }}
+                        </mat-radio-button>
+                    </div>
+                </div>
+
+                <div *ngIf="currentQuestionIndex >= quiz.questions.length" class="fs-5 quizOver">
+
+                    <div *ngIf="correctAnswers === totalAnswers" class="text-success">
+                        Congratulations, You Passed The Quiz !!
+                    </div>
+
+                    <div *ngIf="correctAnswers !== totalAnswers" class="text-danger">
+                        Unfortunately, You Failed The Quiz. Please Try Again !
+                    </div>
+                    <br />
+                    <p>Redirecting...</p>
+
+                </div>
+
+
+            </div>
+
+        </mat-card>
+
+    </div>
+</div>
+
+
+<!-- <button (click)="completeQuiz(quiz?.id)">Placeholder</button> -->

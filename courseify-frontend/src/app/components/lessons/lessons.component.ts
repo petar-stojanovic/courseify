@@ -61,7 +61,7 @@ export class LessonsComponent {
 
   enrollStudent(courseId: number) {
     this.courseService.enrollUserToCourse(courseId);
-    // this.reloadPage();
+    this.reloadPage();
     this.checkEnrolledStudent();
   }
 

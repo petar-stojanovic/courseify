@@ -43,3 +43,7 @@
   outline: hsl(231, 35%, 48%) solid 1px;
   box-shadow:1px 1px 10px hsl(231, 35%, 48%) ;
 }
+
+.mat-mdc-card{
+  margin: 0.75rem 0
+}

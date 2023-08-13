@@ -43,6 +43,7 @@ import { HttpResponseInterceptor } from './interceptors/HttpResponseInterceptor'
 import { QuizComponent } from './components/quiz/quiz.component';
 import { AddEditQuizComponent } from './components/add-edit-quiz/add-edit-quiz.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     ErrorComponent,
     QuizComponent,
     AddEditQuizComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,11 +1,6 @@
 package sorsix.project.courseify.config
 
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.annotation.PostConstruct
-import jakarta.persistence.Column
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToOne
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import sorsix.project.courseify.api.request.RegisterRequest
@@ -13,7 +8,6 @@ import sorsix.project.courseify.domain.*
 import sorsix.project.courseify.repository.*
 import sorsix.project.courseify.service.definitions.AuthService
 import sorsix.project.courseify.service.definitions.QuestionService
-import sorsix.project.courseify.service.definitions.QuizService
 
 @Component
 class DataInitializer() {
@@ -130,8 +124,35 @@ class DataInitializer() {
             quiz = null
         )
 
+        val lesson3 = Lesson(
+            id = 0,
+            title = "Lesson Title",
+            description = "Lesson Description",
+            videoTitle = "Video Title",
+            videoUrl = "Video Url",
+            fileTitle = "File Title",
+            fileUrl = "File Url",
+            course = course2,
+            quiz = null
+        )
+
+
+        val lesson4 = Lesson(
+            id = 0,
+            title = "Lesson Title 2",
+            description = "Lesson Description 2",
+            videoTitle = "Video Title 2",
+            videoUrl = "Video Url 2",
+            fileTitle = "File Title 2",
+            fileUrl = "File Url 2",
+            course = course2,
+            quiz = null
+        )
+
         lessonRepository.save(lesson1)
         lessonRepository.save(lesson2)
+        lessonRepository.save(lesson3)
+        lessonRepository.save(lesson4)
     }
 
 

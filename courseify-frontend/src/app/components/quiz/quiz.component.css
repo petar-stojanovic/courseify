@@ -1,0 +1,49 @@
+.wrapper {
+    height: calc(100vh - 128px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper .quiz {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.form-content {
+    min-width: 30rem;
+    margin-inline: 1.5rem;
+    max-width: 45rem;
+}
+
+
+.correct {
+    background-color: rgba(137, 227, 162, 1);
+}
+
+.incorrect {
+    background-color: rgb(227, 137, 137);
+}
+
+.answer {
+    cursor: pointer;
+    background-color: rgba(245, 245, 245, 0.5);
+}
+
+.answerRadio {
+    width: 100%;
+    display: block;
+}
+
+
+.answer:hover {
+    cursor: pointer;
+    background-color: rgba(245, 245, 245, 1);
+}
+
+
+.quizOver {
+    font-weight: 500 !important;
+}
