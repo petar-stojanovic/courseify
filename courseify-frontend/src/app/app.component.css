@@ -1,11 +1,7 @@
 .example-container {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  min-height: 100vh; /* Set the minimum height of the container to 100% of viewport height */
 }
 
 .example-is-mobile .example-toolbar {
@@ -19,4 +15,9 @@
 
 .example-is-mobile .example-sidenav-container {
   flex: 1 0 auto;
+}
+
+
+.footer {
+  margin-top: auto;
 }

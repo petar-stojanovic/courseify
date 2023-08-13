@@ -10,12 +10,8 @@
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container">
-    <mat-sidenav
-      #snav
-      [mode]="mobileQuery.matches ? 'over' : 'side'"
-      [fixedInViewport]="mobileQuery.matches"
-      fixedTopGap="56"
-    >
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56">
       <app-categories></app-categories>
     </mat-sidenav>
 
@@ -24,4 +20,5 @@
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
+  <app-footer class="footer"></app-footer>
 </div>
