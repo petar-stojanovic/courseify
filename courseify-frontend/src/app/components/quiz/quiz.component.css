@@ -1,0 +1,18 @@
+
+.wrapper {
+    margin-top: 4rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper .quiz {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-content {
+    min-width: 30rem;
+}

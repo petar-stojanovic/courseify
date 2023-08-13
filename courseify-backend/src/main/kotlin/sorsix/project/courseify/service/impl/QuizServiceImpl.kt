@@ -27,7 +27,7 @@ class QuizServiceImpl(
         val lesson = lessonRepository.findById(request.lessonId).get()
 
         val quiz = quizRepository.save(Quiz(0, request.title, lesson))
-        //save answers
+
         request.questions.forEach {
             val question = questionRepository.save(Question(0, it.content, quiz, null))
             val correctAnswer = it.answers[it.correctAnswerId.toInt()]

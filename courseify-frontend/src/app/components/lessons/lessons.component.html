@@ -30,7 +30,7 @@
 
             <a *ngIf="lesson.quiz == null" [routerLink]="['/quiz/add']" [queryParams]="{ lessonId: lesson.id }"
               class="d-flex align-items-center"><mat-icon class="me-2">question_mark</mat-icon> Add Quiz</a>
-            <a *ngIf="lesson.quiz != null" [routerLink]="['/quiz']" [queryParams]="{ lessonId: lesson.id }"
+            <a *ngIf="lesson.quiz != null" [routerLink]="['/quiz']" [queryParams]="{ lessonId: lesson.id, lessontitle: lesson.title }" lessonTitle="lesson.title"
               class="d-flex align-items-center"><mat-icon class="me-2">question_mark</mat-icon>{{ lesson.quiz.title
               }}</a>
           </div>

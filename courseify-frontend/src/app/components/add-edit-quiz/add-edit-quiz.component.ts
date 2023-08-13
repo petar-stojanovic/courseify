@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from 'src/app/services/quiz.service';
@@ -37,7 +37,7 @@ export class AddEditQuizComponent implements OnInit {
       }
     });
 
-    this.addQuestion()
+    this.addQuestion();
   }
 
   get questions() {
@@ -51,12 +51,10 @@ export class AddEditQuizComponent implements OnInit {
       correctAnswer: [null, Validators.required],
     });
 
-    const answerControl = this.fb.control('', Validators.required);
-
-    (questionForm.get('answers') as FormArray).push(answerControl);
-    (questionForm.get('answers') as FormArray).push(answerControl);
 
     this.questions.push(questionForm);
+      this.addAnswer(this.questions.length-1);
+      this.addAnswer(this.questions.length-1);
   }
 
   deleteQuestion(lessonIndex: number) {
@@ -90,6 +88,7 @@ export class AddEditQuizComponent implements OnInit {
         lessonId: this.id,
         title: 'Quiz Title',
         questions: formData.questions?.map((question: any) => {
+          console.log(question);
           const transformedQuestion: Question = {
             content: question.question,
             correctAnswerId: question.correctAnswer,
@@ -99,9 +98,9 @@ export class AddEditQuizComponent implements OnInit {
         }),
       };
 
-      this.quizService.save(transformedData).subscribe(
-        () => this.location.back()
-      );
+      this.quizService
+        .save(transformedData)
+        .subscribe(() => this.location.back());
     }
   }
 }

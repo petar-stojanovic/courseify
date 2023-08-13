@@ -1,2 +1,29 @@
-<h1>{{quiz?.title}}</h1>
+
+<div class="wrapper">
+    <div class="form-content">
+        <mat-toolbar class="login-toolbar" color="primary" class="d-flex justify-evenly">
+            <div class="m-auto">
+               {{lessonTitle}}
+            </div>
+        </mat-toolbar>
+        <mat-card>
+            <div class="quiz" *ngIf="quiz">
+                <div *ngIf="currentQuestionIndex >= 0 && currentQuestionIndex < quiz.questions.length">
+                    <h3>{{ quiz.questions[currentQuestionIndex].content }}</h3>
+                    <div *ngFor="let answer of quiz.questions[currentQuestionIndex].answers; let i = index">
+                        <label [class.selected]="selectedAnswerIndex === i">
+                            <input type="radio" name="questionRadio" [value]="i" (change)="onAnswerSelected(i)">
+                            {{ answer }}
+                        </label>
+                    </div>
+                </div>
+                
+
+            </div>
+          
+        </mat-card>
+
+    </div>
+</div>
+<h1>{{lessonTitle}}</h1>
 <button (click)="completeQuiz(quiz?.id)">Placeholder</button>
