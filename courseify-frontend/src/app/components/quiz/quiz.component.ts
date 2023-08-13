@@ -58,22 +58,21 @@ export class QuizComponent implements OnInit {
   }
 
   onAnswerSelected(index: number) {
-    this.selectedAnswerIndex = index;
+    console.log(this.isCorrectAnswer(index));
 
-    this.isCorrectAnswer(index)
+    if (this.selectedAnswerIndex != null) {
+      return;
+    }
+    this.selectedAnswerIndex = index;
 
     setTimeout(() => {
       this.showNextQuestion();
     }, 2000);
   }
 
-  isCorrectAnswer(index: number) {
-    console.log(this.selectedAnswerIndex);
-    console.log(
-      this.quiz?.questions[this.currentQuestionIndex].correctAnswerId
-    );
+  isCorrectAnswer(answerId: number): boolean {
     return (
-      this.selectedAnswerIndex ===
+      answerId ===
       this.quiz?.questions[this.currentQuestionIndex].correctAnswerId
     );
   }

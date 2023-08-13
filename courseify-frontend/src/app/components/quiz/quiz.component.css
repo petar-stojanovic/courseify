@@ -1,6 +1,5 @@
-
 .wrapper {
-    margin-top: 4rem;
+    height: calc(100vh - 128px);
     width: 100%;
     display: flex;
     align-items: center;
@@ -9,10 +8,33 @@
 
 .wrapper .quiz {
     display: flex;
-    align-items: center;
     flex-direction: column;
+    padding: 1rem;
 }
 
 .form-content {
     min-width: 30rem;
+    margin-inline: 1.5rem;
+    max-width: 45rem;
+}
+
+
+.correct {
+    font-size: 2rem;
+    color: green;
+}
+
+.answer {
+    cursor: pointer;
+    background-color: rgba(245, 245, 245, 0.5);
+}
+
+.answerRadio {
+    width: 100%;
+    display: block;
+}
+
+.answer:hover {
+    cursor: pointer;
+    background-color: rgba(245, 245, 245, 1);
 }

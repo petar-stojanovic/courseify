@@ -1,29 +1,32 @@
-
 <div class="wrapper">
     <div class="form-content">
         <mat-toolbar class="login-toolbar" color="primary" class="d-flex justify-evenly">
             <div class="m-auto">
-               {{lessonTitle}}
+                {{lessonTitle}}
             </div>
         </mat-toolbar>
         <mat-card>
             <div class="quiz" *ngIf="quiz">
                 <div *ngIf="currentQuestionIndex >= 0 && currentQuestionIndex < quiz.questions.length">
-                    <h3>{{ quiz.questions[currentQuestionIndex].content }}</h3>
-                    <div *ngFor="let answer of quiz.questions[currentQuestionIndex].answers; let i = index">
-                        <label [class.selected]="selectedAnswerIndex === i">
-                            <input type="radio" name="questionRadio" [value]="i" (change)="onAnswerSelected(i)">
-                            {{ answer }}
-                        </label>
+                    <h2><span>{{currentQuestionIndex+1}}. </span>{{ quiz.questions[currentQuestionIndex].content }}</h2>
+                    <div *ngFor="let answer of quiz.questions[currentQuestionIndex].answers" class="answer my-1">
+
+                        <mat-radio-button [value]="answer.id" [disabled]="selectedAnswerIndex !== null"
+                            class="answerRadio"
+                            [class.correct]="isCorrectAnswer(answer.id) && selectedAnswerIndex === answer.id"
+                            [checked]="selectedAnswerIndex === answer.id" (mousedown)="onAnswerSelected(answer.id)">
+                            {{ answer.content }}
+                        </mat-radio-button>
                     </div>
                 </div>
-                
+
 
             </div>
-          
+
         </mat-card>
 
     </div>
 </div>
-<h1>{{lessonTitle}}</h1>
-<button (click)="completeQuiz(quiz?.id)">Placeholder</button>
+
+
+<!-- <button (click)="completeQuiz(quiz?.id)">Placeholder</button> -->
