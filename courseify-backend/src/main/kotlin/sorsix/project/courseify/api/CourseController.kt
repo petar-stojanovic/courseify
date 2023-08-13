@@ -2,7 +2,6 @@ package sorsix.project.courseify.api
 
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.core.io.Resource
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -120,6 +119,6 @@ class CourseController(
 
     @PostMapping("/progress")
     fun getProgress(@RequestBody request: UserTakesCourseRequest): ResponseEntity<*> =
-        userTakesCourseService.getProgress(request.courseId, request.userId).let { ResponseEntity.ok(it) }
+        userTakesCourseService.getProgressAndUncompletedLessons(request.courseId, request.userId).let { ResponseEntity.ok(it) }
 
 }
