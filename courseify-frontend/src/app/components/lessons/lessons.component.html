@@ -9,6 +9,9 @@
       <h3>
         <span class="fw-medium"> Author:</span> {{ course?.author?.firstName }} {{ course?.author?.lastName }}
       </h3>
+      <h3>
+        <span class="fw-medium"> Your Progress:</span>  <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+      </h3>
       <h2>Course Content</h2>
       <mat-accordion>
         <mat-expansion-panel hideToggle *ngFor="let lesson of lessons; let i = index" class="d-flex flex-column">
@@ -76,11 +79,10 @@
     </div>
 
     <div *ngIf="course?.id"
-      class="col-lg-6 col-md-12 rounded-5 shadow-lg mb-3 text-center order-1 order-lg-2 order-xl-2 order-xxl-2">
+      class="col-lg-6 col-md-12 rounded-5 shadow-lg mb-3 order-1 order-lg-2 order-xl-2 order-xxl-2">
       <div class="mx-1">
         <app-thumbnail [courseId]="course!!.id" thumbnail_class="thumbnail_lesson"></app-thumbnail>
 
-        <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
         <button *ngIf="course?.author?.id != user?.id && !takesCourse && user" mat-raised-button color="primary"
           (click)="enrollStudent(course!!.id)" class="mb-3 w-50">
           Enroll
