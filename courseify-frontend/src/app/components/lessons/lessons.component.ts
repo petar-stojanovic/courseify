@@ -92,4 +92,11 @@ export class LessonsComponent {
         console.log(result.uncompletedLessonIds);
       });
   }
+
+  downloadCertificate(){
+    this.lessonService.downloadCertificate(this.courseId, this.user?.id).subscribe((res) => {
+      const fileURL = URL.createObjectURL(res);
+      window.open(fileURL, '_blank');
+    });
+  }
 }

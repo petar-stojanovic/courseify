@@ -96,4 +96,10 @@
       </div>
     </div>
   </div>
+  <div *ngIf="progress===100">
+    <button mat-raised-button color="primary" (click)="downloadCertificate()">
+      Download Certificate
+      <mat-icon>insert_drive_file</mat-icon>
+    </button>
+  </div>
 </div>
