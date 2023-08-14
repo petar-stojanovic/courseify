@@ -19,6 +19,7 @@ export class AddEditCourseComponent implements OnInit {
   isAddMode: boolean = false;
   course: Course | undefined;
   categoryList: Category[] = [];
+  isLoaded = false;
 
   allCategories: Category[] = [];
   filteredCategories: Category[] = [];
@@ -48,6 +49,10 @@ export class AddEditCourseComponent implements OnInit {
     this.isAddMode = !this.id;
     this.getAllCategories();
 
+    if(this.isAddMode){
+      this.isLoaded = true;
+    }
+
     if (!this.isAddMode && this.id) {
       this.courseService
         .getCourseById(+this.id)
@@ -62,6 +67,7 @@ export class AddEditCourseComponent implements OnInit {
           })
         )
         .subscribe((res) => {
+          this.isLoaded = true;
           this.categoryList = res;
           const categoryListOfString = this.categoryList
           .map((category) => category.id)

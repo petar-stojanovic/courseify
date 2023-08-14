@@ -14,6 +14,7 @@ export class ThumbnailComponent implements OnInit {
   @Input()
   thumbnail_class = '';
   thumbnailUrl?: SafeUrl | null = null;
+  isLoaded = false;
 
   constructor(
     private courseService: CourseService,
@@ -31,6 +32,7 @@ export class ThumbnailComponent implements OnInit {
         this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(
           URL.createObjectURL(blob)
         );
+        this.isLoaded = true;
       },
       (error) => {
         console.error('Error loading thumbnail:', error);

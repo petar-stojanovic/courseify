@@ -2,7 +2,6 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import jwt_decode from 'jwt-decode';
 import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
@@ -19,10 +18,9 @@ export class CourseComponent implements OnInit {
   searchQuery = '';
   categoryQuery = '';
   user = this.authService.getLoggedInUser();
-
+  isLoaded = false;
+  courseList: Course[] = [];
   searchControl = new FormControl();
-  listCourses$: Observable<Course[] | undefined> =
-    this.courseService.getCourses();
 
   constructor(
     private courseService: CourseService,
@@ -41,10 +39,7 @@ export class CourseComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.searchQuery = params['search'] || null;
       this.categoryQuery = params['category'] || null;
-      this.listCourses$ = this.courseService.getCourses(
-        this.searchQuery,
-        this.categoryQuery
-      );
+      this.getCourses(this.searchQuery, this.categoryQuery);
       this.searchControl.setValue(this.searchQuery);
     });
 
@@ -64,7 +59,14 @@ export class CourseComponent implements OnInit {
       });
   }
  
-  
+  getCourses(search?: string, categoryName?: string){
+    this.courseService.getCourses(search, categoryName).subscribe(
+      result => {
+        this.courseList = result;
+        this.isLoaded = true;
+      }
+    );
+  }
 
   getDecodedAccessToken(): any {
     let token = localStorage.getItem('token');

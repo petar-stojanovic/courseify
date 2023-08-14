@@ -15,8 +15,6 @@ export class AddEditQuizComponent implements OnInit {
   id: string | undefined;
   isAddMode: boolean = false;
 
-  quiz: Quiz | undefined;
-
   quizForm = this.fb.group({
     questions: this.fb.array([]),
   });

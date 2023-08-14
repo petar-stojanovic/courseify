@@ -18,5 +18,6 @@ interface LessonRepository : JpaRepository<Lesson, Long> {
         order by l.id ASC """)
     fun findAllByCourseId(id: Long): List<Lesson>
 
-    fun countByCourseId(courseId: Long): Int
+    fun countByCourseIdAndQuizIsNotNull(courseId: Long): Int
+
 }

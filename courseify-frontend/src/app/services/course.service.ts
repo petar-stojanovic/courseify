@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, mergeMap, of, tap } from 'rxjs';
+import { Observable, mergeMap, of} from 'rxjs';
 import { AuthService } from './auth.service';
 import { Course } from '../interfaces/Course';
 import { ProgressResponse } from '../interfaces/ProgressResponse';
@@ -53,7 +53,6 @@ export class CourseService {
   enrollUserToCourse(courseId: number) {
     if (this.authService.isAuthenticated()) {
       const token = localStorage.getItem('token');
-      let body = null;
 
       this.authService
         .getUserByToken()
@@ -85,11 +84,14 @@ export class CourseService {
     courseId: number,
     userId: number | undefined
   ): Observable<boolean> {
-    const body = {
-      courseId: courseId,
-      userId: userId,
-    };
-    return this.http.post<boolean>('/api/user/enrolled', body);
+    if (userId){
+      const body = {
+        courseId: courseId,
+        userId: userId,
+      };
+      return this.http.post<boolean>('/api/user/enrolled', body);
+    }
+    return of(false);
   }
 
   getProgress(

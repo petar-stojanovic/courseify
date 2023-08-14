@@ -14,9 +14,10 @@ export class UserCoursesComponent implements OnInit {
   courses: Course[] = [];
   user: User | null = null;
   previewMode: boolean = false;
+  isLoaded = false;
 
   ngOnInit(): void {
-    this.getUserLearnCourses();
+    this.getUserCourses();
   }
 
   constructor(
@@ -26,7 +27,7 @@ export class UserCoursesComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  getUserLearnCourses() {
+  getUserCourses() {
     this.user = this.authService.getLoggedInUser();
     if (this.router.url.endsWith('learn') && this.user) {
       this.courseService
@@ -34,11 +35,15 @@ export class UserCoursesComponent implements OnInit {
         .subscribe((result) => {
           this.courses = result;
           this.previewMode = true;
+          this.isLoaded = true;
         });
     } else {
       this.courseService
         .getUserCreatedCourses(this.user!!.id)
-        .subscribe((result) => (this.courses = result));
+        .subscribe((result) => {
+          this.courses = result;
+          this.isLoaded = true;
+        });
     }
   }
 
@@ -48,15 +53,16 @@ export class UserCoursesComponent implements OnInit {
     });
   }
 
-  publishCourse(id:number) {
+  publishCourse(id: number) {
     this.courseService.publishCourse(id).subscribe(() => this.reloadPage());
   }
 
   reloadPage() {
     const currentUrl = this.router.url;
-    this.router.navigateByUrl('/blank', { skipLocationChange: true }).then(() => {
-      this.router.navigate([currentUrl]);
-    });
+    this.router
+      .navigateByUrl('/blank', { skipLocationChange: true })
+      .then(() => {
+        this.router.navigate([currentUrl]);
+      });
   }
-  
 }

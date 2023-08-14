@@ -1,3 +1,11 @@
 .example-card {
-    margin: 3rem;
+  margin: 3rem;
+}
+
+.spinner {
+  height: calc(100vh - 128px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -35,7 +35,7 @@ class UserTakesCourseServiceImpl(
             val completedQuizIds = completedQuizzes.map { it.quiz.id }
 
             val countCompletedQuiz = completedQuizzes.size
-            val countAllQuiz = lessonRepository.findAllByCourseId(courseId).count { it.quiz != null }
+            val countAllQuiz = lessonRepository.countByCourseIdAndQuizIsNotNull(courseId)
 
             val progress = countCompletedQuiz.toDouble() / countAllQuiz.toDouble()
 
