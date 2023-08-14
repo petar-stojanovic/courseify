@@ -6,7 +6,7 @@ import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Quiz } from 'src/app/interfaces/Quiz';
-import { catchError, map, of } from 'rxjs';
+import { forkJoin, map} from 'rxjs';
 
 @Component({
   selector: 'app-lessons',
@@ -22,6 +22,7 @@ export class LessonsComponent {
   quiz: Quiz | undefined;
   progress: number | undefined;
   uncompletedLessonIds: number[] | undefined;
+  isLoaded = false;
 
   constructor(
     private lessonService: LessonService,
@@ -31,21 +32,26 @@ export class LessonsComponent {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.getLessonsByCourseId();
-    this.checkEnrolledStudent();
-    this.getProgress();
-  }
-
-  getLessonsByCourseId(): void {
-    this.courseService.getCourseById(this.courseId).subscribe((result) => {
-      this.course = result;
+  ngOnInit(){
+    forkJoin([
+      this.courseService.getCourseById(this.courseId),
+      this.lessonService.getLessonsByCourseId(this.courseId),
+      this.courseService.checkTakesCourse(this.courseId, this.user?.id),
+      this.courseService.getProgress(this.courseId, this.user?.id)
+    ])
+    .pipe(
+      map(([course, lessons, userTakesCourse, userProgress]) => {
+        return { course, lessons, userTakesCourse, userProgress };
+      })
+    )
+    .subscribe(data => {
+      this.course = data.course;
+      this.lessons = data.lessons;
+      this.takesCourse = data.userTakesCourse;
+      this.progress = data.userProgress.progress * 100;
+      this.uncompletedLessonIds = data.userProgress.uncompletedLessonIds;
+      this.isLoaded = true;
     });
-    this.lessonService
-      .getLessonsByCourseId(this.courseId)
-      .subscribe((lessons) => {
-        this.lessons = lessons;
-      });
   }
 
   deleteLesson(id: number) {
@@ -62,15 +68,6 @@ export class LessonsComponent {
   enrollStudent(courseId: number) {
     this.courseService.enrollUserToCourse(courseId);
     this.reloadPage();
-    this.checkEnrolledStudent();
-  }
-
-  checkEnrolledStudent() {
-    this.courseService
-      .checkTakesCourse(this.courseId, this.user?.id)
-      .subscribe((res) => {
-        this.takesCourse = res;
-      });
   }
 
   reloadPage() {
@@ -82,21 +79,12 @@ export class LessonsComponent {
       });
   }
 
-  getProgress() {
-    this.courseService
-      .getProgress(this.courseId, this.user?.id)
-      .subscribe((result) => {
-        this.progress = result.progress * 100;
-        this.uncompletedLessonIds = result.uncompletedLessonIds;
-        console.log(result.progress);
-        console.log(result.uncompletedLessonIds);
+  downloadCertificate() {
+    this.lessonService
+      .downloadCertificate(this.courseId, this.user?.id)
+      .subscribe((res) => {
+        const fileURL = URL.createObjectURL(res);
+        window.open(fileURL, '_blank');
       });
-  }
-
-  downloadCertificate(){
-    this.lessonService.downloadCertificate(this.courseId, this.user?.id).subscribe((res) => {
-      const fileURL = URL.createObjectURL(res);
-      window.open(fileURL, '_blank');
-    });
   }
 }

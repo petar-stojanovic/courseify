@@ -10,3 +10,11 @@
     height: 20em !important;
     object-fit: cover;
 }
+
+.spinner {
+    height: 300px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

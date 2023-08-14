@@ -61,7 +61,6 @@ export class QuizComponent implements OnInit {
     this.quizService.getQuizWithLessonId(id).subscribe((result) => {
       this.quiz = result;
       this.totalAnswers = result.questions.length;
-      console.log(result);
       this.showNextQuestion();
     });
   }

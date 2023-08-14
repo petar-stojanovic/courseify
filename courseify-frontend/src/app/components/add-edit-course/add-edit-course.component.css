@@ -6,6 +6,14 @@
   justify-content: center;
 }
 
+.spinner {
+  height: calc(100vh - 128px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .wrapper form {
   display: flex;
   align-items: center;

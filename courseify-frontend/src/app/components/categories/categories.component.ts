@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from '../../interfaces/Category';
 import { CourseService } from '../../services/course.service';
 import { CategoryService } from '../../services/category.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-categories',
@@ -10,7 +11,8 @@ import { CategoryService } from '../../services/category.service';
 })
 export class CategoriesComponent implements OnInit {
   categories: Category[] = [];
-  cachedCategories: Category[] | null= [];
+  cachedCategories: Category[] | null = [];
+  isLoaded = false;
 
   constructor(private categoryService: CategoryService) {}
 
@@ -22,11 +24,12 @@ export class CategoriesComponent implements OnInit {
     const cachedCategories = localStorage.getItem('categories');
     if (cachedCategories) {
       this.cachedCategories = JSON.parse(cachedCategories);
+      this.isLoaded = true;
     }else{
       this.categoryService.getAllCategories().subscribe((result) => {
         this.cachedCategories = result;
         localStorage.setItem('categories', JSON.stringify(result));
-  
+        this.isLoaded = true;
       });
     }
   }

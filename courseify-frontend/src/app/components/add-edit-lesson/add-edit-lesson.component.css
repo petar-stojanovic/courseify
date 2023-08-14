@@ -1,34 +1,39 @@
 .wrapper {
   height: calc(100vh - 128px);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  height: calc(100vh - 128px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .wrapper form {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 /*
       Change this for responsiveness
   */
 .form-content {
-    width: 40rem;
+  width: 40rem;
 }
 
-
 .mat-mdc-form-field {
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-  
+  width: 100%;
+  margin-top: 0.5rem;
+}
 
-  .mat-mdc-raised-button {
-    width: 50%;
-    height: 3rem;
-    margin: 1rem;
-  }
-  
+.mat-mdc-raised-button {
+  width: 50%;
+  height: 3rem;
+  margin: 1rem;
+}

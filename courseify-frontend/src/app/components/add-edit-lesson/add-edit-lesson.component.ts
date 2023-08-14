@@ -14,6 +14,7 @@ export class AddEditLessonComponent {
   isAddMode: boolean = false;
   lesson: Lesson | undefined;
   courseId: string | undefined;
+  isLoaded = false;
 
   lessonForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -37,6 +38,10 @@ export class AddEditLessonComponent {
     this.lessonId = this.route.snapshot.params['lessonId'];
     this.courseId = this.route.snapshot.params['courseId'];
     this.isAddMode = !this.lessonId;
+    
+    if(this.isAddMode){
+      this.isLoaded = true;
+    }
 
     this.lessonForm?.patchValue({
       courseId: this.courseId,
@@ -44,6 +49,7 @@ export class AddEditLessonComponent {
 
     if (!this.isAddMode && this.lessonId) {
       this.lessonService.getLessonById(+this.lessonId).subscribe((result) => {
+        this.isLoaded = true;
         this.lesson = result;
         this.lessonForm?.patchValue({
           title: this.lesson.title,

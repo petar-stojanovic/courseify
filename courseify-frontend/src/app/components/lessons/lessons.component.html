@@ -1,81 +1,137 @@
-<div class="container pb-5">
-  <div class="row mt-4">
+<div class="spinner" *ngIf="!isLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
 
-    <div class="col-md-12 col-lg-6 col-md-6 order-2 order-lg-1 order-xl-1 order-xxl-1"
-      *ngIf="course?.author?.id == user?.id || takesCourse">
+<div class="container pb-5" *ngIf="isLoaded">
+  <div class="row mt-4">
+    <div
+      class="col-md-12 col-lg-6 col-md-6 order-2 order-lg-1 order-xl-1 order-xxl-1"
+      *ngIf="course?.author?.id == user?.id || takesCourse"
+    >
       <div class="display-5 my-3 text-center fw-bold">{{ course?.title }}</div>
 
-      <p class="fs-5">{{course?.description}}</p>
+      <p class="fs-5">{{ course?.description }}</p>
       <h3>
-        <span class="fw-medium"> Author:</span> {{ course?.author?.firstName }} {{ course?.author?.lastName }}
+        <span class="fw-medium"> Author:</span> {{ course?.author?.firstName }}
+        {{ course?.author?.lastName }}
       </h3>
       <h3 *ngIf="course?.author?.id != user?.id">
-        <span class="fw-medium"> Your Progress:</span> <mat-progress-bar mode="determinate"
-          [value]="progress"></mat-progress-bar>
+        <span class="fw-medium"> Your Progress:</span>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="progress"
+        ></mat-progress-bar>
       </h3>
       <h2>Course Content</h2>
       <mat-accordion>
-        <mat-expansion-panel hideToggle *ngFor="let lesson of lessons; let i = index" class="d-flex flex-column">
+        <mat-expansion-panel
+          hideToggle
+          *ngFor="let lesson of lessons; let i = index"
+          class="d-flex flex-column"
+        >
           <mat-expansion-panel-header>
-            <mat-panel-title>Lesson {{ i + 1 }}:<span class="text-secondary ms-2">{{
+            <mat-panel-title
+              >Lesson {{ i + 1 }}:<span class="text-secondary ms-2">{{
                 lesson.title
-                }}</span></mat-panel-title>
+              }}</span></mat-panel-title
+            >
           </mat-expansion-panel-header>
           <div class="d-flex justify-content-between">
-            <a routerLink="/course/{{ lesson.course.id }}/lessons/{{
+            <a
+              routerLink="/course/{{ lesson.course.id }}/lessons/{{
                 lesson.id
-              }}/video" class="d-flex align-items-center"><mat-icon class="me-2">video_library</mat-icon>{{
-              lesson.videoTitle }}</a>
+              }}/video"
+              class="d-flex align-items-center"
+              ><mat-icon class="me-2">video_library</mat-icon
+              >{{ lesson.videoTitle }}</a
+            >
             <span class="border"></span>
-            <a (click)="openFile(lesson.id)" class="d-flex align-items-center" style="cursor: pointer">
-              <mat-icon class="me-2"> attach_file</mat-icon>{{ lesson.fileTitle }}
+            <a
+              (click)="openFile(lesson.id)"
+              class="d-flex align-items-center"
+              style="cursor: pointer"
+            >
+              <mat-icon class="me-2"> attach_file</mat-icon
+              >{{ lesson.fileTitle }}
             </a>
 
             <span *ngIf="lesson.quiz != null" class="border"></span>
 
-            <a *ngIf="lesson.quiz == null && course?.author?.id == user?.id" [routerLink]="['/quiz/add']"
-              [queryParams]="{ lessonId: lesson.id }" class="d-flex align-items-center"><mat-icon
-                class="me-2">question_mark</mat-icon> Add Quiz</a>
+            <a
+              *ngIf="lesson.quiz == null && course?.author?.id == user?.id"
+              [routerLink]="['/quiz/add']"
+              [queryParams]="{ lessonId: lesson.id }"
+              class="d-flex align-items-center"
+              ><mat-icon class="me-2">question_mark</mat-icon> Add Quiz</a
+            >
             <!-- postoi kviz i user ne ga zimaja -->
-            <a *ngIf="lesson.quiz != null && uncompletedLessonIds?.includes(lesson.id)" [routerLink]="['/quiz']"
+            <a
+              *ngIf="
+                lesson.quiz != null && uncompletedLessonIds?.includes(lesson.id)
+              "
+              [routerLink]="['/quiz']"
               [queryParams]="{ lessonId: lesson.id, lessontitle: lesson.title }"
-              class="d-flex align-items-center"><mat-icon class="me-2">question_mark</mat-icon>Take Quiz</a>
+              class="d-flex align-items-center"
+              ><mat-icon class="me-2">question_mark</mat-icon>Take Quiz</a
+            >
             <!-- postoi kviz i user ga zimaja -->
-            <a *ngIf="lesson.quiz != null && !uncompletedLessonIds?.includes(lesson.id) "
-              class="d-flex align-items-center text-success fw-medium"><mat-icon
-                class="me-2">done</mat-icon>Completed</a>
+            <a
+              *ngIf="
+                lesson.quiz != null &&
+                !uncompletedLessonIds?.includes(lesson.id)
+              "
+              class="d-flex align-items-center text-success fw-medium"
+              ><mat-icon class="me-2">done</mat-icon>Completed</a
+            >
           </div>
           <div *ngIf="user?.id == course?.author?.id">
-            <a routerLink="/course/{{ lesson.course.id }}/lessons/{{
+            <a
+              routerLink="/course/{{ lesson.course.id }}/lessons/{{
                 lesson.id
-              }}/edit"><button mat-icon-button color="primary">
+              }}/edit"
+              ><button mat-icon-button color="primary">
                 <mat-icon>edit</mat-icon>
-              </button></a>
-            <button mat-icon-button color="primary" (click)="deleteLesson(lesson.id)">
+              </button></a
+            >
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="deleteLesson(lesson.id)"
+            >
               <mat-icon>delete_outline</mat-icon>
             </button>
           </div>
         </mat-expansion-panel>
       </mat-accordion>
 
-      <a *ngIf="user?.id == course?.author?.id" routerLink="/course/{{ course?.id }}/lessons/add"><button
-          mat-raised-button color="primary" class="w-100">
+      <a
+        *ngIf="user?.id == course?.author?.id"
+        routerLink="/course/{{ course?.id }}/lessons/add"
+        ><button mat-raised-button color="primary" class="w-100">
           Add Lesson
-        </button></a>
+        </button></a
+      >
     </div>
 
-    <div class="col-md-12 col-lg-6 col-md-6 order-2 order-lg-1 order-xl-1 order-xxl-1"
-      *ngIf="course?.author?.id != user?.id && !takesCourse">
+    <div
+      class="col-md-12 col-lg-6 col-md-6 order-2 order-lg-1 order-xl-1 order-xxl-1"
+      *ngIf="course?.author?.id != user?.id && !takesCourse"
+    >
       <div class="display-5 my-3 text-center fw-bold">{{ course?.title }}</div>
 
-      <p class="fs-5">{{course?.description}}</p>
+      <p class="fs-5">{{ course?.description }}</p>
       <h3>
-        <span class="fw-medium"> Author:</span> {{ course?.author?.firstName }} {{ course?.author?.lastName }}
+        <span class="fw-medium"> Author:</span> {{ course?.author?.firstName }}
+        {{ course?.author?.lastName }}
       </h3>
       <h2>Course Content</h2>
       <ol class="list-group list-group-numbered">
-        <li class="list-group-item d-flex justify-content-between align-items-start"
-          *ngFor="let lesson of lessons; let i = index">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-start"
+          *ngFor="let lesson of lessons; let i = index"
+        >
           <div class="ms-2 me-auto">
             <div class="fw-bold">{{ lesson.title }}</div>
             {{ lesson.description }}
@@ -84,19 +140,29 @@
       </ol>
     </div>
 
-    <div *ngIf="course?.id"
-      class="col-lg-6 col-md-12 rounded-5 shadow-lg text-center mb-3 order-1 order-lg-2 order-xl-2 order-xxl-2">
+    <div
+      *ngIf="course?.id"
+      class="col-lg-6 col-md-12 rounded-5 shadow-lg text-center mb-3 order-1 order-lg-2 order-xl-2 order-xxl-2"
+    >
       <div class="mx-1">
-        <app-thumbnail [courseId]="course!!.id" thumbnail_class="thumbnail_lesson"></app-thumbnail>
+        <app-thumbnail
+          [courseId]="course!!.id"
+          thumbnail_class="thumbnail_lesson"
+        ></app-thumbnail>
 
-        <button *ngIf="course?.author?.id != user?.id && !takesCourse && user" mat-raised-button color="primary"
-          (click)="enrollStudent(course!!.id)" class="mb-3 w-50">
+        <button
+          *ngIf="course?.author?.id != user?.id && !takesCourse && user"
+          mat-raised-button
+          color="primary"
+          (click)="enrollStudent(course!!.id)"
+          class="mb-3 w-50"
+        >
           Enroll
         </button>
       </div>
     </div>
   </div>
-  <div *ngIf="progress===100">
+  <div *ngIf="progress === 100">
     <button mat-raised-button color="primary" (click)="downloadCertificate()">
       Download Certificate
       <mat-icon>insert_drive_file</mat-icon>
