@@ -1,6 +1,7 @@
 package sorsix.project.courseify.api
 
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -120,5 +121,20 @@ class CourseController(
     @PostMapping("/progress")
     fun getProgress(@RequestBody request: UserTakesCourseRequest): ResponseEntity<*> =
         userTakesCourseService.getProgressAndUncompletedLessons(request.courseId, request.userId).let { ResponseEntity.ok(it) }
+
+
+    @PostMapping("/generate-pdf")
+    fun generatePdf(@RequestBody request: UserTakesCourseRequest): ResponseEntity<Resource> {
+
+        val pdfData = courseService.generatePdf(request.courseId,request.userId)
+
+        val headers = HttpHeaders()
+        headers.setContentDispositionFormData("inline", "certificate.pdf")
+        headers.contentType = MediaType.parseMediaType("application/pdf")
+
+        val pdfResource = ByteArrayResource(pdfData.toByteArray())
+
+        return ResponseEntity(pdfResource, headers, HttpStatus.OK)
+    }
 
 }

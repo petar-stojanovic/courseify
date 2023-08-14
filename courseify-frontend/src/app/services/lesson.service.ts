@@ -56,4 +56,15 @@ export class LessonService {
       .get<Blob>(`/api/lesson/${id}/file`, options)
       .pipe(map((res) => new Blob([res], { type: 'application/pdf' })));
   }
+
+  downloadCertificate(courseId: number, userId: number| undefined): Observable<Blob> {
+    const options = { responseType: 'blob' as 'json' };
+    const body = {
+      courseId: courseId,
+      userId: userId,
+    };
+    return this.http
+      .post<Blob>(`/api/course/generate-pdf`, body, options)
+      .pipe(map((res) => new Blob([res], { type: 'application/pdf' })));
+  }
 }

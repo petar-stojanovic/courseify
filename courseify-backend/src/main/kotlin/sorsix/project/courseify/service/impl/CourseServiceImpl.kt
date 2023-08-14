@@ -1,5 +1,12 @@
 package sorsix.project.courseify.service.impl
 
+import com.itextpdf.io.image.ImageDataFactory
+import com.itextpdf.kernel.geom.PageSize
+import com.itextpdf.kernel.pdf.PdfDocument
+import com.itextpdf.kernel.pdf.PdfWriter
+import com.itextpdf.layout.Document
+import com.itextpdf.layout.element.Image
+import com.itextpdf.layout.element.Paragraph
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.Resource
@@ -11,6 +18,7 @@ import sorsix.project.courseify.domain.CourseCategories
 import sorsix.project.courseify.domain.User
 import sorsix.project.courseify.repository.*
 import sorsix.project.courseify.service.definitions.CourseService
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -154,6 +162,34 @@ class CourseServiceImpl(
         return courseRepository.save(updatedCourse)
     }
 
+    override fun generatePdf(courseId: Long, userId: Long): ByteArrayOutputStream {
+        val userTakesCourse = userTakesCourseRepository.findByCourseIdAndUserId(courseId, userId)
+
+        val pdfData = ByteArrayOutputStream()
+        val pdfWriter = PdfWriter(pdfData)
+        val pdfDocument = PdfDocument(pdfWriter)
+        val document = Document(pdfDocument, PageSize.A4)
+
+        val thumbnailResource = getThumbnail(courseId)
+        val thumbnailData = thumbnailResource?.inputStream?.readAllBytes()
+
+        if (thumbnailData != null) {
+            val thumbnailImage = Image(ImageDataFactory.create(thumbnailData))
+            document.add(thumbnailImage)
+        }
+
+        document.add(Paragraph("Course Name: ${userTakesCourse?.course?.title}"))
+        document.add(Paragraph("Start Date: ${userTakesCourse?.startDate}"))
+        document.add(Paragraph("Completion Date: ${userTakesCourse?.endDate}"))
+        document.add(Paragraph("User: ${userTakesCourse?.user?.firstName} ${userTakesCourse?.user?.lastName}"))
+
+
+        document.close()
+        pdfDocument.close()
+
+        return pdfData
+    }
 }
+
 
 fun String.toSlug(): String = this.lowercase().replace(" ", "_")

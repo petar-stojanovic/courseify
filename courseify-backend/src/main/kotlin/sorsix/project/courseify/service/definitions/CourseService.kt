@@ -4,6 +4,7 @@ import org.springframework.core.io.Resource
 import sorsix.project.courseify.api.request.CourseRequest
 import sorsix.project.courseify.domain.Course
 import sorsix.project.courseify.domain.User
+import java.io.ByteArrayOutputStream
 
 interface CourseService {
 
@@ -15,4 +16,6 @@ interface CourseService {
     fun getThumbnail(courseId: Long): Resource?
 
     fun publishCourse(courseId: Long): Course
+
+    fun generatePdf(courseId: Long, userId: Long): ByteArrayOutputStream
 }

@@ -43,7 +43,11 @@ class UserTakesCourseServiceImpl(
                 .filter { it.quiz != null && it.quiz.id !in completedQuizIds }
                 .map { it.id }
 
-            userTakesCourseRepository.save(userTakesCourse.copy(progress = progress))
+            if (progress == 1.0) {
+                userTakesCourseRepository.save(userTakesCourse.copy(progress = progress, endDate = LocalDate.now()))
+            } else {
+                userTakesCourseRepository.save(userTakesCourse.copy(progress = progress))
+            }
 
             return ProgressAndUncompletedLessonsResponse(progress, uncompletedLessons)
         }
