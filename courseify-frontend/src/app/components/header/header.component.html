@@ -4,6 +4,9 @@
   </div>
   <span class="example-spacer"></span>
   <div *ngIf="isAuthenticated" class="d-flex align-items-center">
+    <button mat-stroked-button color="primary" class="bg-white" routerLink="/user">
+      {{ user?.username }}
+    </button>
     <a routerLink="/course/add" mat-icon-button>
       <mat-icon>library_add</mat-icon>
     </a>
@@ -11,9 +14,7 @@
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <h3 class="d-flex justify-content-center">
-        <strong>Hello {{ user?.username }}!</strong>
-      </h3>
+      
       <button mat-menu-item routerLink="/user">Account Details</button>
       <button mat-menu-item routerLink="/user/learn">Enrolled Courses</button>
       <button mat-menu-item routerLink="/user/created">Created Courses</button>
