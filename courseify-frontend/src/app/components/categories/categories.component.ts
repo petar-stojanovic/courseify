@@ -9,35 +9,18 @@ import { CategoryService } from '../../services/category.service';
 })
 export class CategoriesComponent implements OnInit {
   categories: Category[] = [];
-  cachedCategories: Category[] | null = [];
   isLoaded = false;
 
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    this.loadCachedCategories();
+    this.loadCategories();
   }
 
-  loadCachedCategories(): void {
-    const cachedCategories = localStorage.getItem('categories');
-    if (cachedCategories) {
-      this.cachedCategories = JSON.parse(cachedCategories);
+  loadCategories(): void {
+    this.categoryService.getAllCategories().subscribe((result) => {
+      this.categories = result;
       this.isLoaded = true;
-    } else {
-      this.categoryService.getAllCategories().subscribe((result) => {
-        this.cachedCategories = result;
-        localStorage.setItem('categories', JSON.stringify(result));
-        this.isLoaded = true;
-      });
-    }
-  }
-
-  clearCachedCategories(): void {
-    this.cachedCategories = null;
-    localStorage.removeItem('user_data');
-  }
-
-  getCategories(): Category[] | null {
-    return this.cachedCategories;
+    });
   }
 }
