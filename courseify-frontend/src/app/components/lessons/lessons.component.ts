@@ -55,8 +55,11 @@ export class LessonsComponent {
   }
 
   deleteLesson(id: number) {
-    this.lessonService.deleteLesson(id).subscribe();
+    this.lessonService.deleteLesson(id).subscribe(
+      () => this.reloadPage()
+    );
   }
+  
 
   openFile(id: number) {
     this.lessonService.downloadPDF(id).subscribe((res) => {
