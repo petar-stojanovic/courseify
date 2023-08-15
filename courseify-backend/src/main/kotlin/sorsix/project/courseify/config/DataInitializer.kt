@@ -68,6 +68,40 @@ class DataInitializer() {
         categoryRepository.save(category2)
         categoryRepository.save(category3)
 
+        val additionalCategories = listOf(
+            "Web Development", "Mobile App Development", "Game Development",
+            "Database Management", "DevOps", "Machine Learning", "Artificial Intelligence",
+            "Data Science", "Cloud Computing", "Cybersecurity",
+            "Frontend Development", "Backend Development", "Full Stack Development",
+            "UI/UX Design", "Version Control", "Agile Methodology",
+            "Software Testing", "Continuous Integration", "API Development",
+            "Microservices", "Blockchain", "IoT Development", "Embedded Systems",
+            "Natural Language Processing", "Big Data", "Virtual Reality",
+            "Augmented Reality", "Quantum Computing", "Functional Programming",
+            "Object-Oriented Programming", "Low-Level Programming", "High-Level Programming",
+            "Concurrency", "Parallel Programming", "Responsive Design",
+            "RESTful APIs", "GraphQL", "Secure Coding Practices", "Code Optimization",
+            "Code Review", "Pair Programming", "Scrum", "Kanban",
+            "Software Architecture", "Design Patterns", "Refactoring",
+            "Code Documentation", "Legacy Code Maintenance", "Code Quality",
+            "Technical Debt", "Software Development Lifecycle", "Project Management",
+            "C#", "C++", "Java", "Python", "JavaScript",
+            "Ruby", "Swift", "Kotlin", "Go", "Rust",
+            "PHP", "Perl", "Scala", "Haskell", "Lua",
+            "TypeScript", "Dart", "F#", "Groovy", "Objective-C",
+            "R", "Matlab", "Julia", "COBOL", "Fortran",
+            "Assembly", "PL/SQL", "T-SQL", "VBScript", "Ada",
+            "Lisp", "Prolog", "Scheme", "Smalltalk", "Logo",
+            "Clojure", "Elixir", "Erlang", "VHDL", "Verilog",
+            "SQL", "HTML", "CSS", "XML", "JSON",
+            "Bash", "PowerShell", "Pascal", "Racket", "Ada"
+        )
+
+        for (categoryName in additionalCategories) {
+            val category = Category(0, categoryName)
+            categoryRepository.save(category)
+        }
+
         val course1 = Course(
             0,
             "Java Programming Course",
