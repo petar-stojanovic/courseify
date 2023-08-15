@@ -1,4 +1,4 @@
-export interface Answer{
-    id: number;
-    content: string;
+export interface Answer {
+  id: number;
+  content: string;
 }

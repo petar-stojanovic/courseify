@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, mergeMap, of} from 'rxjs';
-import { AuthService } from './auth.service';
+import { Observable, mergeMap, of } from 'rxjs';
 import { Course } from '../interfaces/Course';
 import { ProgressResponse } from '../interfaces/ProgressResponse';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -84,7 +84,7 @@ export class CourseService {
     courseId: number,
     userId: number | undefined
   ): Observable<boolean> {
-    if (userId){
+    if (userId) {
       const body = {
         courseId: courseId,
         userId: userId,

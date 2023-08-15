@@ -3,11 +3,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
+import { mergeMap } from 'rxjs';
+import { Course } from 'src/app/interfaces/Course';
 import { Category } from '../../interfaces/Category';
 import { CategoryService } from '../../services/category.service';
 import { CourseService } from '../../services/course.service';
-import { Course } from 'src/app/interfaces/Course';
-import { mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-course',
@@ -49,7 +49,7 @@ export class AddEditCourseComponent implements OnInit {
     this.isAddMode = !this.id;
     this.getAllCategories();
 
-    if(this.isAddMode){
+    if (this.isAddMode) {
       this.isLoaded = true;
     }
 
@@ -70,9 +70,9 @@ export class AddEditCourseComponent implements OnInit {
           this.isLoaded = true;
           this.categoryList = res;
           const categoryListOfString = this.categoryList
-          .map((category) => category.id)
-          .join(', ');
-          this.courseForm.get("categoryIds")?.setValue(categoryListOfString) 
+            .map((category) => category.id)
+            .join(', ');
+          this.courseForm.get('categoryIds')?.setValue(categoryListOfString);
         });
     }
 

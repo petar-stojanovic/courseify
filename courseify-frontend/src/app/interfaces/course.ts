@@ -1,5 +1,4 @@
-import { Category } from "./Category";
-
+import { Category } from './Category';
 
 export interface Course {
   id: number;
@@ -18,4 +17,3 @@ interface Author {
   email: string;
   username: string;
 }
-

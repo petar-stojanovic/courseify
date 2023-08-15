@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LessonService } from '../../services/lesson.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Lesson } from 'src/app/interfaces/Lesson';
+import { LessonService } from '../../services/lesson.service';
 
 @Component({
   selector: 'app-add-edit-lesson',
@@ -38,8 +38,8 @@ export class AddEditLessonComponent {
     this.lessonId = this.route.snapshot.params['lessonId'];
     this.courseId = this.route.snapshot.params['courseId'];
     this.isAddMode = !this.lessonId;
-    
-    if(this.isAddMode){
+
+    if (this.isAddMode) {
       this.isLoaded = true;
     }
 
@@ -87,9 +87,9 @@ export class AddEditLessonComponent {
     formData.append('fileTitle', this.lessonForm.get('fileTitle')?.value!!);
     formData.append('title', this.lessonForm.get('title')?.value!!);
     formData.append('description', this.lessonForm.get('description')?.value!!);
-    formData.append('quizId', "0");
+    formData.append('quizId', '0');
     formData.append('courseId', this.lessonForm.get('courseId')?.value!!);
-    
+
     if (this.isAddMode) {
       this.lessonService
         .addLesson(formData)

@@ -6,9 +6,9 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { ErrorHandleService } from 'src/app/services/errorHandle.service';
 import { User } from '../../interfaces/User';
 import { AuthService } from '../../services/auth.service';
-import { ErrorHandleService } from 'src/app/services/errorHandle.service';
 
 @Component({
   selector: 'app-user-details',
@@ -19,7 +19,6 @@ export class UserDetailsComponent implements OnInit {
   user: User | null = null;
   changePassword: boolean = false;
   passwordChangeSucess = false;
-
   errorMessage: string | null = null;
   userForm: any;
 
@@ -62,10 +61,10 @@ export class UserDetailsComponent implements OnInit {
       .changePassword(this.user!!.username, oldPassword, newPassword)
       .subscribe(() => {
         this.passwordChangeSucess = true;
-        this.errorMessage
+        this.errorMessage;
         formDirective.resetForm();
         this.userForm.reset();
-        this.errorHandleService.clearErrorMessage()
+        this.errorHandleService.clearErrorMessage();
       });
   }
 

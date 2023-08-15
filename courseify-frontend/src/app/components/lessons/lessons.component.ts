@@ -1,12 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { Lesson } from '../../interfaces/Lesson';
-import { LessonService } from '../../services/lesson.service';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Course } from '../../interfaces/Course';
-import { CourseService } from '../../services/course.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { forkJoin, map } from 'rxjs';
 import { Quiz } from 'src/app/interfaces/Quiz';
-import { forkJoin, map} from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+import { Course } from '../../interfaces/Course';
+import { Lesson } from '../../interfaces/Lesson';
+import { CourseService } from '../../services/course.service';
+import { LessonService } from '../../services/lesson.service';
 
 @Component({
   selector: 'app-lessons',
@@ -32,26 +32,26 @@ export class LessonsComponent {
     private router: Router
   ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     forkJoin([
       this.courseService.getCourseById(this.courseId),
       this.lessonService.getLessonsByCourseId(this.courseId),
       this.courseService.checkTakesCourse(this.courseId, this.user?.id),
-      this.courseService.getProgress(this.courseId, this.user?.id)
+      this.courseService.getProgress(this.courseId, this.user?.id),
     ])
-    .pipe(
-      map(([course, lessons, userTakesCourse, userProgress]) => {
-        return { course, lessons, userTakesCourse, userProgress };
-      })
-    )
-    .subscribe(data => {
-      this.course = data.course;
-      this.lessons = data.lessons;
-      this.takesCourse = data.userTakesCourse;
-      this.progress = data.userProgress.progress * 100;
-      this.uncompletedLessonIds = data.userProgress.uncompletedLessonIds;
-      this.isLoaded = true;
-    });
+      .pipe(
+        map(([course, lessons, userTakesCourse, userProgress]) => {
+          return { course, lessons, userTakesCourse, userProgress };
+        })
+      )
+      .subscribe((data) => {
+        this.course = data.course;
+        this.lessons = data.lessons;
+        this.takesCourse = data.userTakesCourse;
+        this.progress = data.userProgress.progress * 100;
+        this.uncompletedLessonIds = data.userProgress.uncompletedLessonIds;
+        this.isLoaded = true;
+      });
   }
 
   deleteLesson(id: number) {

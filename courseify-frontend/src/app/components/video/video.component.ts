@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { LessonService } from '../../services/lesson.service';
+import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { VgApiService } from '@videogular/ngx-videogular/core';
 import { ActivatedRoute } from '@angular/router';
+import { VgApiService } from '@videogular/ngx-videogular/core';
 import { Lesson } from '../../interfaces/Lesson';
+import { LessonService } from '../../services/lesson.service';
 
 @Component({
   selector: 'app-video',
@@ -11,10 +11,6 @@ import { Lesson } from '../../interfaces/Lesson';
   styleUrls: ['./video.component.css'],
 })
 export class VideoComponent implements OnInit {
-  // @Input() videoTitle = '';
-  // @Input() courseId = 0;
-  // @Input() lessonId = 0;
-
   videoUrl?: SafeUrl | null = null;
   lesson: Lesson | undefined;
 
@@ -51,17 +47,12 @@ export class VideoComponent implements OnInit {
   onPlayerReady(api: VgApiService) {
     this.api = api;
     this.api.getDefaultMedia().subscriptions.ended.subscribe(() => {
-      // this.onVideoEnded();
-      console.log('Video Ended');
-    });
-    this.api.getDefaultMedia().subscriptions.timeUpdate.subscribe(() => {
-      // this.onTimeUpdate();
-      console.log('Time Updated!');
+      // TODO: this.onVideoEnded();
     });
     this.api
       .getDefaultMedia()
       .subscriptions.loadedMetadata.subscribe(($event) => {
-        console.log('API  ' + Math.floor(this.api.duration) + ' seconds');
+        //TODO: Math.floor(this.api.duration);
       });
   }
 }
