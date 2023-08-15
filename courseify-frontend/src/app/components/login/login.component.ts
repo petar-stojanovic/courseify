@@ -5,9 +5,9 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ErrorHandleService } from 'src/app/services/errorHandle.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: any;
   fieldRequired = 'This field is required';
   invalidCredentials = false;
-
   errorMessage: string | null = null;
 
   constructor(
@@ -27,7 +26,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private errorHandleService: ErrorHandleService
   ) {}
 
-
   ngOnInit() {
     this.createForm();
     this.errorHandleService.errorMessage$.subscribe((message) => {
@@ -35,9 +33,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  
   ngOnDestroy(): void {
-    this.errorHandleService.clearErrorMessage()
+    this.errorHandleService.clearErrorMessage();
   }
 
   createForm() {
@@ -59,7 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const password = formData.value.password;
     this.authService.signInUser(username, password).subscribe(
       (response) => {
-        this.errorHandleService.clearErrorMessage()
+        this.errorHandleService.clearErrorMessage();
       },
       (error) => {
         this.invalidCredentials = true;

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CourseService } from '../../services/course.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { CourseService } from '../../services/course.service';
 
 @Component({
   selector: 'app-thumbnail',

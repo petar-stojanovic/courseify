@@ -1,11 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 import { Course } from '../../interfaces/Course';
 import { CourseService } from '../../services/course.service';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-course',
@@ -58,14 +58,12 @@ export class CourseComponent implements OnInit {
         }
       });
   }
- 
-  getCourses(search?: string, categoryName?: string){
-    this.courseService.getCourses(search, categoryName).subscribe(
-      result => {
-        this.courseList = result;
-        this.isLoaded = true;
-      }
-    );
+
+  getCourses(search?: string, categoryName?: string) {
+    this.courseService.getCourses(search, categoryName).subscribe((result) => {
+      this.courseList = result;
+      this.isLoaded = true;
+    });
   }
 
   getDecodedAccessToken(): any {

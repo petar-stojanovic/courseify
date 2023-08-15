@@ -1,5 +1,4 @@
 export interface ProgressResponse {
-    progress: number;
-    uncompletedLessonIds: number[];
-  }
-  
+  progress: number;
+  uncompletedLessonIds: number[];
+}

@@ -1,10 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QuizService } from 'src/app/services/quiz.service';
-import { Quiz } from '../../interfaces/Quiz';
 import { Question } from 'src/app/interfaces/Question';
-import { Location } from '@angular/common';
+import { QuizService } from 'src/app/services/quiz.service';
 
 @Component({
   selector: 'app-add-edit-quiz',
@@ -49,10 +48,9 @@ export class AddEditQuizComponent implements OnInit {
       correctAnswer: [null, Validators.required],
     });
 
-
     this.questions.push(questionForm);
-      this.addAnswer(this.questions.length-1);
-      this.addAnswer(this.questions.length-1);
+    this.addAnswer(this.questions.length - 1);
+    this.addAnswer(this.questions.length - 1);
   }
 
   deleteQuestion(lessonIndex: number) {
@@ -86,7 +84,6 @@ export class AddEditQuizComponent implements OnInit {
         lessonId: this.id,
         title: 'Quiz Title',
         questions: formData.questions?.map((question: any) => {
-          console.log(question);
           const transformedQuestion: Question = {
             content: question.question,
             correctAnswerId: question.correctAnswer,

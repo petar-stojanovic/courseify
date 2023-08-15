@@ -1,6 +1,6 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-error',
@@ -83,5 +83,4 @@ export class ErrorComponent {
     }
     return this.defaultErrorMessage;
   }
-
 }

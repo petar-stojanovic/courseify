@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../../interfaces/Category';
-import { CourseService } from '../../services/course.service';
 import { CategoryService } from '../../services/category.service';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-categories',
@@ -17,7 +15,7 @@ export class CategoriesComponent implements OnInit {
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    this.loadCachedCategories()
+    this.loadCachedCategories();
   }
 
   loadCachedCategories(): void {
@@ -25,7 +23,7 @@ export class CategoriesComponent implements OnInit {
     if (cachedCategories) {
       this.cachedCategories = JSON.parse(cachedCategories);
       this.isLoaded = true;
-    }else{
+    } else {
       this.categoryService.getAllCategories().subscribe((result) => {
         this.cachedCategories = result;
         localStorage.setItem('categories', JSON.stringify(result));

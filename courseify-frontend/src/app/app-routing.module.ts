@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationGuard } from './AuthenticationGuard';
+import { AuthorizationGuard } from './AuthorizationGuard';
 import { AddEditCourseComponent } from './components/add-edit-course/add-edit-course.component';
 import { AddEditLessonComponent } from './components/add-edit-lesson/add-edit-lesson.component';
+import { AddEditQuizComponent } from './components/add-edit-quiz/add-edit-quiz.component';
 import { CourseComponent } from './components/course/course.component';
 import { ErrorComponent } from './components/error/error.component';
 import { LessonsComponent } from './components/lessons/lessons.component';
 import { LoginComponent } from './components/login/login.component';
+import { QuizComponent } from './components/quiz/quiz.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserCoursesComponent } from './components/user-courses/user-courses.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { VideoComponent } from './components/video/video.component';
-import { QuizComponent } from './components/quiz/quiz.component';
-import { AddEditQuizComponent } from './components/add-edit-quiz/add-edit-quiz.component';
-import { AuthorizationGuard } from './AuthorizationGuard';
 
 const routes: Routes = [
   { path: '', component: CourseComponent },
@@ -70,7 +70,7 @@ const routes: Routes = [
   {
     path: 'quiz/add',
     component: AddEditQuizComponent,
-    canActivate: [AuthenticationGuard,AuthorizationGuard],
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
   },
   {
     path: 'course/:courseId/lessons/:lessonId/quiz',

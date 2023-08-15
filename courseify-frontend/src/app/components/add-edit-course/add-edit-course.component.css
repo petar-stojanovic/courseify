@@ -20,9 +20,6 @@
   flex-direction: column;
 }
 
-/*
-    Change this for responsiveness
-*/
 .form-content {
   width: 40rem;
 }
@@ -38,7 +35,6 @@
   margin: 1rem;
 }
 
-
 .categoryError {
   width: 100%;
   margin-top: -1.25rem;
@@ -50,9 +46,10 @@
   line-height: 20px;
 }
 
-.categoryInputError{
+.categoryInputError {
   color: #f44336;
 }
-.categoryInputError ::placeholder{
+
+.categoryInputError ::placeholder {
   color: #f44336;
 }

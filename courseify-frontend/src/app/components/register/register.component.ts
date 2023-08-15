@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  FormControl,
-  Validators,
-  FormGroupDirective,
   AbstractControl,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
 } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { ErrorHandleService } from 'src/app/services/errorHandle.service';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',

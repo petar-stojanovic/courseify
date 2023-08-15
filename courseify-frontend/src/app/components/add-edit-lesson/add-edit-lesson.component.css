@@ -20,9 +20,7 @@
   flex-direction: column;
 }
 
-/*
-      Change this for responsiveness
-  */
+
 .form-content {
   width: 40rem;
 }

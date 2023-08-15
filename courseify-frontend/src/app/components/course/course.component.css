@@ -15,7 +15,6 @@
   margin: 2rem auto;
 }
 
-
 @media only screen and (max-width: 600px) {
   .search__input {
     margin-top: 4rem;
@@ -49,9 +48,9 @@
 
 .search__input:focus {
   outline: hsl(231, 35%, 48%) solid 1px;
-  box-shadow:1px 1px 10px hsl(231, 35%, 48%) ;
+  box-shadow: 1px 1px 10px hsl(231, 35%, 48%);
 }
 
-.mat-mdc-card{
+.mat-mdc-card {
   margin: 0.75rem 0
 }

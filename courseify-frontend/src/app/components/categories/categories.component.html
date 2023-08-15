@@ -8,12 +8,7 @@
   <h1 class="text-center mt-3">Categories</h1>
   <mat-nav-list>
     <a mat-list-item [routerLink]="['/courses']">All Courses</a>
-    <a
-      mat-list-item
-      *ngFor="let item of cachedCategories"
-      [routerLink]="['/courses']"
-      [queryParams]="{ category: item.name }"
-      >{{ item.name }}</a
-    >
+    <a mat-list-item *ngFor="let item of cachedCategories" [routerLink]="['/courses']"
+      [queryParams]="{ category: item.name }">{{ item.name }}</a>
   </mat-nav-list>
 </div>

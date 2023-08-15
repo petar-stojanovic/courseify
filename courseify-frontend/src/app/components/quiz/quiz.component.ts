@@ -1,10 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Quiz } from 'src/app/interfaces/Quiz';
-import { User } from 'src/app/interfaces/User';
 import { AuthService } from 'src/app/services/auth.service';
 import { QuizService } from 'src/app/services/quiz.service';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-quiz',
@@ -47,8 +46,8 @@ export class QuizComponent implements OnInit {
       this.currentQuestionIndex++;
 
       if (this.currentQuestionIndex >= this.quiz?.questions?.length!!) {
-        if(this.correctAnswers === this.totalAnswers){
-          this.completeQuiz(this.quiz!!.id)
+        if (this.correctAnswers === this.totalAnswers) {
+          this.completeQuiz(this.quiz!!.id);
         }
         setTimeout(() => {
           this.location.back();
