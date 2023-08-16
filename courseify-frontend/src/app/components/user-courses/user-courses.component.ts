@@ -11,10 +11,12 @@ import { CourseService } from '../../services/course.service';
   styleUrls: ['./user-courses.component.css'],
 })
 export class UserCoursesComponent implements OnInit {
-  courses: Course[] = [];
   user: User | null = null;
   previewMode: boolean = false;
   isLoaded = false;
+  activeCourses: Course[] = [];
+  inactiveCourses: Course[] = [];
+  enrolledCourses: Course[] = [];
 
   ngOnInit(): void {
     this.getUserCourses();
@@ -33,7 +35,7 @@ export class UserCoursesComponent implements OnInit {
       this.courseService
         .getUserLearnCourses(this.user.id)
         .subscribe((result) => {
-          this.courses = result;
+          this.enrolledCourses = result;
           this.previewMode = true;
           this.isLoaded = true;
         });
@@ -41,8 +43,15 @@ export class UserCoursesComponent implements OnInit {
       this.courseService
         .getUserCreatedCourses(this.user!!.id)
         .subscribe((result) => {
-          this.courses = result;
           this.isLoaded = true;
+
+          result.forEach((course) => {
+            if (course.isActive) {
+              this.activeCourses.push(course);
+            } else {
+              this.inactiveCourses.push(course);
+            }
+          });
         });
     }
   }

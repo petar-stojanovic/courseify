@@ -35,7 +35,7 @@ class DataInitializer() {
     lateinit var questionService: QuestionService
 
 
-    @PostConstruct
+//    @PostConstruct
     fun init() {
         val user1 = RegisterRequest(
             firstName = "Petar",
@@ -101,92 +101,92 @@ class DataInitializer() {
             val category = Category(0, categoryName)
             categoryRepository.save(category)
         }
-
-        val course1 = Course(
-            0,
-            "Java Programming Course",
-            "Java Programming Course Description",
-            "Thumbnail Java",
-            author1!!,
-            false
-        )
-
-
-        val course2 = Course(
-            0,
-            "Python Programming Course For Beginners",
-            "Python Programming Course For Beginners Description",
-            "Thumbnail Python",
-            author2!!,
-            true
-        )
-
-        val courseCategories1 = CourseCategories(0, course1, category1)
-        val courseCategories2 = CourseCategories(0, course2, category2)
-        val courseCategories3 = CourseCategories(0, course2, category3)
-
-        courseRepository.save(course1)
-        courseRepository.save(course2)
-
-        courseCategoriesRepository.save(courseCategories1)
-        courseCategoriesRepository.save(courseCategories2)
-        courseCategoriesRepository.save(courseCategories3)
-
-
-        val lesson1 = Lesson(
-            id = 0,
-            title = "Lesson Title",
-            description = "Lesson Description",
-            videoTitle = "Video Title",
-            videoUrl = "Video Url",
-            fileTitle = "File Title",
-            fileUrl = "File Url",
-            course = course1,
-            quiz = null
-        )
-
-
-        val lesson2 = Lesson(
-            id = 0,
-            title = "Lesson Title 2",
-            description = "Lesson Description 2",
-            videoTitle = "Video Title 2",
-            videoUrl = "Video Url 2",
-            fileTitle = "File Title 2",
-            fileUrl = "File Url 2",
-            course = course1,
-            quiz = null
-        )
-
-        val lesson3 = Lesson(
-            id = 0,
-            title = "Lesson Title",
-            description = "Lesson Description",
-            videoTitle = "Video Title",
-            videoUrl = "Video Url",
-            fileTitle = "File Title",
-            fileUrl = "File Url",
-            course = course2,
-            quiz = null
-        )
-
-
-        val lesson4 = Lesson(
-            id = 0,
-            title = "Lesson Title 2",
-            description = "Lesson Description 2",
-            videoTitle = "Video Title 2",
-            videoUrl = "Video Url 2",
-            fileTitle = "File Title 2",
-            fileUrl = "File Url 2",
-            course = course2,
-            quiz = null
-        )
-
-        lessonRepository.save(lesson1)
-        lessonRepository.save(lesson2)
-        lessonRepository.save(lesson3)
-        lessonRepository.save(lesson4)
+//
+//        val course1 = Course(
+//            0,
+//            "Java Programming Course",
+//            "Java Programming Course Description",
+//            "Thumbnail Java",
+//            author1!!,
+//            false
+//        )
+//
+//
+//        val course2 = Course(
+//            0,
+//            "Python Programming Course For Beginners",
+//            "Python Programming Course For Beginners Description",
+//            "Thumbnail Python",
+//            author2!!,
+//            true
+//        )
+//
+//        val courseCategories1 = CourseCategories(0, course1, category1)
+//        val courseCategories2 = CourseCategories(0, course2, category2)
+//        val courseCategories3 = CourseCategories(0, course2, category3)
+//
+//        courseRepository.save(course1)
+//        courseRepository.save(course2)
+//
+//        courseCategoriesRepository.save(courseCategories1)
+//        courseCategoriesRepository.save(courseCategories2)
+//        courseCategoriesRepository.save(courseCategories3)
+//
+//
+//        val lesson1 = Lesson(
+//            id = 0,
+//            title = "Lesson Title",
+//            description = "Lesson Description",
+//            videoTitle = "Video Title",
+//            videoUrl = "Video Url",
+//            fileTitle = "File Title",
+//            fileUrl = "File Url",
+//            course = course1,
+//            quiz = null
+//        )
+//
+//
+//        val lesson2 = Lesson(
+//            id = 0,
+//            title = "Lesson Title 2",
+//            description = "Lesson Description 2",
+//            videoTitle = "Video Title 2",
+//            videoUrl = "Video Url 2",
+//            fileTitle = "File Title 2",
+//            fileUrl = "File Url 2",
+//            course = course1,
+//            quiz = null
+//        )
+//
+//        val lesson3 = Lesson(
+//            id = 0,
+//            title = "Lesson Title",
+//            description = "Lesson Description",
+//            videoTitle = "Video Title",
+//            videoUrl = "Video Url",
+//            fileTitle = "File Title",
+//            fileUrl = "File Url",
+//            course = course2,
+//            quiz = null
+//        )
+//
+//
+//        val lesson4 = Lesson(
+//            id = 0,
+//            title = "Lesson Title 2",
+//            description = "Lesson Description 2",
+//            videoTitle = "Video Title 2",
+//            videoUrl = "Video Url 2",
+//            fileTitle = "File Title 2",
+//            fileUrl = "File Url 2",
+//            course = course2,
+//            quiz = null
+//        )
+//
+//        lessonRepository.save(lesson1)
+//        lessonRepository.save(lesson2)
+//        lessonRepository.save(lesson3)
+//        lessonRepository.save(lesson4)
     }
 
 
