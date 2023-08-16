@@ -8,14 +8,14 @@
   <div *ngIf="previewMode" class="display-5 mt-3 text-center">
     Enrolled Courses
   </div>
-  <hr *ngIf="previewMode" />
-  <div *ngIf="!previewMode" class="display-5 mt-3 text-center">Published</div>
-  <hr *ngIf="!previewMode" />
+  <hr *ngIf="previewMode"/>
   <div class="row">
-    <div class="col-md-6 col-lg-4 col-sm-12" *ngFor="let course of courses">
+    <div
+      class="col-md-6 col-lg-4 col-sm-12"
+      *ngFor="let course of enrolledCourses"
+    >
       <mat-card
         class="border-0 p-0 my-3 d-flex flex-column justify-content-between"
-        *ngIf="course.isActive"
         style="min-height: 500px"
       >
         <div>
@@ -64,60 +64,121 @@
         </mat-card-actions>
       </mat-card>
     </div>
-  </div>
 
-  <div *ngIf="!previewMode" class="display-5 mt-3 text-center">Drafts</div>
-  <hr *ngIf="!previewMode" />
-  <div class="row">
-    <div class="col-md-6 col-lg-4 col-sm-12" *ngFor="let course of courses">
-      <mat-card
-      class="border-0 p-0 my-3 d-flex flex-column justify-content-between"
-        *ngIf="!course.isActive"
-        style="min-height: 500px"
+    <div *ngIf="!previewMode" class="display-5 mt-3 text-center">Published</div>
+    <hr *ngIf="!previewMode" />
+    <div class="row">
+      <div
+        class="col-md-6 col-lg-4 col-sm-12"
+        *ngFor="let course of activeCourses"
       >
-        <app-thumbnail
-          [courseId]="course.id"
-          thumbnail_class="thumbnail_course"
-        ></app-thumbnail>
-        <mat-card-header>
-          <mat-card-title>
-            <a
-              routerLink="/course/{{ course.id }}/lessons"
-              class="text-decoration-none"
-              >{{ course.title }}</a
+        <mat-card
+          class="border-0 p-0 my-3 d-flex flex-column justify-content-between"
+          style="min-height: 500px"
+        >
+          <div>
+            <app-thumbnail
+              [courseId]="course.id"
+              thumbnail_class="thumbnail_course"
+            ></app-thumbnail>
+            <mat-card-header>
+              <mat-card-title>
+                <a
+                  routerLink="/course/{{ course.id }}/lessons"
+                  class="text-decoration-none"
+                  >{{ course.title }}</a
+                >
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                {{ course.description }}
+              </p>
+            </mat-card-content>
+          </div>
+          <mat-card-actions class="mb-3">
+            <button
+              *ngIf="!previewMode"
+              mat-raised-button
+              color="primary"
+              class="me-2"
+              (click)="deleteCourse(course.id)"
             >
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            {{ course.description }}
-          </p>
-        </mat-card-content>
-        <mat-card-actions class="mt-2 align-self-end">
-          <button
-            *ngIf="!previewMode"
-            mat-raised-button
-            color="primary"
-            (click)="deleteCourse(course.id)"
-            class="me-2"
-          >
-            <mat-icon>delete-outline</mat-icon> Delete
-          </button>
-          <a *ngIf="!previewMode" routerLink="/course/{{ course.id }}/edit"
-            ><button mat-raised-button color="primary" class="me-2">
-              <mat-icon>edit</mat-icon> Edit
-            </button></a
-          >
-          <button
-            *ngIf="!course.isActive"
-            mat-raised-button
-            color="primary"
-            (click)="publishCourse(course.id)"
-          >
-            <mat-icon>check</mat-icon> Publish
-          </button>
-        </mat-card-actions>
-      </mat-card>
+              <mat-icon>delete-outline</mat-icon> Delete
+            </button>
+            <a *ngIf="!previewMode" routerLink="/course/{{ course.id }}/edit"
+              ><button mat-raised-button color="primary" class="me-2">
+                <mat-icon>edit</mat-icon> Edit
+              </button></a
+            >
+            <button
+              *ngIf="!course.isActive"
+              mat-raised-button
+              color="primary"
+              (click)="publishCourse(course.id)"
+            >
+              <mat-icon>check</mat-icon> Publish
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+
+    <div *ngIf="!previewMode" class="display-5 mt-3 text-center">Drafts</div>
+    <hr *ngIf="!previewMode" />
+    <div class="row">
+      <div
+        class="col-md-6 col-lg-4 col-sm-12"
+        *ngFor="let course of inactiveCourses"
+      >
+        <mat-card
+          class="border-0 p-0 my-3 d-flex flex-column justify-content-between"
+          style="min-height: 500px"
+        >
+          <app-thumbnail
+            [courseId]="course.id"
+            thumbnail_class="thumbnail_course"
+          ></app-thumbnail>
+          <mat-card-header>
+            <mat-card-title>
+              <a
+                routerLink="/course/{{ course.id }}/lessons"
+                class="text-decoration-none"
+                >{{ course.title }}</a
+              >
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              {{ course.description }}
+            </p>
+          </mat-card-content>
+          <mat-card-actions class="mt-2">
+            <button
+              *ngIf="!previewMode"
+              mat-raised-button
+              color="primary"
+              (click)="deleteCourse(course.id)"
+              class="me-2"
+            >
+              <mat-icon>delete-outline</mat-icon> Delete
+            </button>
+            <a *ngIf="!previewMode" routerLink="/course/{{ course.id }}/edit"
+              ><button mat-raised-button color="primary" class="me-2">
+                <mat-icon>edit</mat-icon> Edit
+              </button></a
+            >
+            <button
+              *ngIf="!course.isActive"
+              mat-raised-button
+              color="primary"
+              (click)="publishCourse(course.id)"
+            >
+              <mat-icon>check</mat-icon> Publish
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>

@@ -9,8 +9,8 @@ spring:
       max-request-size: 100MB
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: create-drop
+#    hibernate:
+#      ddl-auto: create-drop
 
   application:
     security:
