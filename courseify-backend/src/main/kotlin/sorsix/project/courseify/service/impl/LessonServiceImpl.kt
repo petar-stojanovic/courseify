@@ -1,14 +1,13 @@
 package sorsix.project.courseify.service.impl
 
+import jakarta.transaction.Transactional
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import sorsix.project.courseify.api.request.LessonRequest
 import sorsix.project.courseify.domain.Lesson
-import sorsix.project.courseify.repository.CourseRepository
-import sorsix.project.courseify.repository.LessonRepository
-import sorsix.project.courseify.repository.QuizRepository
+import sorsix.project.courseify.repository.*
 import sorsix.project.courseify.service.definitions.LessonService
 import java.io.File
 import java.nio.file.Files
@@ -19,7 +18,7 @@ import java.nio.file.Paths
 class LessonServiceImpl(
     val lessonRepository: LessonRepository,
     val courseRepository: CourseRepository,
-    val quizRepository: QuizRepository
+    val quizRepository: QuizRepository,
 ) : LessonService {
 
     override fun save(request: LessonRequest): Lesson {
@@ -65,6 +64,7 @@ class LessonServiceImpl(
     }
 
 
+    @Transactional
     override fun delete(id: Long) {
         val lesson = this.lessonRepository.findById(id).get()
         val lessonPath = lesson.title.toSlug()
