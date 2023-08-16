@@ -9,4 +9,6 @@ import sorsix.project.courseify.domain.Question
 interface AnswerRepository : JpaRepository<Answer, Long> {
 
     fun getAllByQuestionId(id: Long): List<Answer>
+
+    fun deleteAllByQuestion(question: Question)
 }

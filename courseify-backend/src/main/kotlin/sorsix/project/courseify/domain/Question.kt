@@ -11,6 +11,8 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 
 @Entity
 @Table(name = "question")
@@ -23,6 +25,7 @@ data class Question (
 
     @ManyToOne
     @JoinColumn(name = "quiz_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     val quiz: Quiz,
 
     @OneToOne
