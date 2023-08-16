@@ -8,7 +8,7 @@
   <div *ngIf="previewMode" class="display-5 mt-3 text-center">
     Enrolled Courses
   </div>
-  <hr *ngIf="previewMode"/>
+  <hr *ngIf="previewMode" />
   <div class="row">
     <div
       class="col-md-6 col-lg-4 col-sm-12"
@@ -33,7 +33,7 @@
             </mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>
+            <p class="word">
               {{ course.description }}
             </p>
           </mat-card-content>
@@ -91,7 +91,7 @@
               </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <p>
+              <p class="word">
                 {{ course.description }}
               </p>
             </mat-card-content>
@@ -149,8 +149,14 @@
             </mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>
+            <p class="word">
               {{ course.description }}
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam
+              nulla ipsa odio libero, quae totam sint ab officiis at porro,
+              ullam necessitatibus quas alias error corporis cumque. Esse
+              tempore corporis, qui voluptatibus mollitia voluptatem rem minima
+              eligendi ab. Aliquid quos earum incidunt pariatur, maiores sint
+              aliquam voluptas in reprehenderit obcaecati.
             </p>
           </mat-card-content>
           <mat-card-actions class="mt-2">
