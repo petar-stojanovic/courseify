@@ -31,7 +31,7 @@
     >
       <div class="display-5 my-3 text-center fw-bold">{{ course?.title }}</div>
 
-      <p class="fs-5">{{ course?.description }}</p>
+      <p class="fs-5 word">{{ course?.description }}</p>
       <h3>
         <span class="fw-medium"> Author:</span> {{ course?.author?.firstName }}
         {{ course?.author?.lastName }}
@@ -57,7 +57,7 @@
               }}</span></mat-panel-title
             >
           </mat-expansion-panel-header>
-          <p>{{ lesson.description }}</p>
+          <p class="word">{{ lesson.description }}</p>
           <div class="d-flex justify-content-between">
             <a
               routerLink="/course/{{ lesson.course.id }}/lessons/{{
@@ -148,7 +148,7 @@
     >
       <div class="display-5 my-3 text-center fw-bold">{{ course?.title }}</div>
 
-      <p class="fs-5">{{ course?.description }}</p>
+      <p class="fs-5 word">{{ course?.description }}</p>
       <h3>
         <span class="fw-medium"> Author:</span> {{ course?.author?.firstName }}
         {{ course?.author?.lastName }}
@@ -161,7 +161,7 @@
         >
           <div class="ms-2 me-auto">
             <div class="fw-bold">{{ lesson.title }}</div>
-            {{ lesson.description }}
+            <p class="word">{{ lesson.description }}</p>
           </div>
         </li>
       </ol>
