@@ -1,6 +1,6 @@
 # Courseify
 ---
-## A Full-Stack Web Application made during the Summer Web Internship Program in [Sorsix](https://www.sorsix.com/)
+## A Full-Stack Web Application made during the 2023 Summer Web Internship Program in [Sorsix](https://www.sorsix.com/)
 
 **Short Description:** A platform that allows instructors to build online courses and quizzes on their preferred topics (similar to Udemy and Coursera)
 
